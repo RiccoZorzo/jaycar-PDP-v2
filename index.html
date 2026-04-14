@@ -53,6 +53,8 @@
 ║        two-tone grey split between image and text zone.         ║
 ║  v3.9  Similar cards: all bg → #ffffff to match vercel source   ║
 ║        image white JPGs exactly. Border 1px #ebebeb added.      ║
+║  v4.0  Similar grid base changed to 4-col (not 5). 5-col only   ║
+║        at 1600px+. Fixes 1312px stacking. Body min-width note.  ║
 ╚══════════════════════════════════════════════════════════════════╝
 -->
 <html lang="en">
@@ -715,7 +717,7 @@
   }
   .similar-grid {
     display: grid;
-    grid-template-columns: repeat(5, 1fr);
+    grid-template-columns: repeat(4, 1fr);
     gap: 12px;
   }
   .similar-card {
@@ -1479,12 +1481,12 @@
     .page-wrapper { max-width: 1600px; }
     .pdp-grid { grid-template-columns: 900px minmax(0, 1fr); }
     .main-image-wrap { width: 900px; height: 900px; }
+    .similar-grid { grid-template-columns: repeat(5, 1fr); }
   }
 
   /* ── under 1440px : any viewport below baseline ── */
   @media (max-width: 1440px) {
-    /* similar: drop to 4-col immediately — prevents any wrapping */
-    .similar-grid { grid-template-columns: repeat(4, 1fr); }
+    /* similar already 4-col by default — ensure inner container fills available width */
     .similar-row-inner { max-width: 100%; }
   }
 
@@ -1591,7 +1593,8 @@
           <span style="color:#8692A6;font-weight:400;">v3.4</span><span style="font-weight:400;">Similar cards: 180px fixed img, borderless, 2-line clamp, max-width constrained</span>
           <span style="color:#8692A6;font-weight:400;">v3.7</span><span style="font-weight:400;">mix-blend-mode: multiply on all images — white JPG bgs fully dissolved</span>
           <span style="color:#8692A6;font-weight:400;">v3.8</span><span style="font-weight:400;">Card body bg → #f8f8f8, removes two-tone grey split</span>
-          <span style="color:#8692A6;font-weight:700;">v3.9</span><span style="font-weight:700;">Similar cards bg → #ffffff matches source JPG whites exactly ← current</span>
+          <span style="color:#8692A6;font-weight:400;">v3.9</span><span style="font-weight:400;">Similar cards bg → #ffffff matches source JPG whites exactly</span>
+          <span style="color:#8692A6;font-weight:700;">v4.0</span><span style="font-weight:700;">Similar grid: 4-col default, 5-col only at 1600px+. Fixes 1312px wrap ← current</span>
         </div>
       </div>
     </div>
