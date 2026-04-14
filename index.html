@@ -2248,11 +2248,13 @@
   }
 
   // Zoom trigger — only fires when the main product image itself is clicked
-  // Uses exact target match so thumbs, arrows, brand logo never trigger it
   document.getElementById('main-product-img').addEventListener('click', function(e) {
     e.stopPropagation();
     openZoomModal(currentThumb);
   });
+
+  // Handle image load errors — show placeholder
+  document.getElementById('main-product-img').addEventListener('error', function() {
     this.style.display = 'none';
     document.getElementById('img-placeholder').style.display = 'flex';
   });
