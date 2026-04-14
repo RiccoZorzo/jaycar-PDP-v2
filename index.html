@@ -44,6 +44,11 @@
 ║        1304px, borderless ASOS-style, 2-line name clamp.        ║
 ║  v3.5  Similar card + img bg → #f8f8f8, body stays white.       ║
 ║        Matches lightbox JPG white-blend guiderail.              ║
+║  v3.6  Fix: similar grid drops 5→4-col at ≤1440px preventing   ║
+║        5th card wrap at 1312px. Inner max-width removed <1440.  ║
+║  v3.7  mix-blend-mode: multiply on all product images — fully   ║
+║        dissolves white JPG backgrounds in cards, lightbox,      ║
+║        zoom modal and thumbnails.                               ║
 ╚══════════════════════════════════════════════════════════════════╝
 -->
 <html lang="en">
@@ -261,10 +266,11 @@
   }
   .main-image-wrap > img#main-product-img {
     width: 100%; height: 100%;
-    object-fit: contain;    /* never crop — full product always visible */
+    object-fit: contain;
     object-position: center;
     display: block;
-    padding: 0;             /* DAM images are pre-framed, no extra padding needed */
+    padding: 0;
+    mix-blend-mode: multiply;   /* dissolves white JPG backgrounds */
     transition: opacity 0.2s;
   }
   .main-image-placeholder {
@@ -371,7 +377,7 @@
     box-shadow: 0 0 0 1px var(--navy);
   }
   .thumb:hover:not(.active) { border-color: var(--gray-mid); }
-  .thumb img { width: 100%; height: 100%; object-fit: contain; padding: 2px; background: #f8f8f8; }
+  .thumb img { width: 100%; height: 100%; object-fit: contain; padding: 2px; background: #f8f8f8; mix-blend-mode: multiply; }
   .thumb-placeholder { width: 100%; height: 100%; background: var(--gray-bg); }
 
   /* Video/play thumb */
@@ -730,8 +736,9 @@
   .similar-card-img img {
     width: 100%; height: 100%;
     object-fit: contain;
-    padding: 0;               /* DAM images pre-framed — no extra padding */
-    background: #f8f8f8;     /* belt-and-braces: img bg matches container */
+    padding: 0;
+    background: #f8f8f8;
+    mix-blend-mode: multiply;   /* dissolves white JPG backgrounds into the container */
     transition: transform 0.25s;
   }
   .similar-card:hover .similar-card-img img { transform: scale(1.04); }
@@ -1371,15 +1378,16 @@
   .zoom-img {
     width: 100%;
     height: 100%;
-    object-fit: contain;    /* never crop — same rule as lightbox */
+    object-fit: contain;
     object-position: center;
-    padding: 0;             /* DAM images are pre-framed — no extra padding */
+    padding: 0;
+    mix-blend-mode: multiply;
     transform-origin: center center;
     transform: scale(1) translate(0px, 0px);
     transition: transform 0.25s ease;
     user-select: none;
     pointer-events: none;
-    background: #f8f8f8;    /* fallback if image has transparent areas */
+    background: #f8f8f8;
   }
   .zoom-img.no-transition { transition: none; }
 
@@ -1459,7 +1467,7 @@
      RESPONSIVE BREAKPOINTS — DESKTOP
      1600px+  XL desktop (scale up)
      1440px   Standard desktop (design baseline)
-     1380px   Large laptop
+     1440px-  Similar grid drops to 4-col to prevent wrapping
      1100px   Small laptop / iPad landscape
   ══════════════════════════════════════════════════ */
 
@@ -1470,6 +1478,13 @@
     .main-image-wrap { width: 900px; height: 900px; }
   }
 
+  /* ── under 1440px : any viewport below baseline ── */
+  @media (max-width: 1440px) {
+    /* similar: drop to 4-col immediately — prevents any wrapping */
+    .similar-grid { grid-template-columns: repeat(4, 1fr); }
+    .similar-row-inner { max-width: 100%; }
+  }
+
   /* ── 1380px : large laptop ── */
   @media (max-width: 1380px) {
     body { min-width: 1024px; }
@@ -1478,16 +1493,12 @@
     .nav-top, .nav-bottom, .breadcrumb-bar, .sticky-atc-bar { padding-left: 40px; padding-right: 40px; }
     .page-wrapper { padding-left: 40px; padding-right: 40px; }
     .similar-row { padding-left: 40px; padding-right: 40px; }
-    .similar-row-inner { max-width: 100%; }
     .site-footer .footer-top { padding-left: 40px; padding-right: 40px; }
     .site-footer .footer-bottom { padding-left: 40px; padding-right: 40px; }
 
     /* PDP grid: fluid columns replacing hardcoded 864px */
     .pdp-grid { grid-template-columns: minmax(0, 60%) minmax(0, 40%); gap: 0 28px; }
     .main-image-wrap { width: 100%; height: auto; aspect-ratio: 1; }
-
-    /* Similar: 5-col → 4-col */
-    .similar-grid { grid-template-columns: repeat(4, 1fr); }
 
     /* Footer: hide image col */
     .footer-top { grid-template-columns: 160px 1fr 1fr 1fr 1fr; }
@@ -1511,7 +1522,7 @@
     .pdp-grid { grid-template-columns: minmax(0, 55%) minmax(0, 45%); gap: 0 20px; }
     .main-image-wrap { width: 100%; height: auto; aspect-ratio: 1; }
 
-    /* Similar: 5-col → 3-col */
+    /* Similar: → 3-col */
     .similar-grid { grid-template-columns: repeat(3, 1fr); }
 
     /* Nav links: compress */
@@ -1575,7 +1586,8 @@
           <span style="color:#8692A6;font-weight:400;">v2.9</span><span style="font-weight:400;">Reset btn removed from zoom. Tab underline → navy #0C254C</span>
           <span style="color:#8692A6;font-weight:400;">v3.0</span><span style="font-weight:400;">Zoom trigger: JS addEventListener on img only, thumbs/arrows excluded</span>
           <span style="color:#8692A6;font-weight:400;">v3.4</span><span style="font-weight:400;">Similar cards: 180px fixed img, borderless, 2-line clamp, max-width constrained</span>
-          <span style="color:#8692A6;font-weight:700;">v3.5</span><span style="font-weight:700;">Similar card + img bg → #f8f8f8, body white, matches lightbox guiderail ← current</span>
+          <span style="color:#8692A6;font-weight:400;">v3.6</span><span style="font-weight:400;">Fix: 5-col drops to 4-col at ≤1440px, no 5th card wrapping</span>
+          <span style="color:#8692A6;font-weight:700;">v3.7</span><span style="font-weight:700;">mix-blend-mode: multiply on all images — white JPG bgs fully dissolved ← current</span>
         </div>
       </div>
     </div>
