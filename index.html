@@ -33,6 +33,8 @@
 ║        lightbox JPG white-blend guiderail.                      ║
 ║  v2.9  Zoom modal reset btn removed. Tab active underline       ║
 ║        changed from green #6ab04c → Jaycar navy #0C254C.        ║
+║  v3.0  Zoom trigger moved to JS addEventListener with exact     ║
+║        target match — thumbs/arrows never open zoom modal.      ║
 ╚══════════════════════════════════════════════════════════════════╝
 -->
 <html lang="en">
@@ -1430,8 +1432,9 @@
   }
   .zoom-hint.hidden { opacity: 0; }
 
-  /* Make main lightbox show zoom cursor */
-  .main-image-wrap { cursor: zoom-in; }
+  /* Make main image show zoom cursor — not the whole wrapper */
+  .main-image-wrap { cursor: default; }
+  .main-image-wrap > img#main-product-img { cursor: zoom-in; }
 </style>
 </head>
 <body>
@@ -1476,8 +1479,8 @@
           <span style="color:#8692A6;">v2.2</span><span>Squircle stepper: grey minus, navy plus</span>
           <span style="color:#8692A6;font-weight:400;">v2.3</span><span style="font-weight:400;">Figtree font, 20×20 stepper, spec ticks removed, footer image, version tooltip</span>
           <span style="color:#8692A6;font-weight:400;">v2.6</span><span style="font-weight:400;">864×864 square box, zero padding, #f8f8f8 blends JPG whites</span>
-          <span style="color:#8692A6;font-weight:400;">v2.8</span><span style="font-weight:400;">Zoom modal bg #f8f8f8 — blends JPG whites, matches lightbox</span>
-          <span style="color:#8692A6;font-weight:700;">v2.9</span><span style="font-weight:700;">Reset btn removed from zoom. Tab underline → navy #0C254C ← current</span>
+          <span style="color:#8692A6;font-weight:400;">v2.9</span><span style="font-weight:400;">Reset btn removed from zoom. Tab underline → navy #0C254C</span>
+          <span style="color:#8692A6;font-weight:700;">v3.0</span><span style="font-weight:700;">Zoom trigger: JS addEventListener on img only, thumbs/arrows excluded ← current</span>
         </div>
       </div>
     </div>
@@ -1571,9 +1574,9 @@
 
     <!-- ── LEFT: GALLERY ── -->
     <div class="gallery-section">
-      <div class="main-image-wrap" id="main-img-wrap" onclick="openZoomModal(currentThumb)">
+      <div class="main-image-wrap" id="main-img-wrap">
 
-        <!-- Main product image -->
+        <!-- Main product image — click to zoom -->
         <img id="main-product-img" src="https://media.jaycar.com.au/product/images/GH2300_30l-brass-monkey-portable-fridge-freezer-cfr30_168606.jpg?format=webp&width=1000" alt="Product" onerror="this.style.display='none'; document.getElementById('img-placeholder').style.display='flex'"/>
         <div id="img-placeholder" class="main-image-placeholder" style="display:none">
           <svg width="72" height="72" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="0.8" opacity="0.25">
@@ -2244,8 +2247,12 @@
     }
   }
 
-  // Handle image load errors gracefully — show placeholder
-  document.getElementById('main-product-img').addEventListener('error', function() {
+  // Zoom trigger — only fires when the main product image itself is clicked
+  // Uses exact target match so thumbs, arrows, brand logo never trigger it
+  document.getElementById('main-product-img').addEventListener('click', function(e) {
+    e.stopPropagation();
+    openZoomModal(currentThumb);
+  });
     this.style.display = 'none';
     document.getElementById('img-placeholder').style.display = 'flex';
   });
