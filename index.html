@@ -55,6 +55,8 @@
 ║        image white JPGs exactly. Border 1px #ebebeb added.      ║
 ║  v4.0  Similar grid base changed to 4-col (not 5). 5-col only   ║
 ║        at 1600px+. Fixes 1312px stacking. Body min-width note.  ║
+║  v4.1  Similar cards: ASOS-style compact responsive at 1380px   ║
+║        (aspect-ratio img, tight padding) and 1100px (3-col).    ║
 ╚══════════════════════════════════════════════════════════════════╝
 -->
 <html lang="en">
@@ -1511,6 +1513,16 @@
 
     /* Nav search */
     .nav-search { max-width: 520px; }
+
+    /* Similar cards: ASOS-style compact at this breakpoint */
+    .similar-grid { gap: 8px; }
+    .similar-card { border-radius: 6px; }
+    .similar-card-img { height: auto; aspect-ratio: 1; }
+    .similar-card-body { padding: 7px 8px 10px; }
+    .similar-card-brand { font-size: 8px; margin-bottom: 2px; }
+    .similar-card-name { font-size: 10px; margin-bottom: 4px; }
+    .similar-card-price { font-size: 12px; margin-bottom: 6px; }
+    .similar-card-atc { height: 26px; font-size: 10px; }
   }
 
   /* ── 1100px : small laptop / iPad landscape ── */
@@ -1527,8 +1539,14 @@
     .pdp-grid { grid-template-columns: minmax(0, 55%) minmax(0, 45%); gap: 0 20px; }
     .main-image-wrap { width: 100%; height: auto; aspect-ratio: 1; }
 
-    /* Similar: → 3-col */
-    .similar-grid { grid-template-columns: repeat(3, 1fr); }
+    /* Similar: → 3-col, ultra compact */
+    .similar-grid { grid-template-columns: repeat(3, 1fr); gap: 8px; }
+    .similar-card-img { height: auto; aspect-ratio: 1; }
+    .similar-card-body { padding: 6px 7px 8px; }
+    .similar-card-brand { font-size: 8px; }
+    .similar-card-name { font-size: 10px; }
+    .similar-card-price { font-size: 12px; }
+    .similar-card-atc { height: 24px; font-size: 10px; }
 
     /* Nav links: compress */
     .nav-menu-item:not(.menu-bold) { padding: 0 10px; font-size: 12px; }
@@ -1594,7 +1612,8 @@
           <span style="color:#8692A6;font-weight:400;">v3.7</span><span style="font-weight:400;">mix-blend-mode: multiply on all images — white JPG bgs fully dissolved</span>
           <span style="color:#8692A6;font-weight:400;">v3.8</span><span style="font-weight:400;">Card body bg → #f8f8f8, removes two-tone grey split</span>
           <span style="color:#8692A6;font-weight:400;">v3.9</span><span style="font-weight:400;">Similar cards bg → #ffffff matches source JPG whites exactly</span>
-          <span style="color:#8692A6;font-weight:700;">v4.0</span><span style="font-weight:700;">Similar grid: 4-col default, 5-col only at 1600px+. Fixes 1312px wrap ← current</span>
+          <span style="color:#8692A6;font-weight:400;">v4.0</span><span style="font-weight:400;">Similar grid: 4-col default, 5-col only at 1600px+. Fixes 1312px wrap</span>
+          <span style="color:#8692A6;font-weight:700;">v4.1</span><span style="font-weight:700;">Similar cards ASOS-style compact at 1380px + 1100px breakpoints ← current</span>
         </div>
       </div>
     </div>
