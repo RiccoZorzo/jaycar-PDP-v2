@@ -1025,12 +1025,39 @@
     background-position: center;
   }
 
-  /* Specifications */
+  /* Specifications — inner sub-tabs */
+  .spec-subtabs {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+  }
+  .spec-subtab-btn {
+    padding: 7px 16px;
+    font-family: var(--font);
+    font-size: 13px;
+    font-weight: 600;
+    border-radius: 20px;
+    border: 1.5px solid var(--gray-border);
+    background: white;
+    color: var(--gray-text);
+    cursor: pointer;
+    transition: all 0.15s;
+    white-space: nowrap;
+  }
+  .spec-subtab-btn:hover { border-color: var(--navy); color: var(--navy); }
+  .spec-subtab-btn.active {
+    background: var(--navy);
+    border-color: var(--navy);
+    color: white;
+  }
+  .spec-subpanel { display: none; }
+  .spec-subpanel.active { display: block; }
   .spec-group-title {
-    font-size: 17px;
+    font-size: 15px;
     font-weight: 700;
     color: var(--dark-text);
-    margin-bottom: 20px;
+    margin-bottom: 14px;
   }
   .spec-grid {
     display: grid;
@@ -1823,26 +1850,49 @@
 
         <!-- ── SPECIFICATIONS ── -->
         <div class="tab-panel" id="tab-specifications">
-          <div class="spec-group-title">Refrigerator or Cooler/Warmer</div>
-          <div class="spec-grid">
-            <div class="spec-chip"><span class="spec-check">✓</span><span><strong>Capacity</strong> — 30L</span></div>
-            <div class="spec-chip"><span class="spec-check">✓</span><span><strong>Temperature Range</strong> — -20.0°C to -10.0°C</span></div>
-            <div class="spec-chip"><span class="spec-check">✓</span><span><strong>Device Type</strong> — Portable</span></div>
-            <div class="spec-chip"><span class="spec-check">✓</span><span><strong>External Construction</strong> — Plastic</span></div>
-            <div class="spec-chip"><span class="spec-check">✓</span><span><strong>Noise Level Rating</strong> — 45.0 dB</span></div>
-            <div class="spec-chip"><span class="spec-check">✓</span><span><strong>Can Capacity (375ml)</strong> — 30 pc</span></div>
-            <div class="spec-chip"><span class="spec-check">✓</span><span><strong>Internal Dimensions</strong> — 452 × 278 × 271 mm + 121 × 278 × 171 mm</span></div>
-            <div class="spec-chip"><span class="spec-check">✓</span><span><strong>Input Voltage</strong> — 12/24V</span></div>
-            <div class="spec-chip"><span class="spec-check">✓</span><span><strong>Current Draw</strong> — 5/2.5A</span></div>
-            <div class="spec-chip"><span class="spec-check">✓</span><span><strong>Lids/Doors</strong> — 1</span></div>
-            <div class="spec-chip"><span class="spec-check">✓</span><span><strong>Includes DC Cable</strong> — Yes</span></div>
-            <div class="spec-chip"><span class="spec-check">✓</span><span><strong>Includes Mains Adaptor</strong> — Yes</span></div>
-            <div class="spec-chip"><span class="spec-check">✓</span><span><strong>Bluetooth Control</strong> — Yes</span></div>
-            <div class="spec-chip"><span class="spec-check">✓</span><span><strong>Handle Type</strong> — Built-in</span></div>
-            <div class="spec-chip"><span class="spec-check">✓</span><span><strong>Has Wheels</strong> — No</span></div>
-            <div class="spec-chip"><span class="spec-check">✓</span><span><strong>Vehicle Connection</strong> — Cigarette Plug</span></div>
-            <div class="spec-chip"><span class="spec-check">✓</span><span><strong>Internal LED Light</strong> — Yes</span></div>
+
+          <!-- Sub-tab pills -->
+          <div class="spec-subtabs">
+            <button class="spec-subtab-btn active" onclick="switchSpecTab('refrigerator', this)">Refrigerator or Cooler/Warmer</button>
+            <button class="spec-subtab-btn" onclick="switchSpecTab('electrical', this)">Electrical &amp; Connectivity</button>
           </div>
+
+          <!-- Sub-panel: Refrigerator -->
+          <div class="spec-subpanel active" id="spec-refrigerator">
+            <div class="spec-grid">
+              <div class="spec-chip"><span class="spec-check">✓</span><span><strong>Capacity</strong> — 30L</span></div>
+              <div class="spec-chip"><span class="spec-check">✓</span><span><strong>Temperature Range</strong> — -20.0°C to -10.0°C</span></div>
+              <div class="spec-chip"><span class="spec-check">✓</span><span><strong>Device Type</strong> — Portable</span></div>
+              <div class="spec-chip"><span class="spec-check">✓</span><span><strong>External Construction</strong> — Plastic</span></div>
+              <div class="spec-chip"><span class="spec-check">✓</span><span><strong>Noise Level Rating</strong> — 45.0 dB</span></div>
+              <div class="spec-chip"><span class="spec-check">✓</span><span><strong>Can Capacity (375ml)</strong> — 30 pc</span></div>
+              <div class="spec-chip"><span class="spec-check">✓</span><span><strong>Internal Dimensions</strong> — 452 × 278 × 271 mm + 121 × 278 × 171 mm</span></div>
+              <div class="spec-chip"><span class="spec-check">✓</span><span><strong>Handle Type</strong> — Built-in</span></div>
+              <div class="spec-chip"><span class="spec-check">✓</span><span><strong>Has Wheels</strong> — No</span></div>
+              <div class="spec-chip"><span class="spec-check">✓</span><span><strong>Lids/Doors</strong> — 1</span></div>
+              <div class="spec-chip"><span class="spec-check">✓</span><span><strong>Internal LED Light</strong> — Yes</span></div>
+              <div class="spec-chip"><span class="spec-check">✓</span><span><strong>Vehicle Connection</strong> — Cigarette Plug</span></div>
+            </div>
+          </div>
+
+          <!-- Sub-panel: Electrical (placeholder — duplicated data) -->
+          <div class="spec-subpanel" id="spec-electrical">
+            <div class="spec-grid">
+              <div class="spec-chip"><span class="spec-check">✓</span><span><strong>Input Voltage</strong> — 12/24V</span></div>
+              <div class="spec-chip"><span class="spec-check">✓</span><span><strong>Current Draw</strong> — 5/2.5A</span></div>
+              <div class="spec-chip"><span class="spec-check">✓</span><span><strong>Includes DC Cable</strong> — Yes</span></div>
+              <div class="spec-chip"><span class="spec-check">✓</span><span><strong>Includes Mains Adaptor</strong> — Yes</span></div>
+              <div class="spec-chip"><span class="spec-check">✓</span><span><strong>Bluetooth Control</strong> — Yes</span></div>
+              <div class="spec-chip"><span class="spec-check">✓</span><span><strong>Capacity</strong> — 30L</span></div>
+              <div class="spec-chip"><span class="spec-check">✓</span><span><strong>Temperature Range</strong> — -20.0°C to -10.0°C</span></div>
+              <div class="spec-chip"><span class="spec-check">✓</span><span><strong>Device Type</strong> — Portable</span></div>
+              <div class="spec-chip"><span class="spec-check">✓</span><span><strong>Noise Level Rating</strong> — 45.0 dB</span></div>
+              <div class="spec-chip"><span class="spec-check">✓</span><span><strong>Vehicle Connection</strong> — Cigarette Plug</span></div>
+              <div class="spec-chip"><span class="spec-check">✓</span><span><strong>Handle Type</strong> — Built-in</span></div>
+              <div class="spec-chip"><span class="spec-check">✓</span><span><strong>Internal LED Light</strong> — Yes</span></div>
+            </div>
+          </div>
+
         </div>
 
         <!-- ── REVIEWS ── -->
@@ -2317,6 +2367,14 @@
 </footer>
 
 <script>
+  // Spec sub-tab switching
+  function switchSpecTab(id, btn) {
+    document.querySelectorAll('.spec-subtab-btn').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('.spec-subpanel').forEach(p => p.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById('spec-' + id).classList.add('active');
+  }
+
   // Tab switching
   function switchTab(id, btn) {
     document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
