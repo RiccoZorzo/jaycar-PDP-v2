@@ -1119,9 +1119,105 @@
     flex-shrink: 0;
   }
   .delivery-option-price.free-label { color: #5a9a3a; }
+
+  /* ── STICKY ATC BAR ── */
+  .sticky-atc-bar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 500;
+    background: white;
+    border-bottom: 1px solid var(--gray-border);
+    box-shadow: 0 2px 12px rgba(0,0,0,0.10);
+    transform: translateY(-100%);
+    transition: transform 0.25s ease;
+    height: 64px;
+    display: flex;
+    align-items: center;
+    padding: 0 68px;
+    gap: 24px;
+  }
+  .sticky-atc-bar.visible {
+    transform: translateY(0);
+  }
+  .sticky-atc-name {
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--dark-text);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    flex: 1;
+    min-width: 0;
+  }
+  .sticky-atc-controls {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-shrink: 0;
+  }
+  .sticky-qty-stepper {
+    display: flex;
+    align-items: center;
+    border: 1px solid var(--gray-border);
+    border-radius: 8px;
+    overflow: hidden;
+    height: 40px;
+  }
+  .sticky-qty-btn {
+    width: 36px; height: 40px;
+    background: white;
+    border: none;
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 18px;
+    color: var(--dark-text);
+    transition: background 0.15s;
+  }
+  .sticky-qty-btn:hover { background: var(--gray-bg); }
+  .sticky-qty-val {
+    min-width: 32px;
+    text-align: center;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--dark-text);
+    border-left: 1px solid var(--gray-border);
+    border-right: 1px solid var(--gray-border);
+    height: 40px;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .sticky-atc-btn {
+    height: 40px;
+    padding: 0 32px;
+    background: var(--orange);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-family: var(--font);
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: opacity 0.15s;
+  }
+  .sticky-atc-btn:hover { opacity: 0.9; }
 </style>
 </head>
 <body>
+
+<!-- ═══ STICKY ATC BAR ═══ -->
+<div class="sticky-atc-bar" id="sticky-atc-bar">
+  <span class="sticky-atc-name">5W GME Handheld VHF Marine Transceiver Radio GX625 <span style="font-weight:400;color:var(--gray-text);font-size:13px;">· Cat. No: TL4700</span></span>
+  <div class="sticky-atc-controls">
+    <div class="sticky-qty-stepper">
+      <button class="sticky-qty-btn" onclick="changeQty(-1)">−</button>
+      <span class="sticky-qty-val" id="sticky-qty-display">1</span>
+      <button class="sticky-qty-btn" onclick="changeQty(1)">+</button>
+    </div>
+    <button class="sticky-atc-btn" onclick="addToCart()">Add to Cart</button>
+  </div>
+</div>
 
 <!-- ═══ NAVBAR ═══ -->
 <nav>
@@ -1514,7 +1610,7 @@
       </div>
 
       <!-- Qty + Add to cart -->
-      <div class="atc-row">
+      <div class="atc-row" id="atc-sentinel">
         <div class="qty-stepper">
           <button class="qty-btn" onclick="changeQty(-1)" aria-label="Decrease quantity">
             <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2"><line x1="2" y1="7" x2="12" y2="7"/></svg>
@@ -1571,7 +1667,9 @@
 
         <div class="delivery-option">
           <div class="delivery-icon-wrap express">
-            <img src="https://braze-images.com/appboy/communication/assets/image_assets/images/69aa3d669efd190063a7011e/original.png?1772764517" alt="Express" style="width:28px;height:28px;object-fit:contain;"/>
+            <svg style="width:22px;height:22px;flex-shrink:0" viewBox="0 0 24 24" fill="none" stroke="#F18805" stroke-width="1.8">
+              <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>
+            </svg>
           </div>
           <div class="delivery-option-body">
             <div class="delivery-option-title">3-Hour Express Delivery</div>
@@ -1815,11 +1913,29 @@
     document.getElementById('swatch-name').textContent = name;
   }
 
-  // Qty stepper
+  // Qty stepper — syncs both main and sticky
   let qty = 1;
   function changeQty(dir) {
     qty = Math.max(1, qty + dir);
     document.getElementById('qty-display').textContent = qty;
+    document.getElementById('sticky-qty-display').textContent = qty;
+  }
+
+  // Sticky ATC bar — appears when original ATC scrolls off screen
+  const sentinel = document.getElementById('atc-sentinel');
+  const stickyBar = document.getElementById('sticky-atc-bar');
+  if (sentinel && stickyBar) {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (!entry.isIntersecting) {
+          stickyBar.classList.add('visible');
+        } else {
+          stickyBar.classList.remove('visible');
+        }
+      },
+      { threshold: 0, rootMargin: '0px 0px 0px 0px' }
+    );
+    observer.observe(sentinel);
   }
 
   // Wishlist toggle
@@ -1827,14 +1943,18 @@
     btn.classList.toggle('saved');
   }
 
-  // Add to cart feedback
+  // Add to cart feedback — updates both main and sticky button
   function addToCart() {
-    const btn = document.querySelector('.add-to-cart-btn');
-    btn.textContent = '✓ Added to Cart!';
-    btn.style.background = '#2E7D32';
+    const btns = document.querySelectorAll('.add-to-cart-btn, .sticky-atc-btn');
+    btns.forEach(btn => {
+      btn.textContent = '✓ Added to Cart!';
+      btn.style.background = '#2E7D32';
+    });
     setTimeout(() => {
-      btn.textContent = 'Add to Cart';
-      btn.style.background = '';
+      btns.forEach(btn => {
+        btn.textContent = 'Add to Cart';
+        btn.style.background = '';
+      });
     }, 2000);
   }
 
