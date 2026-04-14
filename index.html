@@ -1553,9 +1553,19 @@
     .nav-menu-item:not(.menu-bold) { padding: 0 10px; font-size: 12px; }
     .nav-store-info .store-val { font-size: 11px; }
 
-    /* Footer: 4-col, no image */
-    .footer-top { grid-template-columns: 130px 1fr 1fr 1fr; }
+    /* Footer: compact — drop to logo + 4 link cols, hide hours and image */
+    .footer-top {
+      grid-template-columns: 140px 1fr 1fr 1fr 1fr;
+      padding: 20px 24px;
+      align-items: start;
+    }
     .footer-img-col { display: none; }
+    .footer-logo-col { padding-right: 16px; }
+    .footer-col { padding: 0 12px; }
+    .footer-col-title { font-size: 9px; margin-bottom: 6px; }
+    .footer-link { font-size: 11px; padding: 2px 0; }
+    .footer-tagline { font-size: 10px; }
+    .footer-bottom { padding: 10px 24px; font-size: 11px; }
 
     /* Nav search narrower */
     .nav-search { max-width: 340px; }
