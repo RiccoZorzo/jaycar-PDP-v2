@@ -38,6 +38,7 @@
 ║  v3.1  Similar card bg → #f8f8f8. Second row of 4 products.    ║
 ║        Free Std Delivery row removed. Delivery/spare icons →    ║
 ║        PNG files from repo. Icon img tags with onerror.         ║
+║  v3.2  Similar products: 5 cols × 2 rows. Card text tightened. ║
 ╚══════════════════════════════════════════════════════════════════╝
 -->
 <html lang="en">
@@ -688,8 +689,7 @@
     border-top: 1px solid var(--gray-border);
   }
   .similar-row-inner {
-    max-width: 1304px;
-    margin: 0 auto;
+    width: 100%;
   }
   .similar-heading {
     font-size: 20px;
@@ -739,41 +739,41 @@
   .badge-sale { background: var(--pink); color: white; }
   .badge-new-tag { background: var(--navy); color: white; }
   .similar-card-body {
-    padding: 14px 16px 16px;
+    padding: 10px 12px 12px;
     display: flex;
     flex-direction: column;
     flex: 1;
   }
   .similar-card-brand {
-    font-size: 10px;
+    font-size: 9px;
     font-weight: 700;
     letter-spacing: 0.8px;
     text-transform: uppercase;
     color: var(--gray-text);
-    margin-bottom: 4px;
+    margin-bottom: 3px;
   }
   .similar-card-name {
-    font-size: 14px;
+    font-size: 12px;
     font-weight: 500;
     color: var(--dark-text);
     line-height: 1.4;
-    margin-bottom: 8px;
+    margin-bottom: 6px;
     flex: 1;
   }
   .similar-card-price {
-    font-size: 18px;
+    font-size: 15px;
     font-weight: 700;
     color: var(--dark-text);
-    margin-bottom: 12px;
+    margin-bottom: 10px;
   }
   .similar-card-atc {
     width: 100%;
-    height: 38px;
+    height: 34px;
     background: var(--gray-bg);
     border: 1px solid var(--gray-border);
     border-radius: 6px;
     font-family: var(--font);
-    font-size: 13px;
+    font-size: 12px;
     font-weight: 600;
     color: var(--dark-text);
     cursor: pointer;
@@ -1484,7 +1484,8 @@
           <span style="color:#8692A6;font-weight:400;">v2.6</span><span style="font-weight:400;">864×864 square box, zero padding, #f8f8f8 blends JPG whites</span>
           <span style="color:#8692A6;font-weight:400;">v2.9</span><span style="font-weight:400;">Reset btn removed from zoom. Tab underline → navy #0C254C</span>
           <span style="color:#8692A6;font-weight:400;">v3.0</span><span style="font-weight:400;">Zoom trigger: JS addEventListener on img only, thumbs/arrows excluded</span>
-          <span style="color:#8692A6;font-weight:700;">v3.1</span><span style="font-weight:700;">Similar cards #f8f8f8, 2nd product row, no free delivery, PNG icons ← current</span>
+          <span style="color:#8692A6;font-weight:400;">v3.1</span><span style="font-weight:400;">Similar cards #f8f8f8, 2nd product row, no free delivery, PNG icons</span>
+          <span style="color:#8692A6;font-weight:700;">v3.2</span><span style="font-weight:700;">Similar products: 5 cols × 2 rows, card text tightened ← current</span>
         </div>
       </div>
     </div>
@@ -2017,6 +2018,18 @@
         </div>
       </div>
 
+      <div class="similar-card">
+        <div class="similar-card-img">
+          <img src="https://jaycarpdp.vercel.app/images/GH2102_brass-monkey-20l-portable-fridge-freezer_156737.jpg" alt="Brass Monkey 20L Portable Fridge/Freezer" onerror="this.style.opacity='0'"/>
+        </div>
+        <div class="similar-card-body">
+          <div class="similar-card-brand">Brass Monkey</div>
+          <div class="similar-card-name">Brass Monkey 20L Portable Fridge/Freezer</div>
+          <div class="similar-card-price">$399.00</div>
+          <button class="similar-card-atc">Add to Cart</button>
+        </div>
+      </div>
+
     </div>
 
     <!-- Row 2 -->
@@ -2068,6 +2081,19 @@
           <div class="similar-card-brand">Brass Monkey</div>
           <div class="similar-card-name">40L Dual Zone Portable Fridge/Freezer</div>
           <div class="similar-card-price">$549.00</div>
+          <button class="similar-card-atc">Add to Cart</button>
+        </div>
+      </div>
+
+      <div class="similar-card">
+        <div class="similar-card-img">
+          <span class="similar-card-badge badge-sale">ON SALE</span>
+          <img src="https://jaycarpdp.vercel.app/images/GH1624_22l-brass-monkey-portable-fridge-freezer_94950.jpg" alt="22L Brass Monkey Portable Fridge/Freezer" onerror="this.style.opacity='0'"/>
+        </div>
+        <div class="similar-card-body">
+          <div class="similar-card-brand">Brass Monkey</div>
+          <div class="similar-card-name">22L Brass Monkey Portable Fridge/Freezer</div>
+          <div class="similar-card-price">$299.00</div>
           <button class="similar-card-atc">Add to Cart</button>
         </div>
       </div>
