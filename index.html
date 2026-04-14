@@ -59,6 +59,8 @@
 ║        (aspect-ratio img, tight padding) and 1100px (3-col).    ║
 ║  v4.2  Similar products: two separate 5-card grids replaced with ║
 ║        one single 8-card grid. CSS auto-rows, no orphan cards.   ║
+║  v4.3  Grid expanded to 10 cards: 5×2 at 1600px+, 4×3 at       ║
+║        default, 3×4 at 1100px. No orphans at any breakpoint.    ║
 ╚══════════════════════════════════════════════════════════════════╝
 -->
 <html lang="en">
@@ -1616,7 +1618,8 @@
           <span style="color:#8692A6;font-weight:400;">v3.9</span><span style="font-weight:400;">Similar cards bg → #ffffff matches source JPG whites exactly</span>
           <span style="color:#8692A6;font-weight:400;">v4.0</span><span style="font-weight:400;">Similar grid: 4-col default, 5-col only at 1600px+. Fixes 1312px wrap</span>
           <span style="color:#8692A6;font-weight:400;">v4.1</span><span style="font-weight:400;">Similar cards ASOS-style compact at 1380px + 1100px breakpoints</span>
-          <span style="color:#8692A6;font-weight:700;">v4.2</span><span style="font-weight:700;">Single 8-card grid replaces two 5-card grids — no orphan wrapping ← current</span>
+          <span style="color:#8692A6;font-weight:400;">v4.2</span><span style="font-weight:400;">Single 8-card grid replaces two 5-card grids — no orphan wrapping</span>
+          <span style="color:#8692A6;font-weight:700;">v4.3</span><span style="font-weight:700;">10 cards: 5×2 at 1600px+, 4×3 default, 3×4 at 1100px ← current</span>
         </div>
       </div>
     </div>
@@ -2195,6 +2198,18 @@
           <div class="similar-card-brand">Brass Monkey</div>
           <div class="similar-card-name">40L Dual Zone Portable Fridge/Freezer</div>
           <div class="similar-card-price">$549.00</div>
+          <button class="similar-card-atc">Add to Cart</button>
+        </div>
+      </div>
+
+      <div class="similar-card">
+        <div class="similar-card-img">
+          <img src="https://jaycarpdp.vercel.app/images/GH1640_36l-brass-monkey-single-or-dual-zone-fridge-freezer-with-removable-zone-divider_88496.jpg" alt="36L Dual Zone Fridge/Freezer" onerror="this.style.opacity='0'"/>
+        </div>
+        <div class="similar-card-body">
+          <div class="similar-card-brand">Brass Monkey</div>
+          <div class="similar-card-name">36L Dual Zone Fridge/Freezer with Zone Divider</div>
+          <div class="similar-card-price">$449.00</div>
           <button class="similar-card-atc">Add to Cart</button>
         </div>
       </div>
