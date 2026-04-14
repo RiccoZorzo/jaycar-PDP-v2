@@ -312,205 +312,206 @@
     padding-top: 8px;
     display: flex;
     flex-direction: column;
-    gap: 0;
+    gap: 14px;
   }
 
-  /* Brand tag row */
-  .brand-tag-row {
+  .product-name {
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--dark-text);
+    line-height: 1.3;
+    margin: 0;
+  }
+
+  .product-meta {
+    font-size: 12px;
+    color: var(--gray-text);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-top: -6px;
+  }
+  .meta-sep { color: var(--gray-border); }
+
+  /* Rating row */
+  .rating-row {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .stars { display: flex; gap: 2px; }
+  .star { width: 15px; height: 15px; }
+  .rating-score { font-size: 13px; font-weight: 600; color: var(--dark-text); }
+  .rating-count { font-size: 13px; color: var(--gray-text); }
+  .read-reviews-link {
+    font-size: 13px;
+    color: var(--dark-text);
+    text-decoration: underline;
+    cursor: pointer;
+    margin-left: 2px;
+  }
+  .read-reviews-link:hover { color: var(--orange); }
+
+  /* Price block */
+  .price-block {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    position: relative;
+  }
+  .price-main {
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--dark-text);
+  }
+  .price-orig {
+    font-size: 15px;
+    color: var(--gray-text);
+    text-decoration: line-through;
+  }
+  .price-save {
+    font-size: 14px;
+    color: var(--orange);
+    font-weight: 600;
+  }
+  .wishlist-btn {
+    margin-left: auto;
+    width: 40px; height: 40px;
+    border: 1px solid var(--gray-border);
+    border-radius: 8px;
+    background: white;
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer;
+    transition: border-color 0.15s;
+    flex-shrink: 0;
+  }
+  .wishlist-btn:hover { border-color: var(--dark-text); }
+  .wishlist-btn svg { width: 18px; height: 18px; color: var(--dark-text); }
+  .wishlist-btn.saved svg { fill: #e5007d; stroke: #e5007d; }
+
+  /* Bulk pricing card */
+  .bulk-card {
+    border: 1px solid var(--gray-border);
+    border-radius: 8px;
+    background: white;
+    padding: 16px 18px;
+  }
+  .bulk-card-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 14px;
+  }
+  .bulk-title {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    font-size: 14px;
+    color: var(--dark-text);
+  }
+  .bulk-title svg { color: var(--dark-text); flex-shrink: 0; }
+  .bulk-info-icon {
+    font-size: 14px;
+    color: var(--gray-text);
+    cursor: default;
+  }
+  .bulk-best-badge {
+    background: var(--teal);
+    color: white;
+    font-size: 11px;
+    font-weight: 600;
+    padding: 4px 10px;
+    border-radius: 20px;
+    letter-spacing: 0.2px;
+  }
+  .bulk-tiers {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 0;
+    border-top: 1px solid var(--gray-bg);
+    padding-top: 12px;
+  }
+  .bulk-tier {
+    padding: 0 8px;
+    border-right: 1px solid var(--gray-bg);
+  }
+  .bulk-tier:first-child { padding-left: 0; }
+  .bulk-tier:last-child { border-right: none; }
+  .bulk-tier-qty {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--dark-text);
+    margin-bottom: 3px;
+  }
+  .bulk-tier-price {
+    font-size: 13px;
+    color: var(--gray-text);
+  }
+  .bulk-tier-best .bulk-tier-qty { color: var(--orange); }
+  .bulk-tier-best .bulk-tier-price { color: var(--orange); font-weight: 600; }
+
+  /* Qty stepper + ATC row */
+  .atc-row {
     display: flex;
     align-items: center;
     gap: 12px;
-    margin-bottom: 10px;
   }
-  .brand-logo-box {
-    width: 81px; height: 81px;
-    border: 1px solid var(--gray-border);
-    border-radius: 4.5px;
-    display: flex; align-items: center; justify-content: center;
-    background: white;
-    overflow: hidden;
-  }
-  .brand-logo-box img { width: 68px; height: 21px; object-fit: contain; }
-  .brand-logo-placeholder {
-    width: 68px; height: 21px;
-    background: var(--gray-border);
-    border-radius: 2px;
-  }
-
-  /* Delivery row: white box + orange CTA */
-  .delivery-row {
+  .qty-stepper {
     display: flex;
-    gap: 12px;
-    margin-bottom: 16px;
-  }
-  .delivery-box {
-    width: 98px; height: 48px;
+    align-items: center;
     border: 1px solid var(--gray-border);
-    border-radius: 4px;
-    background: white;
-    display: flex; align-items: center; justify-content: center;
+    border-radius: 8px;
+    overflow: hidden;
+    height: 48px;
     flex-shrink: 0;
   }
-  .delivery-box svg { width: 20px; height: 20px; color: var(--dark-text); }
+  .qty-btn {
+    width: 40px; height: 48px;
+    background: white;
+    border: none;
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    transition: background 0.15s;
+    color: var(--dark-text);
+  }
+  .qty-btn:hover { background: var(--gray-bg); }
+  .qty-val {
+    min-width: 36px;
+    text-align: center;
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--dark-text);
+    border-left: 1px solid var(--gray-border);
+    border-right: 1px solid var(--gray-border);
+    height: 48px;
+    display: flex; align-items: center; justify-content: center;
+  }
   .add-to-cart-btn {
     flex: 1;
     height: 48px;
     background: var(--orange);
     color: white;
     border: none;
-    border-radius: 4px;
+    border-radius: 8px;
     font-family: var(--font);
     font-size: 15px;
     font-weight: 600;
     cursor: pointer;
-    letter-spacing: 0.2px;
     transition: opacity 0.15s;
   }
   .add-to-cart-btn:hover { opacity: 0.9; }
 
-  /* Product card box */
-  .product-card {
-    border: 1px solid var(--gray-border);
-    border-radius: 4px;
-    background: white;
-    padding: 20px;
-    margin-bottom: 12px;
-  }
-
-  /* Rating row */
-  .rating-row {
+  /* Trust strip */
+  .trust-strip {
     display: flex;
     align-items: center;
-    gap: 8px;
-    margin-bottom: 8px;
-  }
-  .stars { display: flex; gap: 2px; }
-  .star { width: 14px; height: 14px; color: #F59E0B; }
-  .rating-num { font-size: 13px; color: var(--gray-text); }
-  .teal-badge {
-    background: var(--teal);
-    color: white;
-    font-size: 10px;
-    font-weight: 600;
-    padding: 3px 8px;
-    border-radius: 4px;
-    letter-spacing: 0.3px;
-  }
-
-  .product-name {
-    font-size: 22px;
-    font-weight: 700;
-    color: var(--dark-text);
-    line-height: 1.25;
-    margin-bottom: 10px;
-  }
-
-  .price-row {
-    display: flex;
-    align-items: baseline;
+    justify-content: center;
     gap: 10px;
-    margin-bottom: 12px;
+    font-size: 12px;
+    color: var(--gray-text);
+    padding-top: 2px;
   }
-  .price-main { font-size: 26px; font-weight: 700; color: var(--dark-text); }
-  .price-orig { font-size: 16px; color: var(--gray-text); text-decoration: line-through; }
-  .price-save { font-size: 13px; color: var(--pink); font-weight: 600; }
-
-  /* Variant selects */
-  .variant-row {
-    display: flex;
-    gap: 8px;
-    margin-bottom: 12px;
-  }
-  .variant-select {
-    flex: 1;
-    height: 45px;
-    border: 1px solid rgba(168,168,168,0.5);
-    border-radius: 6px;
-    background: white;
-    padding: 0 14px;
-    font-family: var(--font);
-    font-size: 13px;
-    color: var(--dark-text);
-    appearance: none;
-    cursor: pointer;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%230C254C' stroke-width='1.5' fill='none'/%3E%3C/svg%3E");
-    background-repeat: no-repeat;
-    background-position: right 14px center;
-    position: relative;
-  }
-  .qty-select {
-    width: 90px; flex: none;
-  }
-
-  /* Promotion card */
-  .promo-card {
-    border: 1px solid var(--pink-border);
-    border-radius: 5.5px;
-    background: var(--pink-light);
-    padding: 16px 20px;
-    margin-bottom: 12px;
-    font-size: 13px;
-    color: var(--dark-text);
-  }
-  .promo-card strong { color: var(--pink); }
-
-  /* Info card (shipping, returns, etc.) */
-  .info-card {
-    border: 1px solid var(--gray-border);
-    border-radius: 4px;
-    background: white;
-    padding: 16px 20px;
-    margin-bottom: 12px;
-  }
-  .info-card-row {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    font-size: 13px;
-    color: var(--dark-text);
-    padding: 8px 0;
-    border-bottom: 1px solid var(--gray-bg);
-  }
-  .info-card-row:last-child { border-bottom: none; padding-bottom: 0; }
-  .info-card-row:first-child { padding-top: 0; }
-  .info-card-row svg { width: 18px; height: 18px; color: var(--dark-text); flex-shrink: 0; }
-  .info-card-row span { font-size: 12px; color: var(--gray-text); }
-  .info-badge {
-    margin-left: auto;
-    background: var(--teal);
-    color: white;
-    font-size: 10px;
-    font-weight: 600;
-    padding: 3px 8px;
-    border-radius: 4px;
-  }
-
-  /* Seller card */
-  .seller-card {
-    border: 1px solid var(--gray-border);
-    border-radius: 4px;
-    background: white;
-    padding: 16px 20px;
-    margin-bottom: 12px;
-    font-size: 13px;
-  }
-
-  /* Save button row */
-  .save-btn-row {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    height: 57px;
-    border: 1px solid var(--gray-border);
-    border-radius: 4px;
-    padding: 0 20px;
-    background: white;
-    margin-bottom: 12px;
-    cursor: pointer;
-  }
-  .save-btn-row:hover { background: var(--gray-bg); }
-  .save-text { font-size: 13px; font-weight: 500; }
-  .save-btn-row svg { width: 16px; height: 16px; }
+  .trust-sep { color: var(--gray-border); }
 
   /* ── COLOR SWATCH BAR ── */
   .swatch-bar {
@@ -1100,115 +1101,93 @@
     <!-- ── RIGHT: PRODUCT INFO ── -->
     <div class="product-info">
 
-      <!-- Rating + reviews line -->
-      <div class="rating-row" style="margin-bottom:8px;">
+      <!-- Product name -->
+      <h1 class="product-name">5W GME Handheld VHF Marine Transceiver Radio GX625</h1>
+
+      <!-- Cat / MPN -->
+      <div class="product-meta">
+        <span>Cat. No: TL4700</span>
+        <span class="meta-sep">·</span>
+        <span>MPN: Sonic Mega 8K</span>
+      </div>
+
+      <!-- Stars + reviews link -->
+      <div class="rating-row">
         <div class="stars">
           <svg class="star" viewBox="0 0 20 20" fill="#F59E0B"><path d="M10 1l2.4 6.6H19l-5.4 4 2.1 6.6L10 14.4l-5.7 3.8 2.1-6.6L1 7.6h6.6z"/></svg>
           <svg class="star" viewBox="0 0 20 20" fill="#F59E0B"><path d="M10 1l2.4 6.6H19l-5.4 4 2.1 6.6L10 14.4l-5.7 3.8 2.1-6.6L1 7.6h6.6z"/></svg>
           <svg class="star" viewBox="0 0 20 20" fill="#F59E0B"><path d="M10 1l2.4 6.6H19l-5.4 4 2.1 6.6L10 14.4l-5.7 3.8 2.1-6.6L1 7.6h6.6z"/></svg>
           <svg class="star" viewBox="0 0 20 20" fill="#F59E0B"><path d="M10 1l2.4 6.6H19l-5.4 4 2.1 6.6L10 14.4l-5.7 3.8 2.1-6.6L1 7.6h6.6z"/></svg>
-          <svg class="star" viewBox="0 0 20 20" fill="#F59E0B" style="clip-path:inset(0 40% 0 0)"><path d="M10 1l2.4 6.6H19l-5.4 4 2.1 6.6L10 14.4l-5.7 3.8 2.1-6.6L1 7.6h6.6z"/></svg>
+          <svg class="star" viewBox="0 0 20 20" fill="#F59E0B"><path d="M10 1l2.4 6.6H19l-5.4 4 2.1 6.6L10 14.4l-5.7 3.8 2.1-6.6L1 7.6h6.6z"/></svg>
         </div>
-        <span class="rating-num">4.6 (2,847 reviews)</span>
-        <span class="teal-badge">VERIFIED</span>
+        <span class="rating-score">5.0</span>
+        <span class="rating-count">(12)</span>
+        <a href="#tab-reviews" class="read-reviews-link" onclick="switchTab('reviews', document.querySelectorAll('.tab-btn')[2])">Read all reviews</a>
       </div>
 
-      <!-- Product name -->
-      <h1 class="product-name">JACAT 20V MAX Cordless Drill Driver Set, 63-Piece Accessory Kit, 2 Batteries Included</h1>
-
-      <!-- Price -->
-      <div class="price-row">
-        <span class="price-main">$49.99</span>
-        <span class="price-orig">$79.99</span>
-        <span class="price-save">Save 38%</span>
-      </div>
-
-      <!-- Delivery / Add to cart -->
-      <div class="delivery-row">
-        <div class="delivery-box">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-            <rect x="1" y="3" width="15" height="13" rx="1"/>
-            <path d="M16 8h4l3 3v5h-7V8z"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/>
+      <!-- Price block -->
+      <div class="price-block">
+        <span class="price-main">$3,499</span>
+        <span class="price-orig">$4,199</span>
+        <span class="price-save">Save $700</span>
+        <!-- Wishlist heart -->
+        <button class="wishlist-btn" onclick="toggleWishlist(this)" aria-label="Save to wishlist">
+          <svg id="wishlist-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+            <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
           </svg>
+        </button>
+      </div>
+
+      <!-- Bulk pricing card -->
+      <div class="bulk-card">
+        <div class="bulk-card-header">
+          <div class="bulk-title">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+              <rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/>
+              <line x1="12" y1="12" x2="12" y2="16"/><line x1="10" y1="14" x2="14" y2="14"/>
+            </svg>
+            <strong>Bulk Pricing</strong>
+            <span class="bulk-info-icon" title="Buy more, save more">ⓘ</span>
+          </div>
+          <span class="bulk-best-badge">Best Value</span>
+        </div>
+        <div class="bulk-tiers">
+          <div class="bulk-tier">
+            <div class="bulk-tier-qty">Qty 1-1</div>
+            <div class="bulk-tier-price">$3,499 / unit</div>
+          </div>
+          <div class="bulk-tier">
+            <div class="bulk-tier-qty">Qty 4-9</div>
+            <div class="bulk-tier-price">$2,499 / unit</div>
+          </div>
+          <div class="bulk-tier bulk-tier-best">
+            <div class="bulk-tier-qty">Qty 10+</div>
+            <div class="bulk-tier-price">$1,499 / unit</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Qty + Add to cart -->
+      <div class="atc-row">
+        <div class="qty-stepper">
+          <button class="qty-btn" onclick="changeQty(-1)" aria-label="Decrease quantity">
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2"><line x1="2" y1="7" x2="12" y2="7"/></svg>
+          </button>
+          <span class="qty-val" id="qty-display">1</span>
+          <button class="qty-btn" onclick="changeQty(1)" aria-label="Increase quantity">
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2"><line x1="7" y1="2" x2="7" y2="12"/><line x1="2" y1="7" x2="12" y2="7"/></svg>
+          </button>
         </div>
         <button class="add-to-cart-btn" onclick="addToCart()">Add to Cart</button>
       </div>
 
-      <!-- Variant selects -->
-      <div class="variant-row">
-        <select class="variant-select" id="size-select">
-          <option>Size: Standard Kit (63-pc)</option>
-          <option>Size: Mini Kit (33-pc)</option>
-          <option>Size: Pro Kit (101-pc)</option>
-        </select>
-        <select class="variant-select qty-select" id="qty-select">
-          <option>Qty: 1</option>
-          <option>Qty: 2</option>
-          <option>Qty: 3</option>
-        </select>
-      </div>
-
-      <!-- Product info card -->
-      <div class="product-card">
-        <div style="display:flex; align-items:center; gap:12px; margin-bottom:16px;">
-          <div class="brand-logo-box">
-            <img src="[BRAND_LOGO_URL]" alt="Brand" onerror="this.style.display='none'"/>
-            <div class="brand-logo-placeholder" id="brand-placeholder"></div>
-          </div>
-          <div>
-            <div style="font-size:12px; color:var(--gray-text); margin-bottom:2px;">Sold by</div>
-            <div style="font-size:14px; font-weight:600;">JACAT Official Store</div>
-            <div style="font-size:12px; color:var(--teal); margin-top:2px;">✓ Top Rated Seller</div>
-          </div>
-        </div>
-
-        <div class="spec-row" style="border-bottom:none; padding:0; font-size:13px; color:var(--gray-text); margin-bottom:6px;">
-          <span style="color:var(--dark-text); font-weight:500;">SKU:</span>&nbsp;JACAT-20V-63PC
-        </div>
-        <div style="font-size:13px; color:var(--gray-text); display:flex; align-items:center; gap:6px;">
-          <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="8" cy="8" r="7"/><path d="M8 4v4l3 3"/></svg>
-          Ships within 1–2 business days
-        </div>
-      </div>
-
-      <!-- Info rows card -->
-      <div class="info-card">
-        <div class="info-card-row">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="1" y="3" width="15" height="13" rx="1"/><path d="M16 8h4l3 3v5h-7V8z"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
-          <div>
-            <div style="font-weight:500;">Free Delivery</div>
-            <span>Orders over $35 qualify for free standard shipping</span>
-          </div>
-          <div class="info-badge">FREE</div>
-        </div>
-        <div class="info-card-row">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 .49-4"/></svg>
-          <div>
-            <div style="font-weight:500;">30-Day Returns</div>
-            <span>Easy returns, no questions asked</span>
-          </div>
-        </div>
-        <div class="info-card-row">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-          <div>
-            <div style="font-weight:500;">2-Year Warranty</div>
-            <span>Manufacturer warranty included</span>
-          </div>
-          <div class="info-badge">INCLUDED</div>
-        </div>
-      </div>
-
-      <!-- Promo card -->
-      <div class="promo-card">
-        🎉 <strong>Limited Time:</strong> Use code <strong>SAVE10</strong> for an extra 10% off. Offer ends midnight tonight. Free accessory upgrade on orders over $60.
-      </div>
-
-      <!-- Save / Wishlist -->
-      <div class="save-btn-row" onclick="toggleWishlist(this)">
-        <span class="save-text">💾 Save to Wishlist</span>
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" id="wishlist-icon">
-          <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
-        </svg>
+      <!-- Trust strip -->
+      <div class="trust-strip">
+        <span>30-Day Returns</span>
+        <span class="trust-sep">|</span>
+        <span>Australian Stock</span>
+        <span class="trust-sep">|</span>
+        <span>Warranty Included</span>
       </div>
 
     </div><!-- / product-info -->
@@ -1303,21 +1282,16 @@
     document.getElementById('swatch-name').textContent = name;
   }
 
+  // Qty stepper
+  let qty = 1;
+  function changeQty(dir) {
+    qty = Math.max(1, qty + dir);
+    document.getElementById('qty-display').textContent = qty;
+  }
+
   // Wishlist toggle
-  let wishlisted = false;
-  function toggleWishlist(row) {
-    wishlisted = !wishlisted;
-    const icon = document.getElementById('wishlist-icon');
-    const text = row.querySelector('.save-text');
-    if (wishlisted) {
-      icon.style.fill = '#E5007D';
-      icon.style.stroke = '#E5007D';
-      text.textContent = '❤️ Saved to Wishlist';
-    } else {
-      icon.style.fill = 'none';
-      icon.style.stroke = 'currentColor';
-      text.textContent = '💾 Save to Wishlist';
-    }
+  function toggleWishlist(btn) {
+    btn.classList.toggle('saved');
   }
 
   // Add to cart feedback
