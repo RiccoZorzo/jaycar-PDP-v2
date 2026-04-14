@@ -2,37 +2,29 @@
 <!--
 ╔══════════════════════════════════════════════════════════════════╗
 ║  JAYCAR PDP — VERSION HISTORY                                    ║
+║  To revert: tell Claude "revert to vX.X"                        ║
 ╠══════════════════════════════════════════════════════════════════╣
 ║  v1.0  Initial SVG-to-HTML conversion. Basic PDP layout.        ║
-║  v1.1  Lightbox updated: thumbs inside, brand logo top-right,   ║
-║        arrows inset. jsDelivr image CDN.                        ║
-║  v1.2  Tabbed section added: Overview, Specs, Reviews (24).     ║
-║        Features tab added then removed on request.              ║
-║  v1.3  Right side rebuilt: product name, bulk pricing,          ║
-║        qty stepper, trust strip, delivery options card.         ║
-║  v1.4  Downloads tab added. Breadcrumb updated. Main image      ║
-║        set to GitHub raw URL. Delivery card added below right.  ║
-║        Page padding reduced 15%.                                ║
-║  v1.5  Spare parts button + BNPL logos added. Modal built       ║
-║        then simplified (open/close removed). Nav logo updated.  ║
-║  v1.6  Jaycar media CDN images. 5 thumbnails wired up.          ║
-║  v1.7  Two-row header (nav-top + nav-bottom). Similar products  ║
-║        rebuilt as card grid. Main image height increased.       ║
-║  v1.8  Nav icons updated to PNG images (Account/Lists/Cart).    ║
-║        Full footer added with compact call centre hours table.  ║
-║  v1.9  Sticky ATC bar added (IntersectionObserver). Synced qty. ║
-║  v2.0  Brand logo box 80×80. Nav made position:fixed.           ║
-║        Body padding-top:106px. Sticky bar below fixed nav.      ║
-║  v2.1  Qty stepper + ATC button updated to pill/circle style    ║
-║        on both main and sticky bar. Version history added.      ║
-║  v2.2  Stepper updated to squircle: grey minus, navy plus.      ║
-║        ATC button border-radius: 4px. Both main + sticky.       ║
-║  v2.3  Font changed to Figtree (body) + ExtraBold 800 headers.  ║
-║        Qty stepper reduced to 20×20. All blues → #0C254C.       ║
-║        ATC → #F18805. Special Order → #E5007D. Best Value →     ║
-║        #56BFC9. Read All Reviews links to reviews tab.          ║
-║  v2.4  Gallery rebuilt: full-bleed cover image, frosted thumb   ║
-║        strip overlaid at bottom, light grey border box.         ║
+║  v1.1  Lightbox: thumbs inside, brand logo, inset arrows.       ║
+║  v1.2  Tabs: Overview, Specs, Reviews. Features tab removed.    ║
+║  v1.3  Right side: bulk pricing, qty stepper, delivery card.    ║
+║  v1.4  Downloads tab, breadcrumb, delivery card, padding -15%.  ║
+║  v1.5  Spare parts btn, BNPL logos, modal (simplified).         ║
+║  v1.6  Jaycar media CDN images, 5 thumbnails wired up.          ║
+║  v1.7  Two-row header, similar products card grid.              ║
+║  v1.8  PNG nav icons (Account/Lists/Cart), full footer.         ║
+║  v1.9  Sticky ATC bar via IntersectionObserver.                 ║
+║  v2.0  Fixed nav, body offset 106px, brand logo 80×80.          ║
+║  v2.1  Pill/circle stepper style, ATC border-radius.            ║
+║  v2.2  Squircle stepper: grey minus, navy plus, ATC r-4px.      ║
+║  v2.3  Figtree font, 20×20 stepper, colours locked to hex.      ║
+║        Spec ticks removed. Read reviews → opens tab.            ║
+║  v2.4  Gallery: full-bleed cover, frosted thumb strip overlay.  ║
+║        Footer: image block added, padding tightened.            ║
+║        Logo tooltip shows version history (no nav link).        ║
+║        Footer image responsive max 666×173.                     ║
+║  v2.5  Image guiderails: object-fit contain + 24px padding.     ║
+║        Thumbs also use contain. Prevents product cropping.      ║
 ╚══════════════════════════════════════════════════════════════════╝
 -->
 <html lang="en">
@@ -241,7 +233,7 @@
     position: relative;
     width: 864px;
     height: 620px;
-    background: #f0f2f5;
+    background: #f5f6f8;
     border-radius: 8px;
     border: 1.5px solid var(--gray-border);
     overflow: hidden;
@@ -250,9 +242,12 @@
     justify-content: center;
   }
   .main-image-wrap > img#main-product-img {
+    /* GUIDERAIL: always contain — never crop a product image */
     width: 100%; height: 100%;
-    object-fit: cover;
+    object-fit: contain;
+    object-position: center;
     display: block;
+    padding: 24px;           /* breathing room from box edges */
     transition: opacity 0.2s;
   }
   .main-image-placeholder {
@@ -359,7 +354,7 @@
     box-shadow: 0 0 0 1px var(--navy);
   }
   .thumb:hover:not(.active) { border-color: var(--gray-mid); }
-  .thumb img { width: 100%; height: 100%; object-fit: cover; }
+  .thumb img { width: 100%; height: 100%; object-fit: contain; padding: 3px; background: white; }
   .thumb-placeholder { width: 100%; height: 100%; background: var(--gray-bg); }
 
   /* Video/play thumb */
@@ -1314,8 +1309,9 @@
           <span style="color:#8692A6;">v2.0</span><span>Fixed nav, body offset, brand logo 80×80</span>
           <span style="color:#8692A6;">v2.1</span><span>Pill/circle stepper + ATC border-radius</span>
           <span style="color:#8692A6;">v2.2</span><span>Squircle stepper: grey minus, navy plus</span>
-          <span style="color:#8692A6;font-weight:700;">v2.3</span><span style="font-weight:400;">Figtree font, 20×20 stepper, spec ticks removed, footer image, version tooltip</span>
-          <span style="color:#8692A6;font-weight:700;">v2.4</span><span style="font-weight:700;">Gallery: full-bleed image, frosted thumb strip, grey border box ← current</span>
+          <span style="color:#8692A6;font-weight:400;">v2.3</span><span style="font-weight:400;">Figtree font, 20×20 stepper, spec ticks removed, footer image, version tooltip</span>
+          <span style="color:#8692A6;font-weight:400;">v2.4</span><span style="font-weight:400;">Gallery: full-bleed, frosted thumbs, footer image block, responsive</span>
+          <span style="color:#8692A6;font-weight:700;">v2.5</span><span style="font-weight:700;">Image guiderails: object-fit contain + 24px padding ← current</span>
         </div>
       </div>
     </div>
