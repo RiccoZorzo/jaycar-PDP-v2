@@ -714,7 +714,8 @@
     border-top: 1px solid var(--gray-border);
   }
   .similar-row-inner {
-    width: 100%;
+    max-width: 1304px;
+    margin: 0 auto;
   }
   .similar-heading {
     font-size: 18px;
@@ -1493,7 +1494,8 @@
 
   /* ── under 1440px : any viewport below baseline ── */
   @media (max-width: 1440px) {
-    /* similar already 4-col by default */
+    /* similar already 4-col by default — ensure inner container fills available width */
+    .similar-row-inner { max-width: 100%; }
   }
 
   /* ── 1380px : large laptop ── */
@@ -1619,8 +1621,7 @@
           <span style="color:#8692A6;font-weight:400;">v4.0</span><span style="font-weight:400;">Similar grid: 4-col default, 5-col only at 1600px+. Fixes 1312px wrap</span>
           <span style="color:#8692A6;font-weight:400;">v4.1</span><span style="font-weight:400;">Similar cards ASOS-style compact at 1380px + 1100px breakpoints</span>
           <span style="color:#8692A6;font-weight:400;">v4.2</span><span style="font-weight:400;">Single 8-card grid replaces two 5-card grids — no orphan wrapping</span>
-          <span style="color:#8692A6;font-weight:400;">v4.3</span><span style="font-weight:400;">10 cards: 5×2 at 1600px+, 4×3 default, 3×4 at 1100px</span>
-          <span style="color:#8692A6;font-weight:700;">v4.4</span><span style="font-weight:700;">Fix: removed max-width 1304px cap on inner container — 5-col now fills full width ← current</span>
+          <span style="color:#8692A6;font-weight:700;">v4.3</span><span style="font-weight:700;">10 cards: 5×2 at 1600px+, 4×3 default, 3×4 at 1100px ← current (reverted from v4.4)</span>
         </div>
       </div>
     </div>
