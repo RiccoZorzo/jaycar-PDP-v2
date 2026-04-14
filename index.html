@@ -721,22 +721,113 @@
   }
   .similar-card-atc:hover { background: #e8eaf0; border-color: #bbb; }
 
-  /* ── FOOTER CTA ── */
-  .footer-cta {
+  /* ── FOOTER ── */
+  .site-footer {
     background: var(--navy);
     color: white;
-    padding: 48px 68px;
-    display: flex; align-items: center; justify-content: space-between;
   }
-  .footer-cta h2 { font-size: 22px; font-weight: 700; margin-bottom: 8px; }
-  .footer-cta p { font-size: 14px; opacity: 0.7; }
-  .footer-cta-btn {
-    background: var(--orange); color: white;
-    border: none; border-radius: 4px;
-    padding: 14px 32px;
-    font-family: var(--font); font-size: 14px; font-weight: 600;
-    cursor: pointer; white-space: nowrap;
+  .footer-top {
+    display: grid;
+    grid-template-columns: 220px 1fr 1fr 1fr 1fr;
+    gap: 0;
+    padding: 40px 68px;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
   }
+  .footer-logo-col {
+    padding-right: 32px;
+    border-right: 1px solid rgba(255,255,255,0.1);
+  }
+  .footer-tagline {
+    font-size: 12px;
+    color: rgba(255,255,255,0.55);
+    line-height: 1.5;
+    margin-bottom: 14px;
+  }
+  .footer-social { display: flex; gap: 8px; }
+  .footer-social-btn {
+    width: 30px; height: 30px;
+    border: 1px solid rgba(255,255,255,0.2);
+    border-radius: 6px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 11px; font-weight: 700;
+    color: rgba(255,255,255,0.7);
+    text-decoration: none;
+    transition: background 0.15s;
+  }
+  .footer-social-btn:hover { background: rgba(255,255,255,0.1); color: white; }
+
+  .footer-col {
+    padding: 0 28px;
+    border-right: 1px solid rgba(255,255,255,0.1);
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+  .footer-col:last-child { border-right: none; }
+  .footer-col-title {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.8px;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.45);
+    margin-bottom: 10px;
+  }
+  .footer-link {
+    font-size: 13px;
+    color: rgba(255,255,255,0.75);
+    text-decoration: none;
+    padding: 4px 0;
+    transition: color 0.15s;
+    line-height: 1.4;
+  }
+  .footer-link:hover { color: white; }
+
+  /* Hours table */
+  .footer-hours-table {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    margin-bottom: 12px;
+  }
+  .fh-row {
+    display: flex;
+    justify-content: space-between;
+    font-size: 12px;
+    padding: 4px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.07);
+    color: rgba(255,255,255,0.75);
+  }
+  .fh-row:last-child { border-bottom: none; }
+  .fh-day { color: rgba(255,255,255,0.5); }
+  .fh-time { font-weight: 500; }
+  .footer-phone {
+    font-size: 16px;
+    font-weight: 700;
+    color: white;
+    text-decoration: none;
+    margin-top: 4px;
+  }
+  .footer-phone:hover { color: var(--orange); }
+
+  /* Footer bottom bar */
+  .footer-bottom {
+    padding: 14px 68px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 12px;
+    color: rgba(255,255,255,0.4);
+  }
+  .footer-bottom-links {
+    display: flex;
+    gap: 20px;
+  }
+  .footer-bottom-links a {
+    color: rgba(255,255,255,0.4);
+    text-decoration: none;
+    font-size: 12px;
+  }
+  .footer-bottom-links a:hover { color: rgba(255,255,255,0.7); }
 
   /* Utility */
   .visually-hidden { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0,0,0,0); }
@@ -1038,7 +1129,7 @@
   <div class="nav-top">
     <!-- Logo -->
     <a href="https://www.jaycar.com.au" style="display:flex;align-items:center;text-decoration:none;flex-shrink:0;margin-right:16px;">
-      <img src="https://www.jaycar.com.au/_next/static/media/jaycar-logo.a95c232b.svg" alt="Jaycar" style="height:30px;width:auto;" onerror="this.style.display='none';this.nextElementSibling.style.display='block'"/>
+      <img src="https://www.jaycar.com.au/_next/static/media/jaycar-logo.a95c232b.svg" alt="Jaycar" style="height:30px;width:auto;" onerror="this.style.display='none';this.nextElementSibling.style.display='inline'"/>
       <span style="display:none;color:white;font-size:20px;font-weight:800;letter-spacing:-1px;">Jaycar</span>
     </a>
 
@@ -1054,19 +1145,17 @@
     <!-- Nav actions -->
     <div class="nav-actions">
       <a class="nav-icon-btn" href="#">
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.5">
-          <circle cx="12" cy="8" r="4"/>
-          <path d="M4 20c0-4 3.58-7 8-7s8 3 8 7"/>
-        </svg>
+        <img src="https://cdn.jsdelivr.net/gh/RiccoZorzo/jaycar-PDP-v2@main/images/user.png" alt="Account" style="width:22px;height:22px;object-fit:contain;filter:brightness(0) invert(1);" onerror="this.style.display='none'"/>
         <span>Account</span>
       </a>
       <div class="nav-divider"></div>
       <a class="nav-icon-btn" href="#">
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.5">
-          <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/>
-          <line x1="3" y1="6" x2="21" y2="6"/>
-          <path d="M16 10a4 4 0 01-8 0"/>
-        </svg>
+        <img src="https://cdn.jsdelivr.net/gh/RiccoZorzo/jaycar-PDP-v2@main/images/playlist-add.png" alt="My Lists" style="width:22px;height:22px;object-fit:contain;filter:brightness(0) invert(1);" onerror="this.style.display='none'"/>
+        <span>My Lists</span>
+      </a>
+      <div class="nav-divider"></div>
+      <a class="nav-icon-btn" href="#">
+        <img src="https://cdn.jsdelivr.net/gh/RiccoZorzo/jaycar-PDP-v2@main/images/shopping-cart%201.png" alt="Cart" style="width:22px;height:22px;object-fit:contain;filter:brightness(0) invert(1);" onerror="this.style.display='none'"/>
         <span>Cart</span>
       </a>
     </div>
@@ -1482,9 +1571,7 @@
 
         <div class="delivery-option">
           <div class="delivery-icon-wrap express">
-            <svg style="width:22px;height:22px;flex-shrink:0" viewBox="0 0 24 24" fill="none" stroke="#F18805" stroke-width="1.8">
-              <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>
-            </svg>
+            <img src="https://braze-images.com/appboy/communication/assets/image_assets/images/69aa3d669efd190063a7011e/original.png?1772764517" alt="Express" style="width:28px;height:28px;object-fit:contain;"/>
           </div>
           <div class="delivery-option-body">
             <div class="delivery-option-title">3-Hour Express Delivery</div>
@@ -1602,14 +1689,80 @@
   </div>
 </div>
 
-<!-- ═══ FOOTER CTA ═══ -->
-<div class="footer-cta">
-  <div>
-    <h2>Shop the full JACAT range</h2>
-    <p>Professional-grade tools for every job. Fast shipping, easy returns.</p>
+<!-- ═══ FOOTER ═══ -->
+<footer class="site-footer">
+
+  <!-- Top section: logo + columns -->
+  <div class="footer-top">
+
+    <!-- Logo + tagline -->
+    <div class="footer-logo-col">
+      <img src="https://www.jaycar.com.au/_next/static/media/jaycar-logo.a95c232b.svg" alt="Jaycar" style="height:28px;width:auto;margin-bottom:12px;" onerror="this.style.display='none'"/>
+      <p class="footer-tagline">Australia's electronics &amp; technology retailer.</p>
+      <div class="footer-social">
+        <a href="#" class="footer-social-btn" title="Facebook">f</a>
+        <a href="#" class="footer-social-btn" title="Instagram">in</a>
+        <a href="#" class="footer-social-btn" title="YouTube">▶</a>
+      </div>
+    </div>
+
+    <!-- About Us -->
+    <div class="footer-col">
+      <div class="footer-col-title">About Us</div>
+      <a href="#" class="footer-link">About Jaycar</a>
+      <a href="#" class="footer-link">Careers</a>
+      <a href="#" class="footer-link">Sustainability</a>
+      <a href="#" class="footer-link">Media Centre</a>
+      <a href="#" class="footer-link">Affiliates Program</a>
+    </div>
+
+    <!-- Service -->
+    <div class="footer-col">
+      <div class="footer-col-title">Service</div>
+      <a href="#" class="footer-link">Contact Us</a>
+      <a href="#" class="footer-link">Returns &amp; Refunds</a>
+      <a href="#" class="footer-link">Warranty Information</a>
+      <a href="#" class="footer-link">Repair Centre</a>
+      <a href="#" class="footer-link">Privacy Policy</a>
+      <a href="#" class="footer-link">Terms &amp; Conditions</a>
+    </div>
+
+    <!-- Ways to Shop -->
+    <div class="footer-col">
+      <div class="footer-col-title">Ways to Shop</div>
+      <a href="#" class="footer-link">Store Finder</a>
+      <a href="#" class="footer-link">Click &amp; Collect</a>
+      <a href="#" class="footer-link">Express Delivery</a>
+      <a href="#" class="footer-link">Bulk Orders</a>
+      <a href="#" class="footer-link">Gift Cards</a>
+      <a href="#" class="footer-link">Catalogues</a>
+    </div>
+
+    <!-- Call Centre Hours -->
+    <div class="footer-col">
+      <div class="footer-col-title">Call Centre Hours</div>
+      <div class="footer-hours-table">
+        <div class="fh-row"><span class="fh-day">Mon – Fri</span><span class="fh-time">8:00am – 7:00pm</span></div>
+        <div class="fh-row"><span class="fh-day">Saturday</span><span class="fh-time">8:30am – 5:00pm</span></div>
+        <div class="fh-row"><span class="fh-day">Sunday</span><span class="fh-time">10:00am – 4:00pm</span></div>
+        <div class="fh-row"><span class="fh-day">Public Hols</span><span class="fh-time">Closed</span></div>
+      </div>
+      <a href="tel:1800022888" class="footer-phone">1800 022 888</a>
+    </div>
+
   </div>
-  <button class="footer-cta-btn">Shop All JACAT Tools →</button>
-</div>
+
+  <!-- Bottom bar -->
+  <div class="footer-bottom">
+    <span>© 2025 Jaycar Electronics. All rights reserved.</span>
+    <div class="footer-bottom-links">
+      <a href="#">Privacy Policy</a>
+      <a href="#">Terms of Use</a>
+      <a href="#">Sitemap</a>
+    </div>
+  </div>
+
+</footer>
 
 <script>
   // Tab switching
