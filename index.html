@@ -1,0 +1,1053 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Product Detail Page</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=DM+Serif+Display&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --navy: #0C254C;
+    --pink: #E5007D;
+    --pink-light: rgba(229,0,125,0.1);
+    --pink-border: #C5006C;
+    --orange: #F18805;
+    --teal: #56BFC9;
+    --gray-bg: #F4F6F9;
+    --gray-border: #E0E0E0;
+    --gray-text: #8692A6;
+    --gray-mid: #A8A8A8;
+    --dark-text: #0C254C;
+    --white: #fff;
+    --font: 'DM Sans', sans-serif;
+    --font-display: 'DM Serif Display', serif;
+  }
+
+  body {
+    font-family: var(--font);
+    background: #fff;
+    color: var(--dark-text);
+    font-size: 14px;
+    min-width: 1440px;
+  }
+
+  /* ── NAVBAR ── */
+  nav {
+    background: var(--navy);
+    height: 80px;
+    display: flex;
+    align-items: center;
+    padding: 0 80px;
+    gap: 16px;
+    position: relative;
+  }
+
+  .nav-logo {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-right: 12px;
+  }
+
+  .nav-logo .logo-dot {
+    width: 14px; height: 14px;
+    border-radius: 50%;
+    background: white;
+  }
+
+  /* Jacut-style logo text from SVG */
+  .logo-text {
+    display: flex;
+    align-items: center;
+    gap: 2px;
+  }
+  .logo-circle {
+    width: 12px; height: 12px; border-radius: 50%;
+  }
+  .logo-circle.blue { background: #009FE3; }
+  .logo-circle.orange { background: #F18805; }
+  .logo-circle.green { background: #95C11F; }
+  .logo-circle.purple { background: #951B81; }
+
+  .nav-brand {
+    color: white;
+    font-size: 22px;
+    font-weight: 700;
+    letter-spacing: -0.5px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .nav-brand span { color: white; }
+
+  .nav-search {
+    flex: 1;
+    max-width: 799px;
+    height: 47px;
+    background: white;
+    border: 1px solid var(--gray-border);
+    border-radius: 3.5px;
+    display: flex;
+    align-items: center;
+    padding: 0 14px;
+    gap: 8px;
+    margin: 0 20px;
+  }
+  .nav-search svg { color: var(--dark-text); flex-shrink: 0; }
+  .nav-search input {
+    border: none; outline: none;
+    font-family: var(--font);
+    font-size: 13px;
+    color: var(--gray-text);
+    flex: 1;
+    background: transparent;
+  }
+  .nav-search input::placeholder { color: var(--gray-text); }
+
+  .nav-actions {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    margin-left: auto;
+  }
+
+  .nav-icon-btn {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    color: white;
+    text-decoration: none;
+    font-size: 10px;
+    cursor: pointer;
+  }
+  .nav-icon-btn svg { width: 22px; height: 22px; }
+
+  .nav-divider { width: 1px; height: 40px; background: rgba(255,255,255,0.2); }
+
+  /* ── BREADCRUMB BAR ── */
+  .breadcrumb-bar {
+    height: 60px;
+    border-bottom: 1px solid var(--gray-border);
+    display: flex;
+    align-items: center;
+    padding: 0 80px;
+    gap: 0;
+    font-size: 13px;
+    color: var(--gray-text);
+  }
+  .breadcrumb-bar a, .breadcrumb-bar span {
+    color: var(--gray-text);
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    cursor: pointer;
+  }
+  .breadcrumb-bar a:hover { color: var(--dark-text); }
+  .breadcrumb-sep {
+    margin: 0 6px;
+    color: var(--gray-border);
+  }
+  .breadcrumb-bar .current { color: var(--dark-text); font-weight: 500; }
+
+  /* ── MAIN LAYOUT ── */
+  .page-wrapper {
+    max-width: 1440px;
+    margin: 0 auto;
+    padding: 0 80px;
+  }
+
+  .pdp-grid {
+    display: grid;
+    grid-template-columns: 864px 1fr;
+    gap: 0 36px;
+    padding-top: 8px;
+    padding-bottom: 40px;
+    align-items: start;
+  }
+
+  /* ── LEFT: IMAGE GALLERY ── */
+  .gallery-section { position: relative; }
+
+  .main-image-wrap {
+    position: relative;
+    width: 864px;
+    height: 720px;
+    background: var(--gray-bg);
+    border-radius: 4px;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .main-image-wrap img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+  .main-image-placeholder {
+    width: 100%; height: 100%;
+    background: var(--gray-bg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--gray-border);
+    font-size: 13px;
+  }
+
+  .badge-new {
+    position: absolute;
+    top: 12px; left: 16px;
+    background: var(--pink);
+    color: white;
+    font-size: 11px;
+    font-weight: 700;
+    padding: 4px 10px;
+    border-radius: 4px;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+  }
+
+  /* Prev/Next nav arrows */
+  .gallery-nav {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 52px; height: 52px;
+    background: white;
+    border: 1px solid var(--gray-border);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer;
+    transition: box-shadow 0.2s;
+    z-index: 2;
+  }
+  .gallery-nav:hover { box-shadow: 0 4px 12px rgba(0,0,0,0.12); }
+  .gallery-nav.prev { left: -26px; }
+  .gallery-nav.next { right: -26px; }
+  .gallery-nav svg { width: 16px; height: 16px; color: var(--dark-text); }
+
+  /* Video play overlay */
+  .play-btn {
+    position: absolute;
+    bottom: 20px; right: 20px;
+    width: 28px; height: 28px;
+    background: rgba(12,37,76,0.5);
+    border-radius: 50%;
+    border: 1px solid var(--dark-text);
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer;
+  }
+  .play-btn svg { width: 12px; height: 12px; color: white; }
+
+  /* Thumbnail strip */
+  .thumb-strip {
+    display: flex;
+    gap: 9px;
+    margin-top: 8px;
+    padding: 4px 0;
+  }
+  .thumb {
+    width: 41px; height: 41px;
+    border-radius: 4.5px;
+    background: var(--gray-bg);
+    border: 1px solid var(--gray-border);
+    overflow: hidden;
+    cursor: pointer;
+    flex-shrink: 0;
+    position: relative;
+    transition: border-color 0.15s;
+  }
+  .thumb.active {
+    border-color: var(--dark-text);
+    box-shadow: inset 0 0 0 1.5px white;
+  }
+  .thumb img { width: 100%; height: 100%; object-fit: cover; }
+  .thumb-placeholder {
+    width: 100%; height: 100%;
+    background: var(--gray-bg);
+  }
+
+  /* ── RIGHT: PRODUCT INFO ── */
+  .product-info {
+    padding-top: 8px;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+
+  /* Brand tag row */
+  .brand-tag-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 10px;
+  }
+  .brand-logo-box {
+    width: 81px; height: 81px;
+    border: 1px solid var(--gray-border);
+    border-radius: 4.5px;
+    display: flex; align-items: center; justify-content: center;
+    background: white;
+    overflow: hidden;
+  }
+  .brand-logo-box img { width: 68px; height: 21px; object-fit: contain; }
+  .brand-logo-placeholder {
+    width: 68px; height: 21px;
+    background: var(--gray-border);
+    border-radius: 2px;
+  }
+
+  /* Delivery row: white box + orange CTA */
+  .delivery-row {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 16px;
+  }
+  .delivery-box {
+    width: 98px; height: 48px;
+    border: 1px solid var(--gray-border);
+    border-radius: 4px;
+    background: white;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+  }
+  .delivery-box svg { width: 20px; height: 20px; color: var(--dark-text); }
+  .add-to-cart-btn {
+    flex: 1;
+    height: 48px;
+    background: var(--orange);
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-family: var(--font);
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    letter-spacing: 0.2px;
+    transition: opacity 0.15s;
+  }
+  .add-to-cart-btn:hover { opacity: 0.9; }
+
+  /* Product card box */
+  .product-card {
+    border: 1px solid var(--gray-border);
+    border-radius: 4px;
+    background: white;
+    padding: 20px;
+    margin-bottom: 12px;
+  }
+
+  /* Rating row */
+  .rating-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 8px;
+  }
+  .stars { display: flex; gap: 2px; }
+  .star { width: 14px; height: 14px; color: #F59E0B; }
+  .rating-num { font-size: 13px; color: var(--gray-text); }
+  .teal-badge {
+    background: var(--teal);
+    color: white;
+    font-size: 10px;
+    font-weight: 600;
+    padding: 3px 8px;
+    border-radius: 4px;
+    letter-spacing: 0.3px;
+  }
+
+  .product-name {
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--dark-text);
+    line-height: 1.25;
+    margin-bottom: 10px;
+  }
+
+  .price-row {
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+    margin-bottom: 12px;
+  }
+  .price-main { font-size: 26px; font-weight: 700; color: var(--dark-text); }
+  .price-orig { font-size: 16px; color: var(--gray-text); text-decoration: line-through; }
+  .price-save { font-size: 13px; color: var(--pink); font-weight: 600; }
+
+  /* Variant selects */
+  .variant-row {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 12px;
+  }
+  .variant-select {
+    flex: 1;
+    height: 45px;
+    border: 1px solid rgba(168,168,168,0.5);
+    border-radius: 6px;
+    background: white;
+    padding: 0 14px;
+    font-family: var(--font);
+    font-size: 13px;
+    color: var(--dark-text);
+    appearance: none;
+    cursor: pointer;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%230C254C' stroke-width='1.5' fill='none'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 14px center;
+    position: relative;
+  }
+  .qty-select {
+    width: 90px; flex: none;
+  }
+
+  /* Promotion card */
+  .promo-card {
+    border: 1px solid var(--pink-border);
+    border-radius: 5.5px;
+    background: var(--pink-light);
+    padding: 16px 20px;
+    margin-bottom: 12px;
+    font-size: 13px;
+    color: var(--dark-text);
+  }
+  .promo-card strong { color: var(--pink); }
+
+  /* Info card (shipping, returns, etc.) */
+  .info-card {
+    border: 1px solid var(--gray-border);
+    border-radius: 4px;
+    background: white;
+    padding: 16px 20px;
+    margin-bottom: 12px;
+  }
+  .info-card-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 13px;
+    color: var(--dark-text);
+    padding: 8px 0;
+    border-bottom: 1px solid var(--gray-bg);
+  }
+  .info-card-row:last-child { border-bottom: none; padding-bottom: 0; }
+  .info-card-row:first-child { padding-top: 0; }
+  .info-card-row svg { width: 18px; height: 18px; color: var(--dark-text); flex-shrink: 0; }
+  .info-card-row span { font-size: 12px; color: var(--gray-text); }
+  .info-badge {
+    margin-left: auto;
+    background: var(--teal);
+    color: white;
+    font-size: 10px;
+    font-weight: 600;
+    padding: 3px 8px;
+    border-radius: 4px;
+  }
+
+  /* Seller card */
+  .seller-card {
+    border: 1px solid var(--gray-border);
+    border-radius: 4px;
+    background: white;
+    padding: 16px 20px;
+    margin-bottom: 12px;
+    font-size: 13px;
+  }
+
+  /* Save button row */
+  .save-btn-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 57px;
+    border: 1px solid var(--gray-border);
+    border-radius: 4px;
+    padding: 0 20px;
+    background: white;
+    margin-bottom: 12px;
+    cursor: pointer;
+  }
+  .save-btn-row:hover { background: var(--gray-bg); }
+  .save-text { font-size: 13px; font-weight: 500; }
+  .save-btn-row svg { width: 16px; height: 16px; }
+
+  /* ── COLOR SWATCH BAR ── */
+  .swatch-bar {
+    border: 1px solid var(--gray-border);
+    border-radius: 3.5px;
+    background: white;
+    padding: 20px 24px;
+    margin-top: 4px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+  .swatch { width: 19px; height: 19px; border-radius: 50%; cursor: pointer; flex-shrink: 0; transition: transform 0.15s; }
+  .swatch:hover { transform: scale(1.15); }
+  .swatch.active { outline: 2px solid var(--dark-text); outline-offset: 2px; }
+  .swatch-label { font-size: 12px; color: var(--gray-text); margin-right: 4px; }
+  .swatch-selected { font-size: 12px; font-weight: 600; }
+
+  /* ── PRODUCT DESCRIPTION SECTION ── */
+  .desc-section {
+    padding: 32px 0;
+    border-top: 1px solid var(--gray-border);
+  }
+  .section-title {
+    font-size: 18px;
+    font-weight: 700;
+    margin-bottom: 16px;
+  }
+  .desc-text { font-size: 14px; line-height: 1.7; color: #444; }
+
+  /* ── RELATED PRODUCTS ── */
+  .related-section { padding: 32px 0; border-top: 1px solid var(--gray-border); }
+
+  .product-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+  }
+  .product-card-mini {
+    border: 1px solid var(--gray-border);
+    border-radius: 6px;
+    overflow: hidden;
+    background: white;
+  }
+  .product-card-mini-img {
+    width: 100%; height: 140px;
+    background: var(--gray-bg);
+    display: flex; align-items: center; justify-content: center;
+  }
+  .product-card-mini-img img { width: 100%; height: 100%; object-fit: cover; }
+  .product-card-mini-body { padding: 12px; }
+  .product-card-mini-name { font-size: 13px; font-weight: 600; margin-bottom: 6px; }
+  .product-card-mini-price { font-size: 14px; font-weight: 700; }
+  .product-card-mini-add {
+    width: 100%; height: 32px;
+    background: var(--orange);
+    color: white; border: none; border-radius: 4px;
+    font-family: var(--font); font-size: 12px; font-weight: 600;
+    cursor: pointer; margin-top: 8px;
+  }
+
+  /* ── ACCORDION / SPEC ROWS ── */
+  .spec-row {
+    display: flex;
+    border-bottom: 1px solid var(--gray-bg);
+    padding: 12px 0;
+    font-size: 13px;
+  }
+  .spec-label { width: 200px; color: var(--gray-text); flex-shrink: 0; }
+  .spec-value { color: var(--dark-text); }
+
+  /* Accordion */
+  .accordion-item {
+    border-top: 1px solid var(--gray-border);
+  }
+  .accordion-header {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 16px 0;
+    cursor: pointer;
+    font-size: 14px; font-weight: 600;
+  }
+  .accordion-header svg { width: 16px; height: 16px; transition: transform 0.2s; }
+  .accordion-header.open svg { transform: rotate(180deg); }
+  .accordion-body { padding-bottom: 16px; font-size: 14px; line-height: 1.7; color: #444; display: none; }
+  .accordion-body.open { display: block; }
+
+  /* ── SIMILAR PRODUCTS ROW (thumbnails bottom) ── */
+  .similar-row {
+    background: var(--gray-bg);
+    padding: 24px 80px;
+    border-top: 1px solid var(--gray-border);
+  }
+  .similar-inner {
+    display: flex; gap: 16px; align-items: center;
+  }
+  .similar-thumb {
+    width: 150px; height: 177px;
+    border-radius: 6px;
+    background: var(--gray-bg);
+    overflow: hidden;
+    cursor: pointer;
+    flex-shrink: 0;
+    position: relative;
+  }
+  .similar-thumb img { width: 100%; height: 100%; object-fit: cover; }
+  .similar-thumb-placeholder { width: 100%; height: 100%; background: var(--gray-border); border-radius: 6px; }
+  .similar-info { flex: 1; padding: 0 8px; }
+  .similar-info h3 { font-size: 15px; font-weight: 600; margin-bottom: 6px; }
+  .similar-info p { font-size: 13px; color: var(--gray-text); margin-bottom: 12px; }
+  .similar-add-btn {
+    width: 220px; height: 32px;
+    background: var(--orange); color: white;
+    border: none; border-radius: 4px;
+    font-family: var(--font); font-size: 12px; font-weight: 600;
+    cursor: pointer;
+  }
+
+  /* ── FOOTER CTA ── */
+  .footer-cta {
+    background: var(--navy);
+    color: white;
+    padding: 48px 80px;
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .footer-cta h2 { font-size: 22px; font-weight: 700; margin-bottom: 8px; }
+  .footer-cta p { font-size: 14px; opacity: 0.7; }
+  .footer-cta-btn {
+    background: var(--orange); color: white;
+    border: none; border-radius: 4px;
+    padding: 14px 32px;
+    font-family: var(--font); font-size: 14px; font-weight: 600;
+    cursor: pointer; white-space: nowrap;
+  }
+
+  /* Utility */
+  .visually-hidden { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0,0,0,0); }
+
+  /* Map/location marker icon  */
+  .nav-loc-icon { width: 22px; height: 22px; }
+</style>
+</head>
+<body>
+
+<!-- ═══ NAVBAR ═══ -->
+<nav>
+  <!-- Logo -->
+  <div class="nav-brand">
+    <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+      <circle cx="7" cy="7" r="7" fill="white"/>
+    </svg>
+    <!-- Jacut brand mark placeholder -->
+    <span style="color:white; font-size:20px; font-weight:800; letter-spacing:-1px;">jacat</span>
+  </div>
+
+  <!-- Search bar -->
+  <div class="nav-search">
+    <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5">
+      <circle cx="6.5" cy="6.5" r="5.5"/>
+      <path d="M10.5 10.5L14 14"/>
+    </svg>
+    <input type="text" placeholder="Search for products, brands, and more…" id="search-input"/>
+  </div>
+
+  <!-- Nav actions -->
+  <div class="nav-actions">
+    <!-- Location -->
+    <a class="nav-icon-btn" href="#">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.5">
+        <circle cx="12" cy="10" r="3"/>
+        <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/>
+      </svg>
+      <span>Location</span>
+    </a>
+
+    <div class="nav-divider"></div>
+
+    <!-- Account -->
+    <a class="nav-icon-btn" href="#">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.5">
+        <circle cx="12" cy="8" r="4"/>
+        <path d="M4 20c0-4 3.58-7 8-7s8 3 8 7"/>
+      </svg>
+      <span>Account</span>
+    </a>
+
+    <div class="nav-divider"></div>
+
+    <!-- Cart -->
+    <a class="nav-icon-btn" href="#">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.5">
+        <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/>
+        <line x1="3" y1="6" x2="21" y2="6"/>
+        <path d="M16 10a4 4 0 01-8 0"/>
+      </svg>
+      <span>Cart</span>
+    </a>
+  </div>
+</nav>
+
+<!-- ═══ BREADCRUMB ═══ -->
+<div class="breadcrumb-bar">
+  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="color:var(--gray-text)">
+    <path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/>
+  </svg>
+  <span class="breadcrumb-sep">›</span>
+  <a href="#">Tools &amp; Hardware</a>
+  <span class="breadcrumb-sep">›</span>
+  <a href="#">Power Tools</a>
+  <span class="breadcrumb-sep">›</span>
+  <a href="#">Drills &amp; Drivers</a>
+  <span class="breadcrumb-sep">›</span>
+  <a href="#">Cordless Drills</a>
+  <span class="breadcrumb-sep">›</span>
+  <span class="current">JACAT 20V Cordless Drill Driver Set</span>
+</div>
+
+<!-- ═══ MAIN PDP GRID ═══ -->
+<div class="page-wrapper">
+  <div class="pdp-grid">
+
+    <!-- ── LEFT: GALLERY ── -->
+    <div class="gallery-section">
+      <div class="main-image-wrap" id="main-img-wrap">
+        <img id="main-product-img" src="[MAIN_PRODUCT_IMAGE_URL]" alt="JACAT 20V Cordless Drill" onerror="this.style.display='none'; document.getElementById('img-placeholder').style.display='flex'"/>
+        <div id="img-placeholder" class="main-image-placeholder" style="display:none">
+          <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" opacity="0.3">
+            <rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/>
+            <polyline points="21 15 16 10 5 21"/>
+          </svg>
+        </div>
+        <div class="badge-new">SPEC SALE</div>
+        <!-- Nav arrows -->
+        <button class="gallery-nav prev" onclick="changeThumb(-1)" aria-label="Previous image">
+          <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="10 4 6 8 10 12"/>
+          </svg>
+        </button>
+        <button class="gallery-nav next" onclick="changeThumb(1)" aria-label="Next image">
+          <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="6 4 10 8 6 12"/>
+          </svg>
+        </button>
+        <!-- Video play -->
+        <div class="play-btn">
+          <svg viewBox="0 0 12 12" fill="white">
+            <polygon points="3,1 11,6 3,11"/>
+          </svg>
+        </div>
+      </div>
+
+      <!-- Thumbnail strip -->
+      <div class="thumb-strip" id="thumb-strip">
+        <div class="thumb active" onclick="selectThumb(0, this)" data-src="[THUMB_1_URL]">
+          <div class="thumb-placeholder"></div>
+        </div>
+        <div class="thumb" onclick="selectThumb(1, this)" data-src="[THUMB_2_URL]">
+          <div class="thumb-placeholder"></div>
+        </div>
+        <div class="thumb" onclick="selectThumb(2, this)" data-src="[THUMB_3_URL]">
+          <div class="thumb-placeholder"></div>
+        </div>
+        <div class="thumb" onclick="selectThumb(3, this)" data-src="[THUMB_4_URL]">
+          <div class="thumb-placeholder"></div>
+        </div>
+        <div class="thumb" onclick="selectThumb(4, this)" data-src="[THUMB_5_URL]">
+          <div class="thumb-placeholder"></div>
+        </div>
+      </div>
+
+      <!-- Colour swatch bar -->
+      <div class="swatch-bar" style="margin-top:12px;">
+        <span class="swatch-label">Colour:</span>
+        <span class="swatch-selected" id="swatch-name">Black</span>
+        <div style="flex:1"></div>
+        <div class="swatch active" style="background:#111;" title="Black" onclick="selectSwatch(this,'Black')"></div>
+        <div class="swatch" style="background:#0066FF;" title="Blue" onclick="selectSwatch(this,'Blue')"></div>
+        <div class="swatch" style="background:#D32F2F;" title="Red" onclick="selectSwatch(this,'Red')"></div>
+        <div class="swatch" style="background:#00FF4C;" title="Green" onclick="selectSwatch(this,'Green')"></div>
+        <div class="swatch" style="background:#FF00DD;" title="Magenta" onclick="selectSwatch(this,'Magenta')"></div>
+        <div class="swatch" style="background:#2E7D32;" title="Dark Green" onclick="selectSwatch(this,'Dark Green')"></div>
+        <div class="swatch" style="background:#895129;" title="Brown" onclick="selectSwatch(this,'Brown')"></div>
+        <div class="swatch" style="background:white; border:2px solid var(--gray-border);" title="White" onclick="selectSwatch(this,'White')"></div>
+      </div>
+
+      <!-- Spec table section -->
+      <div class="desc-section" style="margin-top:24px;">
+        <div class="section-title">Product Specifications</div>
+        <div class="spec-row"><span class="spec-label">Brand</span><span class="spec-value">JACAT</span></div>
+        <div class="spec-row"><span class="spec-label">Voltage</span><span class="spec-value">20V MAX</span></div>
+        <div class="spec-row"><span class="spec-label">Max Torque</span><span class="spec-value">45 N·m</span></div>
+        <div class="spec-row"><span class="spec-label">Chuck Size</span><span class="spec-value">3/8 in (10mm)</span></div>
+        <div class="spec-row"><span class="spec-label">Speed</span><span class="spec-value">0-350 / 0-1500 RPM (2 speed)</span></div>
+        <div class="spec-row"><span class="spec-label">Battery Capacity</span><span class="spec-value">2 × 1.5 Ah Li-ion</span></div>
+        <div class="spec-row"><span class="spec-label">Weight</span><span class="spec-value">1.8 kg (with battery)</span></div>
+        <div class="spec-row"><span class="spec-label">Clutch Settings</span><span class="spec-value">20+1</span></div>
+        <div class="spec-row"><span class="spec-label">Includes</span><span class="spec-value">Drill, 2 batteries, charger, 63-pc accessory kit, carry bag</span></div>
+      </div>
+
+      <!-- Accordion FAQ -->
+      <div style="padding-bottom:32px;">
+        <div class="section-title" style="margin-bottom:0; padding-top:8px; border-top:1px solid var(--gray-border); padding-top:24px;">Frequently Asked Questions</div>
+        <div class="accordion-item">
+          <div class="accordion-header" onclick="toggleAccordion(this)">
+            Is this drill compatible with other 20V batteries?
+            <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><polyline points="4 6 8 10 12 6"/></svg>
+          </div>
+          <div class="accordion-body">The JACAT 20V battery system is proprietary. Only JACAT 20V MAX batteries are recommended for use with this tool for optimal performance and safety.</div>
+        </div>
+        <div class="accordion-item">
+          <div class="accordion-header" onclick="toggleAccordion(this)">
+            How long does it take to charge the battery?
+            <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><polyline points="4 6 8 10 12 6"/></svg>
+          </div>
+          <div class="accordion-body">The included 1-hour fast charger fully charges the 1.5 Ah battery in approximately 60 minutes. The charger features LED indicators for charge status.</div>
+        </div>
+        <div class="accordion-item">
+          <div class="accordion-header" onclick="toggleAccordion(this)">
+            Can this drill be used for masonry?
+            <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><polyline points="4 6 8 10 12 6"/></svg>
+          </div>
+          <div class="accordion-body">This is a standard drill/driver. For masonry work, a hammer drill or rotary hammer is recommended. However it can drill into soft masonry like plasterboard.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── RIGHT: PRODUCT INFO ── -->
+    <div class="product-info">
+
+      <!-- Rating + reviews line -->
+      <div class="rating-row" style="margin-bottom:8px;">
+        <div class="stars">
+          <svg class="star" viewBox="0 0 20 20" fill="#F59E0B"><path d="M10 1l2.4 6.6H19l-5.4 4 2.1 6.6L10 14.4l-5.7 3.8 2.1-6.6L1 7.6h6.6z"/></svg>
+          <svg class="star" viewBox="0 0 20 20" fill="#F59E0B"><path d="M10 1l2.4 6.6H19l-5.4 4 2.1 6.6L10 14.4l-5.7 3.8 2.1-6.6L1 7.6h6.6z"/></svg>
+          <svg class="star" viewBox="0 0 20 20" fill="#F59E0B"><path d="M10 1l2.4 6.6H19l-5.4 4 2.1 6.6L10 14.4l-5.7 3.8 2.1-6.6L1 7.6h6.6z"/></svg>
+          <svg class="star" viewBox="0 0 20 20" fill="#F59E0B"><path d="M10 1l2.4 6.6H19l-5.4 4 2.1 6.6L10 14.4l-5.7 3.8 2.1-6.6L1 7.6h6.6z"/></svg>
+          <svg class="star" viewBox="0 0 20 20" fill="#F59E0B" style="clip-path:inset(0 40% 0 0)"><path d="M10 1l2.4 6.6H19l-5.4 4 2.1 6.6L10 14.4l-5.7 3.8 2.1-6.6L1 7.6h6.6z"/></svg>
+        </div>
+        <span class="rating-num">4.6 (2,847 reviews)</span>
+        <span class="teal-badge">VERIFIED</span>
+      </div>
+
+      <!-- Product name -->
+      <h1 class="product-name">JACAT 20V MAX Cordless Drill Driver Set, 63-Piece Accessory Kit, 2 Batteries Included</h1>
+
+      <!-- Price -->
+      <div class="price-row">
+        <span class="price-main">$49.99</span>
+        <span class="price-orig">$79.99</span>
+        <span class="price-save">Save 38%</span>
+      </div>
+
+      <!-- Delivery / Add to cart -->
+      <div class="delivery-row">
+        <div class="delivery-box">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+            <rect x="1" y="3" width="15" height="13" rx="1"/>
+            <path d="M16 8h4l3 3v5h-7V8z"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/>
+          </svg>
+        </div>
+        <button class="add-to-cart-btn" onclick="addToCart()">Add to Cart</button>
+      </div>
+
+      <!-- Variant selects -->
+      <div class="variant-row">
+        <select class="variant-select" id="size-select">
+          <option>Size: Standard Kit (63-pc)</option>
+          <option>Size: Mini Kit (33-pc)</option>
+          <option>Size: Pro Kit (101-pc)</option>
+        </select>
+        <select class="variant-select qty-select" id="qty-select">
+          <option>Qty: 1</option>
+          <option>Qty: 2</option>
+          <option>Qty: 3</option>
+        </select>
+      </div>
+
+      <!-- Product info card -->
+      <div class="product-card">
+        <div style="display:flex; align-items:center; gap:12px; margin-bottom:16px;">
+          <div class="brand-logo-box">
+            <img src="[BRAND_LOGO_URL]" alt="Brand" onerror="this.style.display='none'"/>
+            <div class="brand-logo-placeholder" id="brand-placeholder"></div>
+          </div>
+          <div>
+            <div style="font-size:12px; color:var(--gray-text); margin-bottom:2px;">Sold by</div>
+            <div style="font-size:14px; font-weight:600;">JACAT Official Store</div>
+            <div style="font-size:12px; color:var(--teal); margin-top:2px;">✓ Top Rated Seller</div>
+          </div>
+        </div>
+
+        <div class="spec-row" style="border-bottom:none; padding:0; font-size:13px; color:var(--gray-text); margin-bottom:6px;">
+          <span style="color:var(--dark-text); font-weight:500;">SKU:</span>&nbsp;JACAT-20V-63PC
+        </div>
+        <div style="font-size:13px; color:var(--gray-text); display:flex; align-items:center; gap:6px;">
+          <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="8" cy="8" r="7"/><path d="M8 4v4l3 3"/></svg>
+          Ships within 1–2 business days
+        </div>
+      </div>
+
+      <!-- Info rows card -->
+      <div class="info-card">
+        <div class="info-card-row">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="1" y="3" width="15" height="13" rx="1"/><path d="M16 8h4l3 3v5h-7V8z"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
+          <div>
+            <div style="font-weight:500;">Free Delivery</div>
+            <span>Orders over $35 qualify for free standard shipping</span>
+          </div>
+          <div class="info-badge">FREE</div>
+        </div>
+        <div class="info-card-row">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 .49-4"/></svg>
+          <div>
+            <div style="font-weight:500;">30-Day Returns</div>
+            <span>Easy returns, no questions asked</span>
+          </div>
+        </div>
+        <div class="info-card-row">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          <div>
+            <div style="font-weight:500;">2-Year Warranty</div>
+            <span>Manufacturer warranty included</span>
+          </div>
+          <div class="info-badge">INCLUDED</div>
+        </div>
+      </div>
+
+      <!-- Promo card -->
+      <div class="promo-card">
+        🎉 <strong>Limited Time:</strong> Use code <strong>SAVE10</strong> for an extra 10% off. Offer ends midnight tonight. Free accessory upgrade on orders over $60.
+      </div>
+
+      <!-- Save / Wishlist -->
+      <div class="save-btn-row" onclick="toggleWishlist(this)">
+        <span class="save-text">💾 Save to Wishlist</span>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" id="wishlist-icon">
+          <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+        </svg>
+      </div>
+
+    </div><!-- / product-info -->
+  </div><!-- / pdp-grid -->
+</div><!-- / page-wrapper -->
+
+<!-- ═══ SIMILAR PRODUCTS ROW ═══ -->
+<div class="similar-row">
+  <div style="font-size:16px; font-weight:700; margin-bottom:16px;">Similar Products You May Like</div>
+  <div class="similar-inner" id="similar-row">
+    <!-- 4 similar product tiles -->
+    <div style="display:flex; gap:16px; width:100%;">
+      <div style="display:flex; flex-direction:column; align-items:flex-start; gap:8px; width:150px; flex-shrink:0;">
+        <div class="similar-thumb"><div class="similar-thumb-placeholder" style="background:var(--gray-border);"></div></div>
+        <div style="font-size:13px; font-weight:600; line-height:1.3;">JACAT 12V Drill Set</div>
+        <div style="font-size:13px; font-weight:700;">$32.99</div>
+        <button class="similar-add-btn">+ Add to Cart</button>
+      </div>
+      <div style="display:flex; flex-direction:column; align-items:flex-start; gap:8px; width:150px; flex-shrink:0;">
+        <div class="similar-thumb"><div class="similar-thumb-placeholder" style="background:var(--gray-border);"></div></div>
+        <div style="font-size:13px; font-weight:600; line-height:1.3;">JACAT Impact Driver 20V</div>
+        <div style="font-size:13px; font-weight:700;">$54.99</div>
+        <button class="similar-add-btn">+ Add to Cart</button>
+      </div>
+      <div style="display:flex; flex-direction:column; align-items:flex-start; gap:8px; width:150px; flex-shrink:0;">
+        <div class="similar-thumb"><div class="similar-thumb-placeholder" style="background:var(--gray-border);"></div></div>
+        <div style="font-size:13px; font-weight:600; line-height:1.3;">JACAT Drill Bit Set 101pc</div>
+        <div style="font-size:13px; font-weight:700;">$19.99</div>
+        <button class="similar-add-btn">+ Add to Cart</button>
+      </div>
+      <div style="display:flex; flex-direction:column; align-items:flex-start; gap:8px; width:150px; flex-shrink:0;">
+        <div class="similar-thumb"><div class="similar-thumb-placeholder" style="background:var(--gray-border);"></div></div>
+        <div style="font-size:13px; font-weight:600; line-height:1.3;">JACAT Extra Battery 20V 2Ah</div>
+        <div style="font-size:13px; font-weight:700;">$24.99</div>
+        <button class="similar-add-btn">+ Add to Cart</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ FOOTER CTA ═══ -->
+<div class="footer-cta">
+  <div>
+    <h2>Shop the full JACAT range</h2>
+    <p>Professional-grade tools for every job. Fast shipping, easy returns.</p>
+  </div>
+  <button class="footer-cta-btn">Shop All JACAT Tools →</button>
+</div>
+
+<script>
+  // Thumbnail switching
+  let currentThumb = 0;
+  const thumbSrcs = ['[THUMB_1_URL]','[THUMB_2_URL]','[THUMB_3_URL]','[THUMB_4_URL]','[THUMB_5_URL]'];
+
+  function selectThumb(idx, el) {
+    currentThumb = idx;
+    document.querySelectorAll('.thumb').forEach(t => t.classList.remove('active'));
+    el.classList.add('active');
+    const src = thumbSrcs[idx];
+    const img = document.getElementById('main-product-img');
+    img.src = src;
+    img.style.display = '';
+    document.getElementById('img-placeholder').style.display = 'none';
+  }
+
+  function changeThumb(dir) {
+    const thumbs = document.querySelectorAll('.thumb');
+    let next = (currentThumb + dir + thumbs.length) % thumbs.length;
+    selectThumb(next, thumbs[next]);
+  }
+
+  // Swatch selection
+  function selectSwatch(el, name) {
+    document.querySelectorAll('.swatch').forEach(s => s.classList.remove('active'));
+    el.classList.add('active');
+    document.getElementById('swatch-name').textContent = name;
+  }
+
+  // Wishlist toggle
+  let wishlisted = false;
+  function toggleWishlist(row) {
+    wishlisted = !wishlisted;
+    const icon = document.getElementById('wishlist-icon');
+    const text = row.querySelector('.save-text');
+    if (wishlisted) {
+      icon.style.fill = '#E5007D';
+      icon.style.stroke = '#E5007D';
+      text.textContent = '❤️ Saved to Wishlist';
+    } else {
+      icon.style.fill = 'none';
+      icon.style.stroke = 'currentColor';
+      text.textContent = '💾 Save to Wishlist';
+    }
+  }
+
+  // Add to cart feedback
+  function addToCart() {
+    const btn = document.querySelector('.add-to-cart-btn');
+    btn.textContent = '✓ Added to Cart!';
+    btn.style.background = '#2E7D32';
+    setTimeout(() => {
+      btn.textContent = 'Add to Cart';
+      btn.style.background = '';
+    }, 2000);
+  }
+
+  // Accordion
+  function toggleAccordion(header) {
+    const body = header.nextElementSibling;
+    const isOpen = header.classList.contains('open');
+    // close all
+    document.querySelectorAll('.accordion-header').forEach(h => {
+      h.classList.remove('open');
+      h.nextElementSibling.classList.remove('open');
+    });
+    if (!isOpen) {
+      header.classList.add('open');
+      body.classList.add('open');
+    }
+  }
+
+  // Handle image load errors gracefully — show placeholder
+  document.getElementById('main-product-img').addEventListener('error', function() {
+    this.style.display = 'none';
+    document.getElementById('img-placeholder').style.display = 'flex';
+  });
+
+  // On load, if the src contains a placeholder URL, show placeholder
+  window.addEventListener('load', () => {
+    const img = document.getElementById('main-product-img');
+    if (img.src.includes('[MAIN_PRODUCT_IMAGE_URL]') || !img.complete || img.naturalWidth === 0) {
+      img.style.display = 'none';
+      document.getElementById('img-placeholder').style.display = 'flex';
+    }
+  });
+</script>
+
+</body>
+</html>
