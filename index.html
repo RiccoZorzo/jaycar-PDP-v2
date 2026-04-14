@@ -27,6 +27,8 @@
 ║        Thumbs also use contain. Prevents product cropping.      ║
 ║  v2.6  Lightbox rebuilt for 1400×1400 DAM standard: square box  ║
 ║        (864×864), zero padding, #f8f8f8 bg blends JPG whites.   ║
+║  v2.7  Zoom modal: click-to-zoom, scroll/pinch zoom, drag pan,  ║
+║        thumb strip in modal, blurred PDP bg, keyboard nav.      ║
 ╚══════════════════════════════════════════════════════════════════╝
 -->
 <html lang="en">
@@ -1267,6 +1269,161 @@
     transition: opacity 0.15s;
   }
   .sticky-atc-btn:hover { opacity: 0.9; }
+
+  /* ── ZOOM MODAL ── */
+  .zoom-modal-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 2000;
+    background: rgba(0,0,0,0.7);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    align-items: center;
+    justify-content: center;
+    animation: zoomFadeIn 0.2s ease;
+  }
+  .zoom-modal-overlay.open { display: flex; }
+  @keyframes zoomFadeIn {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+  }
+
+  /* Blur the PDP content behind the modal */
+  body.zoom-open .page-wrapper,
+  body.zoom-open .breadcrumb-bar,
+  body.zoom-open .similar-row,
+  body.zoom-open footer {
+    filter: blur(4px);
+    transition: filter 0.2s;
+  }
+
+  .zoom-modal {
+    position: relative;
+    background: #f8f8f8;
+    border-radius: 12px;
+    width: 90vw;
+    max-width: 900px;
+    aspect-ratio: 1;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    box-shadow: 0 24px 80px rgba(0,0,0,0.4);
+  }
+
+  /* Close button */
+  .zoom-close {
+    position: absolute;
+    top: 14px; right: 14px;
+    width: 36px; height: 36px;
+    background: white;
+    border: 1px solid var(--gray-border);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer;
+    z-index: 10;
+    font-size: 18px;
+    color: var(--dark-text);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.12);
+    transition: box-shadow 0.15s;
+  }
+  .zoom-close:hover { box-shadow: 0 4px 14px rgba(0,0,0,0.2); }
+
+  /* Zoom image container */
+  .zoom-img-container {
+    flex: 1;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: zoom-in;
+    position: relative;
+  }
+  .zoom-img-container.zoomed { cursor: zoom-out; }
+  .zoom-img-container.panning { cursor: grabbing; }
+
+  .zoom-img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+    transform-origin: center center;
+    transform: scale(1) translate(0px, 0px);
+    transition: transform 0.25s ease;
+    user-select: none;
+    pointer-events: none;
+  }
+  .zoom-img.no-transition { transition: none; }
+
+  /* Zoom controls */
+  .zoom-controls {
+    position: absolute;
+    bottom: 90px; right: 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    z-index: 10;
+  }
+  .zoom-ctrl-btn {
+    width: 34px; height: 34px;
+    background: white;
+    border: 1px solid var(--gray-border);
+    border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer;
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--dark-text);
+    box-shadow: 0 1px 4px rgba(0,0,0,0.10);
+    transition: box-shadow 0.15s;
+  }
+  .zoom-ctrl-btn:hover { box-shadow: 0 3px 10px rgba(0,0,0,0.15); }
+
+  /* Zoom thumbnail strip */
+  .zoom-thumb-strip {
+    position: absolute;
+    bottom: 16px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 8px;
+    z-index: 10;
+    background: rgba(255,255,255,0.82);
+    backdrop-filter: blur(6px);
+    padding: 6px 8px;
+    border-radius: 10px;
+    border: 1px solid rgba(255,255,255,0.9);
+  }
+  .zoom-thumb {
+    width: 52px; height: 52px;
+    border-radius: 6px;
+    background: #f8f8f8;
+    border: 2px solid transparent;
+    overflow: hidden;
+    cursor: pointer;
+    flex-shrink: 0;
+    transition: border-color 0.15s;
+  }
+  .zoom-thumb.active { border-color: var(--navy); }
+  .zoom-thumb:hover:not(.active) { border-color: var(--gray-mid); }
+  .zoom-thumb img { width: 100%; height: 100%; object-fit: contain; padding: 2px; background: #f8f8f8; }
+
+  /* Zoom hint */
+  .zoom-hint {
+    position: absolute;
+    bottom: 90px; left: 14px;
+    background: rgba(0,0,0,0.45);
+    color: white;
+    font-size: 11px;
+    padding: 5px 10px;
+    border-radius: 6px;
+    pointer-events: none;
+    opacity: 1;
+    transition: opacity 0.4s;
+  }
+  .zoom-hint.hidden { opacity: 0; }
+
+  /* Make main lightbox show zoom cursor */
+  .main-image-wrap { cursor: zoom-in; }
 </style>
 </head>
 <body>
@@ -1310,8 +1467,8 @@
           <span style="color:#8692A6;">v2.1</span><span>Pill/circle stepper + ATC border-radius</span>
           <span style="color:#8692A6;">v2.2</span><span>Squircle stepper: grey minus, navy plus</span>
           <span style="color:#8692A6;font-weight:400;">v2.3</span><span style="font-weight:400;">Figtree font, 20×20 stepper, spec ticks removed, footer image, version tooltip</span>
-          <span style="color:#8692A6;font-weight:400;">v2.5</span><span style="font-weight:400;">Image guiderails: object-fit contain + 24px padding</span>
-          <span style="color:#8692A6;font-weight:700;">v2.6</span><span style="font-weight:700;">864×864 square box, zero padding, #f8f8f8 blends JPG whites ← current</span>
+          <span style="color:#8692A6;font-weight:400;">v2.6</span><span style="font-weight:400;">864×864 square box, zero padding, #f8f8f8 blends JPG whites</span>
+          <span style="color:#8692A6;font-weight:700;">v2.7</span><span style="font-weight:700;">Zoom modal: click/scroll zoom, drag pan, thumb strip, blur bg ← current</span>
         </div>
       </div>
     </div>
@@ -1405,7 +1562,7 @@
 
     <!-- ── LEFT: GALLERY ── -->
     <div class="gallery-section">
-      <div class="main-image-wrap" id="main-img-wrap">
+      <div class="main-image-wrap" id="main-img-wrap" onclick="openZoomModal(currentThumb)">
 
         <!-- Main product image -->
         <img id="main-product-img" src="https://media.jaycar.com.au/product/images/GH2300_30l-brass-monkey-portable-fridge-freezer-cfr30_168606.jpg?format=webp&width=1000" alt="Product" onerror="this.style.display='none'; document.getElementById('img-placeholder').style.display='flex'"/>
@@ -2092,9 +2249,201 @@
       document.getElementById('img-placeholder').style.display = 'flex';
     }
   });
+
+  // ── ZOOM MODAL ──
+  const mainSrc = 'https://media.jaycar.com.au/product/images/GH2300_30l-brass-monkey-portable-fridge-freezer-cfr30_168606.jpg?format=webp&width=1000';
+  let zoomScale = 1;
+  let zoomX = 0, zoomY = 0;
+  let isPanning = false, panStartX = 0, panStartY = 0, panOriginX = 0, panOriginY = 0;
+  let zoomActiveIdx = 0;
+
+  // All sources: index 0 = main image, 1-5 = thumbs
+  function getZoomSrcs() {
+    return [mainSrc, ...thumbSrcs];
+  }
+
+  function openZoomModal(thumbIdx) {
+    // thumbIdx: -1 = main, 0-4 = thumbs. We open whichever is currently shown.
+    const srcs = getZoomSrcs();
+    // current shown src
+    const currentSrc = document.getElementById('main-product-img').src;
+    zoomActiveIdx = srcs.indexOf(currentSrc);
+    if (zoomActiveIdx < 0) zoomActiveIdx = 0;
+
+    resetZoom(false);
+    setZoomImage(zoomActiveIdx);
+    buildZoomThumbs();
+
+    document.getElementById('zoom-modal-overlay').classList.add('open');
+    document.body.classList.add('zoom-open');
+    document.body.style.overflow = 'hidden';
+
+    // Hide hint after 2.5s
+    setTimeout(() => {
+      const hint = document.getElementById('zoom-hint');
+      if (hint) hint.classList.add('hidden');
+    }, 2500);
+
+    // Keyboard nav
+    document.addEventListener('keydown', zoomKeyHandler);
+  }
+
+  function closeZoomModal() {
+    document.getElementById('zoom-modal-overlay').classList.remove('open');
+    document.body.classList.remove('zoom-open');
+    document.body.style.overflow = '';
+    resetZoom(false);
+    document.removeEventListener('keydown', zoomKeyHandler);
+    document.getElementById('zoom-hint').classList.remove('hidden');
+  }
+
+  function handleZoomOverlayClick(e) {
+    if (e.target === document.getElementById('zoom-modal-overlay')) closeZoomModal();
+  }
+
+  function setZoomImage(idx) {
+    const srcs = getZoomSrcs();
+    idx = ((idx % srcs.length) + srcs.length) % srcs.length;
+    zoomActiveIdx = idx;
+    const zImg = document.getElementById('zoom-img');
+    zImg.src = srcs[idx];
+    resetZoom(false);
+    // Update zoom thumb active state
+    document.querySelectorAll('.zoom-thumb').forEach((t, i) => {
+      t.classList.toggle('active', i === idx);
+    });
+    // Also sync main lightbox
+    const mainImg = document.getElementById('main-product-img');
+    mainImg.src = srcs[idx];
+    document.querySelectorAll('.thumb').forEach((t, i) => {
+      t.classList.toggle('active', i === idx);
+    });
+    if (idx < thumbSrcs.length) currentThumb = idx;
+  }
+
+  function buildZoomThumbs() {
+    const srcs = getZoomSrcs();
+    const strip = document.getElementById('zoom-thumb-strip');
+    strip.innerHTML = '';
+    srcs.forEach((src, i) => {
+      const d = document.createElement('div');
+      d.className = 'zoom-thumb' + (i === zoomActiveIdx ? ' active' : '');
+      d.onclick = () => setZoomImage(i);
+      const img = document.createElement('img');
+      img.src = src;
+      img.alt = 'Thumb ' + i;
+      d.appendChild(img);
+      strip.appendChild(d);
+    });
+  }
+
+  function applyZoomTransform(animate) {
+    const zImg = document.getElementById('zoom-img');
+    if (!animate) zImg.classList.add('no-transition');
+    zImg.style.transform = `scale(${zoomScale}) translate(${zoomX / zoomScale}px, ${zoomY / zoomScale}px)`;
+    if (!animate) requestAnimationFrame(() => zImg.classList.remove('no-transition'));
+    const container = document.getElementById('zoom-img-container');
+    container.classList.toggle('zoomed', zoomScale > 1);
+  }
+
+  function toggleZoom(e) {
+    if (isPanning) return;
+    if (zoomScale > 1) {
+      resetZoom(true);
+    } else {
+      // zoom into click point
+      const rect = e.currentTarget.getBoundingClientRect();
+      const cx = e.clientX - rect.left - rect.width / 2;
+      const cy = e.clientY - rect.top - rect.height / 2;
+      zoomScale = 2.5;
+      zoomX = -cx * (zoomScale - 1) / zoomScale;
+      zoomY = -cy * (zoomScale - 1) / zoomScale;
+      applyZoomTransform(true);
+    }
+  }
+
+  function adjustZoom(delta) {
+    zoomScale = Math.min(5, Math.max(1, zoomScale + delta));
+    if (zoomScale === 1) { zoomX = 0; zoomY = 0; }
+    applyZoomTransform(true);
+  }
+
+  function wheelZoom(e) {
+    e.preventDefault();
+    const delta = e.deltaY > 0 ? -0.3 : 0.3;
+    zoomScale = Math.min(5, Math.max(1, zoomScale + delta));
+    if (zoomScale === 1) { zoomX = 0; zoomY = 0; }
+    applyZoomTransform(false);
+  }
+
+  function resetZoom(animate) {
+    zoomScale = 1; zoomX = 0; zoomY = 0;
+    applyZoomTransform(animate !== false);
+  }
+
+  // Drag to pan when zoomed
+  const zoomContainer = document.getElementById('zoom-img-container');
+  if (zoomContainer) {
+    zoomContainer.addEventListener('mousedown', e => {
+      if (zoomScale <= 1) return;
+      isPanning = true;
+      panStartX = e.clientX;
+      panStartY = e.clientY;
+      panOriginX = zoomX;
+      panOriginY = zoomY;
+      zoomContainer.classList.add('panning');
+    });
+    window.addEventListener('mousemove', e => {
+      if (!isPanning) return;
+      zoomX = panOriginX + (e.clientX - panStartX);
+      zoomY = panOriginY + (e.clientY - panStartY);
+      applyZoomTransform(false);
+    });
+    window.addEventListener('mouseup', () => {
+      if (!isPanning) return;
+      isPanning = false;
+      zoomContainer.classList.remove('panning');
+    });
+  }
+
+  function zoomKeyHandler(e) {
+    if (e.key === 'Escape') closeZoomModal();
+    if (e.key === 'ArrowRight') setZoomImage(zoomActiveIdx + 1);
+    if (e.key === 'ArrowLeft') setZoomImage(zoomActiveIdx - 1);
+    if (e.key === '+' || e.key === '=') adjustZoom(0.4);
+    if (e.key === '-') adjustZoom(-0.4);
+  }
 </script>
 
-<!-- ═══ SPARE PARTS MODAL ═══ (disabled - coming soon) -->
+<!-- ═══ ZOOM MODAL ═══ -->
+<div class="zoom-modal-overlay" id="zoom-modal-overlay" onclick="handleZoomOverlayClick(event)">
+  <div class="zoom-modal" id="zoom-modal" onclick="event.stopPropagation()">
+
+    <!-- Close -->
+    <button class="zoom-close" onclick="closeZoomModal()" aria-label="Close zoom">✕</button>
+
+    <!-- Zoom hint -->
+    <div class="zoom-hint" id="zoom-hint">Click to zoom · Scroll to zoom</div>
+
+    <!-- Image -->
+    <div class="zoom-img-container" id="zoom-img-container"
+         onclick="toggleZoom(event)"
+         onwheel="wheelZoom(event)">
+      <img id="zoom-img" class="zoom-img" src="" alt="Zoomed product image" draggable="false"/>
+    </div>
+
+    <!-- +/- controls -->
+    <div class="zoom-controls">
+      <button class="zoom-ctrl-btn" onclick="adjustZoom(0.4)" title="Zoom in">+</button>
+      <button class="zoom-ctrl-btn" onclick="adjustZoom(-0.4)" title="Zoom out">−</button>
+      <button class="zoom-ctrl-btn" onclick="resetZoom()" title="Reset" style="font-size:13px;">⟲</button>
+    </div>
+
+    <!-- Thumbnail strip -->
+    <div class="zoom-thumb-strip" id="zoom-thumb-strip"></div>
+
+  </div>
+</div>
 
 </body>
 </html>
