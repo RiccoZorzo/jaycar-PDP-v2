@@ -1,12 +1,52 @@
 <!DOCTYPE html>
+<!--
+╔══════════════════════════════════════════════════════════════════╗
+║  JAYCAR PDP — VERSION HISTORY                                    ║
+╠══════════════════════════════════════════════════════════════════╣
+║  v1.0  Initial SVG-to-HTML conversion. Basic PDP layout.        ║
+║  v1.1  Lightbox updated: thumbs inside, brand logo top-right,   ║
+║        arrows inset. jsDelivr image CDN.                        ║
+║  v1.2  Tabbed section added: Overview, Specs, Reviews (24).     ║
+║        Features tab added then removed on request.              ║
+║  v1.3  Right side rebuilt: product name, bulk pricing,          ║
+║        qty stepper, trust strip, delivery options card.         ║
+║  v1.4  Downloads tab added. Breadcrumb updated. Main image      ║
+║        set to GitHub raw URL. Delivery card added below right.  ║
+║        Page padding reduced 15%.                                ║
+║  v1.5  Spare parts button + BNPL logos added. Modal built       ║
+║        then simplified (open/close removed). Nav logo updated.  ║
+║  v1.6  Jaycar media CDN images. 5 thumbnails wired up.          ║
+║  v1.7  Two-row header (nav-top + nav-bottom). Similar products  ║
+║        rebuilt as card grid. Main image height increased.       ║
+║  v1.8  Nav icons updated to PNG images (Account/Lists/Cart).    ║
+║        Full footer added with compact call centre hours table.  ║
+║  v1.9  Sticky ATC bar added (IntersectionObserver). Synced qty. ║
+║  v2.0  Brand logo box 80×80. Nav made position:fixed.           ║
+║        Body padding-top:106px. Sticky bar below fixed nav.      ║
+║  v2.1  Qty stepper + ATC button updated to pill/circle style    ║
+║        on both main and sticky bar. Version history added.      ║
+║  v2.2  Stepper updated to squircle: grey minus, navy plus.      ║
+║        ATC button border-radius: 4px. Both main + sticky.       ║
+║  v2.3  Font changed to Figtree (body) + ExtraBold 800 headers.  ║
+║        Qty stepper reduced to 20×20. All blues → #0C254C.       ║
+║        ATC → #F18805. Special Order → #E5007D. Best Value →     ║
+║        #56BFC9. Read All Reviews links to reviews tab.          ║
+╚══════════════════════════════════════════════════════════════════╝
+-->
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Product Detail Page</title>
-<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=DM+Serif+Display&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  h1, h2, h3, h4, h5, h6,
+  .product-name, .section-title, .spec-group-title,
+  .similar-heading, .footer-col-title, .bulk-tier-qty,
+  .delivery-option-title, .reviewer-name, .spare-modal-title,
+  .tab-btn.active { font-weight: 800; }
 
   :root {
     --navy: #0C254C;
@@ -21,8 +61,8 @@
     --gray-mid: #A8A8A8;
     --dark-text: #0C254C;
     --white: #fff;
-    --font: 'DM Sans', sans-serif;
-    --font-display: 'DM Serif Display', serif;
+    --font: 'Figtree', sans-serif;
+    --font-display: 'Figtree', sans-serif;
   }
 
   body {
@@ -31,6 +71,7 @@
     color: var(--dark-text);
     font-size: 14px;
     min-width: 1440px;
+    padding-top: 106px;
   }
 
   /* ── NAVBAR ── */
@@ -39,6 +80,11 @@
     display: flex;
     flex-direction: column;
     padding: 0;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 600;
   }
 
   /* Top row: logo + search + actions */
@@ -235,22 +281,23 @@
   .gallery-brand-logo {
     position: absolute;
     top: 14px; right: 14px;
-    width: 90px; height: 42px;
+    width: 80px; height: 80px;
     background: white;
     border: 1px solid var(--gray-border);
-    border-radius: 4px;
+    border-radius: 8px;
     display: flex; align-items: center; justify-content: center;
     z-index: 3;
     overflow: hidden;
-    padding: 4px 8px;
+    padding: 10px;
     cursor: pointer;
     text-decoration: none;
     transition: box-shadow 0.15s;
   }
   .gallery-brand-logo:hover { box-shadow: 0 2px 8px rgba(0,0,0,0.15); }
   .gallery-brand-logo img {
-    max-width: 100%; max-height: 100%;
+    width: 100%; height: 100%;
     object-fit: contain;
+    display: block;
   }
   .gallery-brand-logo .brand-text {
     font-size: 12px; font-weight: 700;
@@ -482,43 +529,48 @@
   .qty-stepper {
     display: flex;
     align-items: center;
-    border: 1px solid var(--gray-border);
-    border-radius: 8px;
-    overflow: hidden;
-    height: 48px;
+    background: white;
+    border: 1.5px solid var(--gray-border);
+    border-radius: 10px;
+    height: 42px;
+    padding: 0 8px;
+    gap: 8px;
     flex-shrink: 0;
   }
   .qty-btn {
-    width: 40px; height: 48px;
-    background: white;
+    width: 20px; height: 20px;
     border: none;
+    border-radius: 6px;
     cursor: pointer;
     display: flex; align-items: center; justify-content: center;
-    transition: background 0.15s;
-    color: var(--dark-text);
+    font-size: 13px;
+    font-weight: 800;
+    flex-shrink: 0;
+    transition: opacity 0.15s;
+    line-height: 1;
   }
-  .qty-btn:hover { background: var(--gray-bg); }
+  .qty-btn:first-child { background: #c8c8cc; color: white; }
+  .qty-btn:first-child:hover { opacity: 0.85; }
+  .qty-btn:last-child { background: var(--navy); color: white; }
+  .qty-btn:last-child:hover { opacity: 0.85; }
   .qty-val {
-    min-width: 36px;
+    min-width: 28px;
     text-align: center;
     font-size: 15px;
-    font-weight: 600;
+    font-weight: 700;
     color: var(--dark-text);
-    border-left: 1px solid var(--gray-border);
-    border-right: 1px solid var(--gray-border);
-    height: 48px;
-    display: flex; align-items: center; justify-content: center;
+    padding: 0 2px;
   }
   .add-to-cart-btn {
     flex: 1;
-    height: 48px;
+    height: 42px;
     background: var(--orange);
     color: white;
     border: none;
-    border-radius: 8px;
+    border-radius: 4px;
     font-family: var(--font);
     font-size: 15px;
-    font-weight: 600;
+    font-weight: 800;
     cursor: pointer;
     transition: opacity 0.15s;
   }
@@ -1009,7 +1061,7 @@
     align-items: center;
     width: 100%;
     padding: 14px 16px;
-    border: 1.5px solid #2196f3;
+    border: 1.5px solid var(--navy);
     border-radius: 10px;
     background: white;
     cursor: pointer;
@@ -1025,7 +1077,7 @@
     display: flex; align-items: center; justify-content: center;
     flex-shrink: 0;
   }
-  .spare-parts-icon svg { width: 18px; height: 18px; color: #2196f3; }
+  .spare-parts-icon svg { width: 18px; height: 18px; color: var(--navy); }
   .spare-parts-label {
     font-size: 14px;
     font-weight: 600;
@@ -1123,23 +1175,25 @@
   /* ── STICKY ATC BAR ── */
   .sticky-atc-bar {
     position: fixed;
-    top: 0;
+    top: 106px;
     left: 0;
     right: 0;
-    z-index: 500;
-    background: white;
+    z-index: 499;
+    background: #f4f5f7;
+    border-top: 1px solid var(--gray-border);
     border-bottom: 1px solid var(--gray-border);
-    box-shadow: 0 2px 12px rgba(0,0,0,0.10);
-    transform: translateY(-100%);
-    transition: transform 0.25s ease;
-    height: 64px;
+    height: 56px;
     display: flex;
     align-items: center;
     padding: 0 68px;
-    gap: 24px;
+    gap: 20px;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.25s ease;
   }
   .sticky-atc-bar.visible {
-    transform: translateY(0);
+    opacity: 1;
+    pointer-events: all;
   }
   .sticky-atc-name {
     font-size: 15px;
@@ -1154,49 +1208,54 @@
   .sticky-atc-controls {
     display: flex;
     align-items: center;
-    gap: 12px;
+    gap: 10px;
     flex-shrink: 0;
   }
   .sticky-qty-stepper {
     display: flex;
     align-items: center;
-    border: 1px solid var(--gray-border);
-    border-radius: 8px;
-    overflow: hidden;
-    height: 40px;
+    background: white;
+    border: 1.5px solid var(--gray-border);
+    border-radius: 10px;
+    height: 38px;
+    padding: 0 8px;
+    gap: 8px;
   }
   .sticky-qty-btn {
-    width: 36px; height: 40px;
-    background: white;
+    width: 20px; height: 20px;
     border: none;
+    border-radius: 6px;
     cursor: pointer;
     display: flex; align-items: center; justify-content: center;
-    font-size: 18px;
-    color: var(--dark-text);
-    transition: background 0.15s;
+    font-size: 13px;
+    font-weight: 800;
+    color: white;
+    flex-shrink: 0;
+    transition: opacity 0.15s;
+    line-height: 1;
   }
-  .sticky-qty-btn:hover { background: var(--gray-bg); }
+  .sticky-qty-btn:first-child { background: #c8c8cc; }
+  .sticky-qty-btn:first-child:hover { opacity: 0.85; }
+  .sticky-qty-btn:last-child { background: var(--navy); }
+  .sticky-qty-btn:last-child:hover { opacity: 0.85; }
   .sticky-qty-val {
-    min-width: 32px;
+    min-width: 26px;
     text-align: center;
     font-size: 14px;
-    font-weight: 600;
+    font-weight: 700;
     color: var(--dark-text);
-    border-left: 1px solid var(--gray-border);
-    border-right: 1px solid var(--gray-border);
-    height: 40px;
-    display: flex; align-items: center; justify-content: center;
+    padding: 0 2px;
   }
   .sticky-atc-btn {
-    height: 40px;
-    padding: 0 32px;
+    height: 38px;
+    padding: 0 36px;
     background: var(--orange);
     color: white;
     border: none;
-    border-radius: 8px;
+    border-radius: 4px;
     font-family: var(--font);
     font-size: 14px;
-    font-weight: 700;
+    font-weight: 800;
     cursor: pointer;
     white-space: nowrap;
     transition: opacity 0.15s;
@@ -1402,7 +1461,7 @@
       </div>
 
       <!-- ═══ TABBED SECTION ═══ -->
-      <div class="pdp-tabs" style="margin-top:20px;">
+      <div class="pdp-tabs" id="pdp-tabs" style="margin-top:20px;">
 
         <!-- Tab bar -->
         <div class="tab-bar">
@@ -1565,7 +1624,7 @@
         </div>
         <span class="rating-score">5.0</span>
         <span class="rating-count">(12)</span>
-        <a href="#tab-reviews" class="read-reviews-link" onclick="switchTab('reviews', document.querySelectorAll('.tab-btn')[2])">Read all reviews</a>
+        <a href="#pdp-tabs" class="read-reviews-link" onclick="openReviewsTab(event)">Read all reviews</a>
       </div>
 
       <!-- Price block -->
@@ -1710,16 +1769,16 @@
       <!-- Buy now pay later logos -->
       <div class="bnpl-row">
         <div class="bnpl-logo bnpl-paypal">
-          <span style="color:#003087;font-weight:800;font-size:15px;font-family:'DM Sans',sans-serif;">Pay</span><span style="color:#009cde;font-weight:800;font-size:15px;font-family:'DM Sans',sans-serif;">Pal</span>
+          <span style="color:#003087;font-weight:800;font-size:15px;font-family:'Figtree',sans-serif;">Pay</span><span style="color:#009cde;font-weight:800;font-size:15px;font-family:'Figtree',sans-serif;">Pal</span>
         </div>
         <div class="bnpl-logo bnpl-afterpay">
           <span style="background:#B2FCE4;padding:4px 10px;border-radius:20px;font-size:12px;font-weight:700;color:#000;white-space:nowrap;">afterpay ⇌</span>
         </div>
         <div class="bnpl-logo bnpl-zip">
-          <span style="font-size:18px;font-weight:900;color:#1a0050;font-family:'DM Sans',sans-serif;">zi</span><span style="font-size:18px;font-weight:900;color:#aa8fff;font-family:'DM Sans',sans-serif;">p</span>
+          <span style="font-size:18px;font-weight:900;color:#1a0050;font-family:'Figtree',sans-serif;">zi</span><span style="font-size:18px;font-weight:900;color:#aa8fff;font-family:'Figtree',sans-serif;">p</span>
         </div>
         <div class="bnpl-logo bnpl-latitude">
-          <span style="font-size:11px;font-weight:700;letter-spacing:1px;color:#555;border:1.5px dashed #aaa;padding:3px 7px;border-radius:3px;white-space:nowrap;font-family:'DM Sans',sans-serif;">LATITUDE</span>
+          <span style="font-size:11px;font-weight:700;letter-spacing:1px;color:#555;border:1.5px dashed #aaa;padding:3px 7px;border-radius:3px;white-space:nowrap;font-family:'Figtree',sans-serif;">LATITUDE</span>
         </div>
       </div>
 
@@ -1869,6 +1928,19 @@
     document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
     btn.classList.add('active');
     document.getElementById('tab-' + id).classList.add('active');
+  }
+
+  // Read all reviews — opens reviews tab and scrolls to it
+  function openReviewsTab(e) {
+    e.preventDefault();
+    const reviewsBtn = document.querySelectorAll('.tab-btn')[2];
+    switchTab('reviews', reviewsBtn);
+    const tabs = document.getElementById('pdp-tabs');
+    if (tabs) {
+      setTimeout(() => {
+        tabs.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }, 50);
+    }
   }
 
   // Thumbnail switching
