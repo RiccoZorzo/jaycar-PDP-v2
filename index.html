@@ -51,6 +51,8 @@
 ║        zoom modal and thumbnails.                               ║
 ║  v3.8  Card body bg → #f8f8f8 to match image area, removes     ║
 ║        two-tone grey split between image and text zone.         ║
+║  v3.9  Similar cards: all bg → #ffffff to match vercel source   ║
+║        image white JPGs exactly. Border 1px #ebebeb added.      ║
 ╚══════════════════════════════════════════════════════════════════╝
 -->
 <html lang="en">
@@ -717,10 +719,10 @@
     gap: 12px;
   }
   .similar-card {
-    background: #f8f8f8;
+    background: #ffffff;
     border-radius: 8px;
     overflow: hidden;
-    border: none;
+    border: 1px solid #ebebeb;
     display: flex;
     flex-direction: column;
     cursor: pointer;
@@ -730,7 +732,7 @@
   .similar-card-img {
     width: 100%;
     height: 180px;
-    background: #f8f8f8;
+    background: #ffffff;
     overflow: hidden;
     position: relative;
     flex-shrink: 0;
@@ -739,8 +741,7 @@
     width: 100%; height: 100%;
     object-fit: contain;
     padding: 0;
-    background: #f8f8f8;
-    mix-blend-mode: multiply;   /* dissolves white JPG backgrounds into the container */
+    background: #ffffff;
     transition: transform 0.25s;
   }
   .similar-card:hover .similar-card-img img { transform: scale(1.04); }
@@ -762,7 +763,7 @@
     display: flex;
     flex-direction: column;
     flex: 1;
-    background: #f8f8f8;
+    background: #ffffff;
   }
   .similar-card-brand {
     font-size: 9px;
@@ -1589,7 +1590,8 @@
           <span style="color:#8692A6;font-weight:400;">v3.0</span><span style="font-weight:400;">Zoom trigger: JS addEventListener on img only, thumbs/arrows excluded</span>
           <span style="color:#8692A6;font-weight:400;">v3.4</span><span style="font-weight:400;">Similar cards: 180px fixed img, borderless, 2-line clamp, max-width constrained</span>
           <span style="color:#8692A6;font-weight:400;">v3.7</span><span style="font-weight:400;">mix-blend-mode: multiply on all images — white JPG bgs fully dissolved</span>
-          <span style="color:#8692A6;font-weight:700;">v3.8</span><span style="font-weight:700;">Card body bg → #f8f8f8, removes two-tone grey split ← current</span>
+          <span style="color:#8692A6;font-weight:400;">v3.8</span><span style="font-weight:400;">Card body bg → #f8f8f8, removes two-tone grey split</span>
+          <span style="color:#8692A6;font-weight:700;">v3.9</span><span style="font-weight:700;">Similar cards bg → #ffffff matches source JPG whites exactly ← current</span>
         </div>
       </div>
     </div>
