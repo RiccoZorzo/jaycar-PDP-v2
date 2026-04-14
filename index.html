@@ -31,6 +31,8 @@
 ║        Qty stepper reduced to 20×20. All blues → #0C254C.       ║
 ║        ATC → #F18805. Special Order → #E5007D. Best Value →     ║
 ║        #56BFC9. Read All Reviews links to reviews tab.          ║
+║  v2.4  Gallery rebuilt: full-bleed cover image, frosted thumb   ║
+║        strip overlaid at bottom, light grey border box.         ║
 ╚══════════════════════════════════════════════════════════════════╝
 -->
 <html lang="en">
@@ -238,9 +240,10 @@
   .main-image-wrap {
     position: relative;
     width: 864px;
-    height: 660px;
-    background: var(--gray-bg);
-    border-radius: 4px;
+    height: 620px;
+    background: #f0f2f5;
+    border-radius: 8px;
+    border: 1.5px solid var(--gray-border);
     overflow: hidden;
     display: flex;
     align-items: center;
@@ -248,18 +251,17 @@
   }
   .main-image-wrap > img#main-product-img {
     width: 100%; height: 100%;
-    object-fit: contain;
+    object-fit: cover;
     display: block;
-    padding: 16px;
+    transition: opacity 0.2s;
   }
   .main-image-placeholder {
     width: 100%; height: 100%;
-    background: var(--gray-bg);
+    background: #f0f2f5;
     display: flex;
     align-items: center;
     justify-content: center;
     color: var(--gray-border);
-    font-size: 13px;
   }
 
   /* Badge top-left */
@@ -269,15 +271,15 @@
     background: var(--pink);
     color: white;
     font-size: 10px;
-    font-weight: 700;
-    padding: 4px 10px;
+    font-weight: 800;
+    padding: 5px 11px;
     border-radius: 4px;
     letter-spacing: 0.6px;
     text-transform: uppercase;
     z-index: 3;
   }
 
-  /* Brand logo box — top right inside lightbox */
+  /* Brand logo box — top right */
   .gallery-brand-logo {
     position: absolute;
     top: 14px; right: 14px;
@@ -306,66 +308,66 @@
   }
   .gallery-brand-logo .brand-text svg { width: 12px; height: 12px; }
 
-  /* Prev/Next nav arrows — inset inside the image */
+  /* Prev/Next nav arrows */
   .gallery-nav {
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
     width: 36px; height: 36px;
-    background: white;
+    background: rgba(255,255,255,0.92);
     border: 1px solid var(--gray-border);
     border-radius: 50%;
     display: flex; align-items: center; justify-content: center;
     cursor: pointer;
-    transition: box-shadow 0.2s;
+    transition: box-shadow 0.2s, background 0.15s;
     z-index: 4;
-    box-shadow: 0 1px 4px rgba(0,0,0,0.10);
+    box-shadow: 0 1px 4px rgba(0,0,0,0.12);
   }
-  .gallery-nav:hover { box-shadow: 0 4px 12px rgba(0,0,0,0.18); }
-  /* Arrows sit inside the lightbox, not overhanging */
-  .gallery-nav.prev { left: 16px; }
-  .gallery-nav.next { right: 16px; }
+  .gallery-nav:hover { background: white; box-shadow: 0 4px 12px rgba(0,0,0,0.18); }
+  .gallery-nav.prev { left: 14px; }
+  .gallery-nav.next { right: 14px; }
   .gallery-nav svg { width: 14px; height: 14px; color: var(--dark-text); }
 
-  /* Thumbnail strip — centred at bottom of lightbox, INSIDE */
+  /* Thumbnail strip — centred at bottom, inside image, with frosted backing */
   .thumb-strip {
     position: absolute;
-    bottom: 14px;
+    bottom: 16px;
     left: 50%;
     transform: translateX(-50%);
     display: flex;
     gap: 8px;
     z-index: 4;
+    background: rgba(255,255,255,0.75);
+    backdrop-filter: blur(6px);
+    padding: 6px 8px;
+    border-radius: 10px;
+    border: 1px solid rgba(255,255,255,0.9);
   }
   .thumb {
-    width: 52px; height: 52px;
-    border-radius: 4px;
+    width: 56px; height: 56px;
+    border-radius: 6px;
     background: white;
-    border: 2px solid var(--gray-border);
+    border: 2px solid transparent;
     overflow: hidden;
     cursor: pointer;
     flex-shrink: 0;
     transition: border-color 0.15s, box-shadow 0.15s;
-    box-shadow: 0 1px 4px rgba(0,0,0,0.10);
+    box-shadow: 0 1px 4px rgba(0,0,0,0.12);
   }
   .thumb.active {
-    border-color: var(--dark-text);
-    box-shadow: 0 0 0 1px white inset, 0 2px 6px rgba(0,0,0,0.15);
+    border-color: var(--navy);
+    box-shadow: 0 0 0 1px var(--navy);
   }
   .thumb:hover:not(.active) { border-color: var(--gray-mid); }
   .thumb img { width: 100%; height: 100%; object-fit: cover; }
-  .thumb-placeholder {
-    width: 100%; height: 100%;
-    background: var(--gray-bg);
-  }
+  .thumb-placeholder { width: 100%; height: 100%; background: var(--gray-bg); }
 
-  /* Video play overlay — last thumb is a play icon */
+  /* Video/play thumb */
   .thumb-play {
-    width: 52px; height: 52px;
-    border-radius: 4px;
-    background: var(--gray-bg);
-    border: 2px solid var(--gray-border);
-    overflow: hidden;
+    width: 56px; height: 56px;
+    border-radius: 6px;
+    background: rgba(0,0,0,0.06);
+    border: 2px solid transparent;
     cursor: pointer;
     flex-shrink: 0;
     display: flex; align-items: center; justify-content: center;
@@ -373,7 +375,7 @@
     transition: border-color 0.15s;
   }
   .thumb-play:hover { border-color: var(--gray-mid); }
-  .thumb-play svg { width: 20px; height: 20px; color: var(--dark-text); }
+  .thumb-play svg { width: 22px; height: 22px; color: var(--dark-text); }
 
   /* ── RIGHT: PRODUCT INFO ── */
   .product-info {
@@ -1312,7 +1314,8 @@
           <span style="color:#8692A6;">v2.0</span><span>Fixed nav, body offset, brand logo 80×80</span>
           <span style="color:#8692A6;">v2.1</span><span>Pill/circle stepper + ATC border-radius</span>
           <span style="color:#8692A6;">v2.2</span><span>Squircle stepper: grey minus, navy plus</span>
-          <span style="color:#8692A6;font-weight:700;">v2.3</span><span style="font-weight:700;">Figtree font, 20×20 stepper, spec ticks removed, footer image, version tooltip</span>
+          <span style="color:#8692A6;font-weight:700;">v2.3</span><span style="font-weight:400;">Figtree font, 20×20 stepper, spec ticks removed, footer image, version tooltip</span>
+          <span style="color:#8692A6;font-weight:700;">v2.4</span><span style="font-weight:700;">Gallery: full-bleed image, frosted thumb strip, grey border box ← current</span>
         </div>
       </div>
     </div>
