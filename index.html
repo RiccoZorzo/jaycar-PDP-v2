@@ -647,9 +647,178 @@
 
   /* Utility */
   .visually-hidden { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0,0,0,0); }
-
-  /* Map/location marker icon  */
   .nav-loc-icon { width: 22px; height: 22px; }
+
+  /* ── TABS ── */
+  .pdp-tabs {
+    border: 1px solid var(--gray-border);
+    border-radius: 8px;
+    overflow: hidden;
+    background: white;
+  }
+
+  .tab-bar {
+    display: flex;
+    border-bottom: 1px solid var(--gray-border);
+    background: white;
+  }
+
+  .tab-btn {
+    padding: 16px 22px;
+    background: none;
+    border: none;
+    font-family: var(--font);
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--gray-text);
+    cursor: pointer;
+    position: relative;
+    transition: color 0.15s;
+    white-space: nowrap;
+  }
+  .tab-btn:hover { color: var(--dark-text); }
+  .tab-btn.active {
+    color: var(--dark-text);
+    font-weight: 700;
+  }
+  .tab-btn.active::after {
+    content: '';
+    position: absolute;
+    bottom: -1px; left: 0; right: 0;
+    height: 3px;
+    background: #6ab04c;
+    border-radius: 2px 2px 0 0;
+  }
+
+  .tab-panel {
+    display: none;
+    padding: 28px 28px 32px;
+  }
+  .tab-panel.active { display: block; }
+
+  /* Overview */
+  .tab-body-text {
+    font-size: 14px;
+    line-height: 1.75;
+    color: #333;
+  }
+
+  /* Features */
+  .features-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .features-list li {
+    font-size: 14px;
+    color: #333;
+    padding-left: 22px;
+    position: relative;
+    line-height: 1.5;
+  }
+  .features-list li::before {
+    content: '';
+    position: absolute;
+    left: 0; top: 5px;
+    width: 14px; height: 14px;
+    border-radius: 50%;
+    background: #6ab04c;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'%3E%3Cpath d='M2 6l3 3 5-5' stroke='white' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+    background-size: 10px;
+    background-repeat: no-repeat;
+    background-position: center;
+  }
+
+  /* Specifications */
+  .spec-group-title {
+    font-size: 17px;
+    font-weight: 700;
+    color: var(--dark-text);
+    margin-bottom: 20px;
+  }
+  .spec-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+  }
+  .spec-chip {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: #f8f9fb;
+    border: 1px solid var(--gray-border);
+    border-radius: 6px;
+    padding: 12px 14px;
+    font-size: 13px;
+    color: #333;
+    line-height: 1.4;
+  }
+  .spec-check {
+    width: 22px; height: 22px;
+    min-width: 22px;
+    background: #6ab04c;
+    color: white;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 11px;
+    font-weight: 700;
+  }
+
+  /* Reviews */
+  .review-summary {
+    display: flex;
+    align-items: flex-start;
+    gap: 32px;
+    margin-bottom: 24px;
+  }
+  .review-score-block {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    min-width: 80px;
+  }
+  .review-big-num {
+    font-size: 48px;
+    font-weight: 700;
+    color: var(--dark-text);
+    line-height: 1;
+  }
+  .review-stars {
+    display: flex; gap: 2px;
+  }
+  .review-stars svg { width: 16px; height: 16px; }
+  .review-count { font-size: 12px; color: var(--gray-text); margin-top: 2px; }
+
+  .review-bars { flex: 1; display: flex; flex-direction: column; gap: 6px; }
+  .review-bar-row {
+    display: flex; align-items: center; gap: 10px;
+    font-size: 12px; color: var(--gray-text);
+  }
+  .bar-label { width: 28px; text-align: right; flex-shrink: 0; }
+  .bar-track {
+    flex: 1; height: 8px; background: #e8e8e8; border-radius: 4px; overflow: hidden;
+  }
+  .bar-fill { height: 100%; background: #F59E0B; border-radius: 4px; }
+  .bar-count { width: 20px; text-align: right; flex-shrink: 0; }
+
+  .review-card {
+    border: 1px solid var(--gray-border);
+    border-radius: 6px;
+    padding: 18px 20px;
+    margin-bottom: 12px;
+  }
+  .review-card:last-child { margin-bottom: 0; }
+  .review-card-header {
+    display: flex; justify-content: space-between; align-items: center;
+    margin-bottom: 6px;
+  }
+  .reviewer-name { font-size: 14px; font-weight: 600; color: var(--dark-text); }
+  .review-date { font-size: 12px; color: var(--gray-text); }
+  .review-card-stars { display: flex; gap: 2px; margin-bottom: 8px; }
+  .review-card-stars svg { width: 14px; height: 14px; }
+  .review-text { font-size: 13px; color: #333; line-height: 1.6; }
 </style>
 </head>
 <body>
@@ -813,46 +982,120 @@
         <div class="swatch" style="background:white; border:2px solid var(--gray-border);" title="White" onclick="selectSwatch(this,'White')"></div>
       </div>
 
-      <!-- Spec table section -->
-      <div class="desc-section" style="margin-top:24px;">
-        <div class="section-title">Product Specifications</div>
-        <div class="spec-row"><span class="spec-label">Brand</span><span class="spec-value">JACAT</span></div>
-        <div class="spec-row"><span class="spec-label">Voltage</span><span class="spec-value">20V MAX</span></div>
-        <div class="spec-row"><span class="spec-label">Max Torque</span><span class="spec-value">45 N·m</span></div>
-        <div class="spec-row"><span class="spec-label">Chuck Size</span><span class="spec-value">3/8 in (10mm)</span></div>
-        <div class="spec-row"><span class="spec-label">Speed</span><span class="spec-value">0-350 / 0-1500 RPM (2 speed)</span></div>
-        <div class="spec-row"><span class="spec-label">Battery Capacity</span><span class="spec-value">2 × 1.5 Ah Li-ion</span></div>
-        <div class="spec-row"><span class="spec-label">Weight</span><span class="spec-value">1.8 kg (with battery)</span></div>
-        <div class="spec-row"><span class="spec-label">Clutch Settings</span><span class="spec-value">20+1</span></div>
-        <div class="spec-row"><span class="spec-label">Includes</span><span class="spec-value">Drill, 2 batteries, charger, 63-pc accessory kit, carry bag</span></div>
-      </div>
+      <!-- ═══ TABBED SECTION ═══ -->
+      <div class="pdp-tabs" style="margin-top:20px;">
 
-      <!-- Accordion FAQ -->
-      <div style="padding-bottom:32px;">
-        <div class="section-title" style="margin-bottom:0; padding-top:8px; border-top:1px solid var(--gray-border); padding-top:24px;">Frequently Asked Questions</div>
-        <div class="accordion-item">
-          <div class="accordion-header" onclick="toggleAccordion(this)">
-            Is this drill compatible with other 20V batteries?
-            <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><polyline points="4 6 8 10 12 6"/></svg>
-          </div>
-          <div class="accordion-body">The JACAT 20V battery system is proprietary. Only JACAT 20V MAX batteries are recommended for use with this tool for optimal performance and safety.</div>
+        <!-- Tab bar -->
+        <div class="tab-bar">
+          <button class="tab-btn active" onclick="switchTab('overview', this)">Overview</button>
+          <button class="tab-btn" onclick="switchTab('specifications', this)">Specifications</button>
+          <button class="tab-btn" onclick="switchTab('reviews', this)">Reviews (24)</button>
         </div>
-        <div class="accordion-item">
-          <div class="accordion-header" onclick="toggleAccordion(this)">
-            How long does it take to charge the battery?
-            <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><polyline points="4 6 8 10 12 6"/></svg>
-          </div>
-          <div class="accordion-body">The included 1-hour fast charger fully charges the 1.5 Ah battery in approximately 60 minutes. The charger features LED indicators for charge status.</div>
+
+        <!-- ── OVERVIEW ── -->
+        <div class="tab-panel active" id="tab-overview">
+          <p class="tab-body-text">A great compact fridge with enough space to keep essential food and drinks cold for day trips and long weekends. Suitable for 12 or 24 volt systems, the unit features a three-stage low-battery cut-out to prevent a flat or damaged car battery. Other features include digital temperature controls, a reliable compressor, and low energy consumption. Thanks to the high density foam insulation, the fridge can provide temperatures down to −20°C. Finished in a sleek, durable plastic case, it's the perfect companion to any trip. The unit is supplied with a power lead that plugs into a vehicle cigarette lighter socket.</p>
         </div>
-        <div class="accordion-item">
-          <div class="accordion-header" onclick="toggleAccordion(this)">
-            Can this drill be used for masonry?
-            <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><polyline points="4 6 8 10 12 6"/></svg>
+
+
+        <!-- ── SPECIFICATIONS ── -->
+        <div class="tab-panel" id="tab-specifications">
+          <div class="spec-group-title">Refrigerator or Cooler/Warmer</div>
+          <div class="spec-grid">
+            <div class="spec-chip"><span class="spec-check">✓</span><span><strong>Capacity</strong> — 30L</span></div>
+            <div class="spec-chip"><span class="spec-check">✓</span><span><strong>Temperature Range</strong> — -20.0°C to -10.0°C</span></div>
+            <div class="spec-chip"><span class="spec-check">✓</span><span><strong>Device Type</strong> — Portable</span></div>
+            <div class="spec-chip"><span class="spec-check">✓</span><span><strong>External Construction</strong> — Plastic</span></div>
+            <div class="spec-chip"><span class="spec-check">✓</span><span><strong>Noise Level Rating</strong> — 45.0 dB</span></div>
+            <div class="spec-chip"><span class="spec-check">✓</span><span><strong>Can Capacity (375ml)</strong> — 30 pc</span></div>
+            <div class="spec-chip"><span class="spec-check">✓</span><span><strong>Internal Dimensions</strong> — 452 × 278 × 271 mm + 121 × 278 × 171 mm</span></div>
+            <div class="spec-chip"><span class="spec-check">✓</span><span><strong>Input Voltage</strong> — 12/24V</span></div>
+            <div class="spec-chip"><span class="spec-check">✓</span><span><strong>Current Draw</strong> — 5/2.5A</span></div>
+            <div class="spec-chip"><span class="spec-check">✓</span><span><strong>Lids/Doors</strong> — 1</span></div>
+            <div class="spec-chip"><span class="spec-check">✓</span><span><strong>Includes DC Cable</strong> — Yes</span></div>
+            <div class="spec-chip"><span class="spec-check">✓</span><span><strong>Includes Mains Adaptor</strong> — Yes</span></div>
+            <div class="spec-chip"><span class="spec-check">✓</span><span><strong>Bluetooth Control</strong> — Yes</span></div>
+            <div class="spec-chip"><span class="spec-check">✓</span><span><strong>Handle Type</strong> — Built-in</span></div>
+            <div class="spec-chip"><span class="spec-check">✓</span><span><strong>Has Wheels</strong> — No</span></div>
+            <div class="spec-chip"><span class="spec-check">✓</span><span><strong>Vehicle Connection</strong> — Cigarette Plug</span></div>
+            <div class="spec-chip"><span class="spec-check">✓</span><span><strong>Internal LED Light</strong> — Yes</span></div>
           </div>
-          <div class="accordion-body">This is a standard drill/driver. For masonry work, a hammer drill or rotary hammer is recommended. However it can drill into soft masonry like plasterboard.</div>
         </div>
-      </div>
-    </div>
+
+        <!-- ── REVIEWS ── -->
+        <div class="tab-panel" id="tab-reviews">
+
+          <!-- Rating summary -->
+          <div class="review-summary">
+            <div class="review-score-block">
+              <div class="review-big-num">4.5</div>
+              <div class="review-stars">
+                <svg viewBox="0 0 20 20" fill="#F59E0B"><path d="M10 1l2.4 6.6H19l-5.4 4 2.1 6.6L10 14.4l-5.7 3.8 2.1-6.6L1 7.6h6.6z"/></svg>
+                <svg viewBox="0 0 20 20" fill="#F59E0B"><path d="M10 1l2.4 6.6H19l-5.4 4 2.1 6.6L10 14.4l-5.7 3.8 2.1-6.6L1 7.6h6.6z"/></svg>
+                <svg viewBox="0 0 20 20" fill="#F59E0B"><path d="M10 1l2.4 6.6H19l-5.4 4 2.1 6.6L10 14.4l-5.7 3.8 2.1-6.6L1 7.6h6.6z"/></svg>
+                <svg viewBox="0 0 20 20" fill="#F59E0B"><path d="M10 1l2.4 6.6H19l-5.4 4 2.1 6.6L10 14.4l-5.7 3.8 2.1-6.6L1 7.6h6.6z"/></svg>
+                <svg viewBox="0 0 20 20" fill="#F59E0B"><path d="M10 1l2.4 6.6H19l-5.4 4 2.1 6.6L10 14.4l-5.7 3.8 2.1-6.6L1 7.6h6.6z"/></svg>
+              </div>
+              <div class="review-count">24 reviews</div>
+            </div>
+            <div class="review-bars">
+              <div class="review-bar-row"><span class="bar-label">5 ★</span><div class="bar-track"><div class="bar-fill" style="width:70.8%"></div></div><span class="bar-count">17</span></div>
+              <div class="review-bar-row"><span class="bar-label">4 ★</span><div class="bar-track"><div class="bar-fill" style="width:20.8%"></div></div><span class="bar-count">5</span></div>
+              <div class="review-bar-row"><span class="bar-label">3 ★</span><div class="bar-track"><div class="bar-fill" style="width:4.2%"></div></div><span class="bar-count">1</span></div>
+              <div class="review-bar-row"><span class="bar-label">2 ★</span><div class="bar-track"><div class="bar-fill" style="width:4.2%"></div></div><span class="bar-count">1</span></div>
+              <div class="review-bar-row"><span class="bar-label">1 ★</span><div class="bar-track"><div class="bar-fill" style="width:0%"></div></div><span class="bar-count">0</span></div>
+            </div>
+          </div>
+
+          <!-- Review cards -->
+          <div class="review-card">
+            <div class="review-card-header">
+              <span class="reviewer-name">TravellerMike</span>
+              <span class="review-date">March 2025</span>
+            </div>
+            <div class="review-card-stars">
+              <svg viewBox="0 0 20 20" fill="#F59E0B"><path d="M10 1l2.4 6.6H19l-5.4 4 2.1 6.6L10 14.4l-5.7 3.8 2.1-6.6L1 7.6h6.6z"/></svg>
+              <svg viewBox="0 0 20 20" fill="#F59E0B"><path d="M10 1l2.4 6.6H19l-5.4 4 2.1 6.6L10 14.4l-5.7 3.8 2.1-6.6L1 7.6h6.6z"/></svg>
+              <svg viewBox="0 0 20 20" fill="#F59E0B"><path d="M10 1l2.4 6.6H19l-5.4 4 2.1 6.6L10 14.4l-5.7 3.8 2.1-6.6L1 7.6h6.6z"/></svg>
+              <svg viewBox="0 0 20 20" fill="#F59E0B"><path d="M10 1l2.4 6.6H19l-5.4 4 2.1 6.6L10 14.4l-5.7 3.8 2.1-6.6L1 7.6h6.6z"/></svg>
+              <svg viewBox="0 0 20 20" fill="#F59E0B"><path d="M10 1l2.4 6.6H19l-5.4 4 2.1 6.6L10 14.4l-5.7 3.8 2.1-6.6L1 7.6h6.6z"/></svg>
+            </div>
+            <p class="review-text">Excellent fridge — keeps everything perfectly cold on long outback road trips. Compressor is impressively quiet and it barely drains the battery overnight.</p>
+          </div>
+
+          <div class="review-card">
+            <div class="review-card-header">
+              <span class="reviewer-name">CamperKate</span>
+              <span class="review-date">January 2025</span>
+            </div>
+            <div class="review-card-stars">
+              <svg viewBox="0 0 20 20" fill="#F59E0B"><path d="M10 1l2.4 6.6H19l-5.4 4 2.1 6.6L10 14.4l-5.7 3.8 2.1-6.6L1 7.6h6.6z"/></svg>
+              <svg viewBox="0 0 20 20" fill="#F59E0B"><path d="M10 1l2.4 6.6H19l-5.4 4 2.1 6.6L10 14.4l-5.7 3.8 2.1-6.6L1 7.6h6.6z"/></svg>
+              <svg viewBox="0 0 20 20" fill="#F59E0B"><path d="M10 1l2.4 6.6H19l-5.4 4 2.1 6.6L10 14.4l-5.7 3.8 2.1-6.6L1 7.6h6.6z"/></svg>
+              <svg viewBox="0 0 20 20" fill="#F59E0B"><path d="M10 1l2.4 6.6H19l-5.4 4 2.1 6.6L10 14.4l-5.7 3.8 2.1-6.6L1 7.6h6.6z"/></svg>
+              <svg viewBox="0 0 20 20" fill="#e0e0e0"><path d="M10 1l2.4 6.6H19l-5.4 4 2.1 6.6L10 14.4l-5.7 3.8 2.1-6.6L1 7.6h6.6z"/></svg>
+            </div>
+            <p class="review-text">Great product, freezes fast and the digital control is spot on. A bit heavy for solo carrying but the build quality is excellent for the price.</p>
+          </div>
+
+          <div class="review-card">
+            <div class="review-card-header">
+              <span class="reviewer-name">DesertDave</span>
+              <span class="review-date">December 2024</span>
+            </div>
+            <div class="review-card-stars">
+              <svg viewBox="0 0 20 20" fill="#F59E0B"><path d="M10 1l2.4 6.6H19l-5.4 4 2.1 6.6L10 14.4l-5.7 3.8 2.1-6.6L1 7.6h6.6z"/></svg>
+              <svg viewBox="0 0 20 20" fill="#F59E0B"><path d="M10 1l2.4 6.6H19l-5.4 4 2.1 6.6L10 14.4l-5.7 3.8 2.1-6.6L1 7.6h6.6z"/></svg>
+              <svg viewBox="0 0 20 20" fill="#F59E0B"><path d="M10 1l2.4 6.6H19l-5.4 4 2.1 6.6L10 14.4l-5.7 3.8 2.1-6.6L1 7.6h6.6z"/></svg>
+              <svg viewBox="0 0 20 20" fill="#F59E0B"><path d="M10 1l2.4 6.6H19l-5.4 4 2.1 6.6L10 14.4l-5.7 3.8 2.1-6.6L1 7.6h6.6z"/></svg>
+              <svg viewBox="0 0 20 20" fill="#F59E0B"><path d="M10 1l2.4 6.6H19l-5.4 4 2.1 6.6L10 14.4l-5.7 3.8 2.1-6.6L1 7.6h6.6z"/></svg>
+            </div>
+            <p class="review-text">Used this across 3 weeks in the Simpson Desert. 45°C outside and it kept beer ice cold. Could not ask for more.</p>
+          </div>
+
+        </div><!-- /tab-reviews -->
+      </div><!-- /pdp-tabs -->
+    </div><!-- /gallery-section -->
 
     <!-- ── RIGHT: PRODUCT INFO ── -->
     <div class="product-info">
@@ -1016,6 +1259,14 @@
 </div>
 
 <script>
+  // Tab switching
+  function switchTab(id, btn) {
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById('tab-' + id).classList.add('active');
+  }
+
   // Thumbnail switching
   let currentThumb = 0;
   const thumbSrcs = ['[THUMB_1_URL]','[THUMB_2_URL]','[THUMB_3_URL]','[THUMB_4_URL]'];
