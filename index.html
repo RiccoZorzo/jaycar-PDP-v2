@@ -27,8 +27,12 @@
 ║        Thumbs also use contain. Prevents product cropping.      ║
 ║  v2.6  Lightbox rebuilt for 1400×1400 DAM standard: square box  ║
 ║        (864×864), zero padding, #f8f8f8 bg blends JPG whites.   ║
-║  v2.7  Zoom modal: click-to-zoom, scroll/pinch zoom, drag pan,  ║
-║        thumb strip in modal, blurred PDP bg, keyboard nav.      ║
+║  v2.7  Zoom modal: click/scroll zoom, drag pan, thumb strip,    ║
+║        blurred PDP bg, keyboard nav.                            ║
+║  v2.8  Zoom modal bg #f8f8f8 + image fill/contain to match      ║
+║        lightbox JPG white-blend guiderail.                      ║
+║  v2.9  Zoom modal reset btn removed. Tab active underline       ║
+║        changed from green #6ab04c → Jaycar navy #0C254C.        ║
 ╚══════════════════════════════════════════════════════════════════╝
 -->
 <html lang="en">
@@ -728,7 +732,7 @@
     letter-spacing: 0.4px;
   }
   .badge-sale { background: var(--pink); color: white; }
-  .badge-new-tag { background: #6ab04c; color: white; }
+  .badge-new-tag { background: var(--navy); color: white; }
   .similar-card-body {
     padding: 14px 16px 16px;
     display: flex;
@@ -939,7 +943,7 @@
     position: absolute;
     bottom: -1px; left: 0; right: 0;
     height: 3px;
-    background: #6ab04c;
+    background: var(--navy);
     border-radius: 2px 2px 0 0;
   }
 
@@ -976,7 +980,7 @@
     left: 0; top: 5px;
     width: 14px; height: 14px;
     border-radius: 50%;
-    background: #6ab04c;
+    background: var(--navy);
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'%3E%3Cpath d='M2 6l3 3 5-5' stroke='white' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
     background-size: 10px;
     background-repeat: no-repeat;
@@ -1338,19 +1342,23 @@
     justify-content: center;
     cursor: zoom-in;
     position: relative;
+    background: #f8f8f8; /* same near-white — blends JPG white edges */
   }
   .zoom-img-container.zoomed { cursor: zoom-out; }
   .zoom-img-container.panning { cursor: grabbing; }
 
   .zoom-img {
-    max-width: 100%;
-    max-height: 100%;
-    object-fit: contain;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;    /* never crop — same rule as lightbox */
+    object-position: center;
+    padding: 0;             /* DAM images are pre-framed — no extra padding */
     transform-origin: center center;
     transform: scale(1) translate(0px, 0px);
     transition: transform 0.25s ease;
     user-select: none;
     pointer-events: none;
+    background: #f8f8f8;    /* fallback if image has transparent areas */
   }
   .zoom-img.no-transition { transition: none; }
 
@@ -1468,7 +1476,8 @@
           <span style="color:#8692A6;">v2.2</span><span>Squircle stepper: grey minus, navy plus</span>
           <span style="color:#8692A6;font-weight:400;">v2.3</span><span style="font-weight:400;">Figtree font, 20×20 stepper, spec ticks removed, footer image, version tooltip</span>
           <span style="color:#8692A6;font-weight:400;">v2.6</span><span style="font-weight:400;">864×864 square box, zero padding, #f8f8f8 blends JPG whites</span>
-          <span style="color:#8692A6;font-weight:700;">v2.7</span><span style="font-weight:700;">Zoom modal: click/scroll zoom, drag pan, thumb strip, blur bg ← current</span>
+          <span style="color:#8692A6;font-weight:400;">v2.8</span><span style="font-weight:400;">Zoom modal bg #f8f8f8 — blends JPG whites, matches lightbox</span>
+          <span style="color:#8692A6;font-weight:700;">v2.9</span><span style="font-weight:700;">Reset btn removed from zoom. Tab underline → navy #0C254C ← current</span>
         </div>
       </div>
     </div>
@@ -2436,7 +2445,6 @@
     <div class="zoom-controls">
       <button class="zoom-ctrl-btn" onclick="adjustZoom(0.4)" title="Zoom in">+</button>
       <button class="zoom-ctrl-btn" onclick="adjustZoom(-0.4)" title="Zoom out">−</button>
-      <button class="zoom-ctrl-btn" onclick="resetZoom()" title="Reset" style="font-size:13px;">⟲</button>
     </div>
 
     <!-- Thumbnail strip -->
