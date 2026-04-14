@@ -49,6 +49,8 @@
 ║  v3.7  mix-blend-mode: multiply on all product images — fully   ║
 ║        dissolves white JPG backgrounds in cards, lightbox,      ║
 ║        zoom modal and thumbnails.                               ║
+║  v3.8  Card body bg → #f8f8f8 to match image area, removes     ║
+║        two-tone grey split between image and text zone.         ║
 ╚══════════════════════════════════════════════════════════════════╝
 -->
 <html lang="en">
@@ -760,7 +762,7 @@
     display: flex;
     flex-direction: column;
     flex: 1;
-    background: white;
+    background: #f8f8f8;
   }
   .similar-card-brand {
     font-size: 9px;
@@ -1586,8 +1588,8 @@
           <span style="color:#8692A6;font-weight:400;">v2.9</span><span style="font-weight:400;">Reset btn removed from zoom. Tab underline → navy #0C254C</span>
           <span style="color:#8692A6;font-weight:400;">v3.0</span><span style="font-weight:400;">Zoom trigger: JS addEventListener on img only, thumbs/arrows excluded</span>
           <span style="color:#8692A6;font-weight:400;">v3.4</span><span style="font-weight:400;">Similar cards: 180px fixed img, borderless, 2-line clamp, max-width constrained</span>
-          <span style="color:#8692A6;font-weight:400;">v3.6</span><span style="font-weight:400;">Fix: 5-col drops to 4-col at ≤1440px, no 5th card wrapping</span>
-          <span style="color:#8692A6;font-weight:700;">v3.7</span><span style="font-weight:700;">mix-blend-mode: multiply on all images — white JPG bgs fully dissolved ← current</span>
+          <span style="color:#8692A6;font-weight:400;">v3.7</span><span style="font-weight:400;">mix-blend-mode: multiply on all images — white JPG bgs fully dissolved</span>
+          <span style="color:#8692A6;font-weight:700;">v3.8</span><span style="font-weight:700;">Card body bg → #f8f8f8, removes two-tone grey split ← current</span>
         </div>
       </div>
     </div>
