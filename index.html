@@ -39,10 +39,10 @@
 ║        Free Std Delivery row removed. Delivery/spare icons →    ║
 ║        PNG files from repo. Icon img tags with onerror.         ║
 ║  v3.2  Similar products: 5 cols × 2 rows. Card text tightened. ║
-║  v3.3  Responsive breakpoints added: 1600px+ (XL), 1380px      ║
-║        (large laptop), 1100px (small laptop/iPad). PDP grid     ║
-║        switches to fluid %, footer image col hides, similar     ║
-║        grid collapses 5→4→3 cols. No mobile breakpoints.        ║
+║  v3.3  Responsive breakpoints: 1600px / 1380px / 1100px.        ║
+║  v3.4  Similar cards rebuilt: fixed 180px img height, max-width ║
+║        1304px constraint, minimal borderless ASOS-style cards,  ║
+║        2-line name clamp, tighter spacing throughout.           ║
 ╚══════════════════════════════════════════════════════════════════╝
 -->
 <html lang="en">
@@ -689,61 +689,64 @@
   /* ── SIMILAR PRODUCTS ── */
   .similar-row {
     background: var(--gray-bg);
-    padding: 40px 68px;
+    padding: 32px 68px 40px;
     border-top: 1px solid var(--gray-border);
   }
   .similar-row-inner {
-    width: 100%;
+    max-width: 1304px;
+    margin: 0 auto;
   }
   .similar-heading {
-    font-size: 20px;
-    font-weight: 700;
+    font-size: 18px;
+    font-weight: 800;
     color: var(--dark-text);
-    margin-bottom: 24px;
+    margin-bottom: 20px;
   }
   .similar-grid {
     display: grid;
     grid-template-columns: repeat(5, 1fr);
-    gap: 14px;
+    gap: 12px;
   }
   .similar-card {
     background: white;
-    border-radius: 12px;
+    border-radius: 8px;
     overflow: hidden;
-    border: 1px solid var(--gray-border);
+    border: none;
     display: flex;
     flex-direction: column;
+    cursor: pointer;
     transition: box-shadow 0.2s;
   }
-  .similar-card:hover { box-shadow: 0 4px 16px rgba(0,0,0,0.1); }
+  .similar-card:hover { box-shadow: 0 4px 16px rgba(0,0,0,0.10); }
   .similar-card-img {
     width: 100%;
-    aspect-ratio: 1;
+    height: 180px;
     background: #f8f8f8;
     overflow: hidden;
     position: relative;
+    flex-shrink: 0;
   }
   .similar-card-img img {
     width: 100%; height: 100%;
     object-fit: contain;
-    padding: 0;
-    transition: transform 0.2s;
+    transition: transform 0.25s;
   }
-  .similar-card:hover .similar-card-img img { transform: scale(1.03); }
+  .similar-card:hover .similar-card-img img { transform: scale(1.04); }
   .similar-card-badge {
     position: absolute;
-    top: 10px; left: 10px;
-    font-size: 10px;
-    font-weight: 700;
-    padding: 3px 8px;
-    border-radius: 4px;
+    top: 8px; left: 8px;
+    font-size: 9px;
+    font-weight: 800;
+    padding: 3px 7px;
+    border-radius: 3px;
     text-transform: uppercase;
     letter-spacing: 0.4px;
+    z-index: 2;
   }
   .badge-sale { background: var(--pink); color: white; }
   .badge-new-tag { background: var(--navy); color: white; }
   .similar-card-body {
-    padding: 10px 12px 12px;
+    padding: 10px 10px 12px;
     display: flex;
     flex-direction: column;
     flex: 1;
@@ -757,27 +760,32 @@
     margin-bottom: 3px;
   }
   .similar-card-name {
-    font-size: 12px;
+    font-size: 11px;
     font-weight: 500;
     color: var(--dark-text);
     line-height: 1.4;
     margin-bottom: 6px;
     flex: 1;
+    /* clamp to 2 lines */
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
   }
   .similar-card-price {
-    font-size: 15px;
+    font-size: 13px;
     font-weight: 700;
     color: var(--dark-text);
-    margin-bottom: 10px;
+    margin-bottom: 8px;
   }
   .similar-card-atc {
     width: 100%;
-    height: 34px;
+    height: 30px;
     background: var(--gray-bg);
     border: 1px solid var(--gray-border);
-    border-radius: 6px;
+    border-radius: 5px;
     font-family: var(--font);
-    font-size: 12px;
+    font-size: 11px;
     font-weight: 600;
     color: var(--dark-text);
     cursor: pointer;
@@ -1466,6 +1474,7 @@
     .nav-top, .nav-bottom, .breadcrumb-bar, .sticky-atc-bar { padding-left: 40px; padding-right: 40px; }
     .page-wrapper { padding-left: 40px; padding-right: 40px; }
     .similar-row { padding-left: 40px; padding-right: 40px; }
+    .similar-row-inner { max-width: 100%; }
     .site-footer .footer-top { padding-left: 40px; padding-right: 40px; }
     .site-footer .footer-bottom { padding-left: 40px; padding-right: 40px; }
 
@@ -1561,8 +1570,8 @@
           <span style="color:#8692A6;font-weight:400;">v2.6</span><span style="font-weight:400;">864×864 square box, zero padding, #f8f8f8 blends JPG whites</span>
           <span style="color:#8692A6;font-weight:400;">v2.9</span><span style="font-weight:400;">Reset btn removed from zoom. Tab underline → navy #0C254C</span>
           <span style="color:#8692A6;font-weight:400;">v3.0</span><span style="font-weight:400;">Zoom trigger: JS addEventListener on img only, thumbs/arrows excluded</span>
-          <span style="color:#8692A6;font-weight:400;">v3.2</span><span style="font-weight:400;">Similar products: 5 cols × 2 rows, card text tightened</span>
-          <span style="color:#8692A6;font-weight:700;">v3.3</span><span style="font-weight:700;">Responsive breakpoints: 1600px / 1380px / 1100px desktop ← current</span>
+          <span style="color:#8692A6;font-weight:400;">v3.3</span><span style="font-weight:400;">Responsive breakpoints: 1600px / 1380px / 1100px desktop</span>
+          <span style="color:#8692A6;font-weight:700;">v3.4</span><span style="font-weight:700;">Similar cards: 180px fixed img, borderless, 2-line clamp, max-width constrained ← current</span>
         </div>
       </div>
     </div>
