@@ -39,7 +39,7 @@
     height: 80px;
     display: flex;
     align-items: center;
-    padding: 0 80px;
+    padding: 0 68px;
     gap: 16px;
     position: relative;
   }
@@ -133,7 +133,7 @@
     border-bottom: 1px solid var(--gray-border);
     display: flex;
     align-items: center;
-    padding: 0 80px;
+    padding: 0 68px;
     gap: 0;
     font-size: 13px;
     color: var(--gray-text);
@@ -157,12 +157,12 @@
   .page-wrapper {
     max-width: 1440px;
     margin: 0 auto;
-    padding: 0 80px;
+    padding: 0 68px;
   }
 
   .pdp-grid {
     display: grid;
-    grid-template-columns: 864px 1fr;
+    grid-template-columns: 864px minmax(0, 1fr);
     gap: 0 36px;
     padding-top: 8px;
     padding-bottom: 40px;
@@ -226,7 +226,11 @@
     z-index: 3;
     overflow: hidden;
     padding: 4px 8px;
+    cursor: pointer;
+    text-decoration: none;
+    transition: box-shadow 0.15s;
   }
+  .gallery-brand-logo:hover { box-shadow: 0 2px 8px rgba(0,0,0,0.15); }
   .gallery-brand-logo img {
     max-width: 100%; max-height: 100%;
     object-fit: contain;
@@ -313,6 +317,8 @@
     display: flex;
     flex-direction: column;
     gap: 14px;
+    min-width: 0;
+    overflow: hidden;
   }
 
   .product-name {
@@ -601,7 +607,7 @@
   /* ── SIMILAR PRODUCTS ROW (thumbnails bottom) ── */
   .similar-row {
     background: var(--gray-bg);
-    padding: 24px 80px;
+    padding: 24px 68px;
     border-top: 1px solid var(--gray-border);
   }
   .similar-inner {
@@ -633,7 +639,7 @@
   .footer-cta {
     background: var(--navy);
     color: white;
-    padding: 48px 80px;
+    padding: 48px 68px;
     display: flex; align-items: center; justify-content: space-between;
   }
   .footer-cta h2 { font-size: 22px; font-weight: 700; margin-bottom: 8px; }
@@ -820,6 +826,122 @@
   .review-card-stars { display: flex; gap: 2px; margin-bottom: 8px; }
   .review-card-stars svg { width: 14px; height: 14px; }
   .review-text { font-size: 13px; color: #333; line-height: 1.6; }
+  /* ── SPARE PARTS ROW ── */
+  .spare-parts-btn {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    padding: 14px 16px;
+    border: 1.5px solid #2196f3;
+    border-radius: 10px;
+    background: white;
+    cursor: pointer;
+    gap: 12px;
+    transition: background 0.15s;
+    text-decoration: none;
+  }
+  .spare-parts-btn:hover { background: #f0f7ff; }
+  .spare-parts-icon {
+    width: 34px; height: 34px;
+    border-radius: 7px;
+    background: #e8f4fd;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+  }
+  .spare-parts-icon svg { width: 18px; height: 18px; color: #2196f3; }
+  .spare-parts-label {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--dark-text);
+    flex: 1;
+    text-align: left;
+  }
+  .spare-parts-label span { font-weight: 400; color: var(--gray-text); font-size: 13px; }
+  .spare-parts-chevron { color: var(--gray-text); margin-left: auto; }
+  .spare-parts-chevron svg { width: 16px; height: 16px; }
+
+  /* ── BNPL ICONS ── */
+  .bnpl-row {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    padding: 4px 0;
+    flex-wrap: wrap;
+  }
+  .bnpl-logo { height: 24px; display: flex; align-items: center; }
+  .bnpl-logo img { height: 100%; width: auto; object-fit: contain; }
+
+  /* ── DOWNLOAD LINKS ── */
+  .download-link {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--dark-text);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+    padding: 6px 0;
+    cursor: pointer;
+    transition: color 0.15s;
+  }
+  .download-link:hover { color: #5a9a3a; }
+  .download-icon {
+    width: 28px; height: 28px;
+    background: #eef7e8;
+    border: 1px solid #b5d89a;
+    border-radius: 5px;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+  }
+  .download-icon svg { width: 15px; height: 15px; color: #5a9a3a; }
+
+  /* ── DELIVERY OPTIONS CARD ── */
+  .delivery-options-card {
+    border: 1px solid var(--gray-border);
+    border-radius: 10px;
+    background: white;
+    overflow: hidden;
+    margin-top: 4px;
+  }
+  .delivery-option {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 14px 16px;
+    border-bottom: 1px solid var(--gray-border);
+  }
+  .delivery-option:last-child { border-bottom: none; }
+  .delivery-icon-wrap {
+    width: 40px; height: 40px; min-width: 40px;
+    border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+    overflow: hidden;
+  }
+  .delivery-icon-wrap.standard { background: #f0f2f5; }
+  .delivery-icon-wrap.free { background: #f0f2f5; }
+  .delivery-icon-wrap.express { background: #fff7e6; }
+  .delivery-icon-wrap.collect { background: #e8f9f5; }
+  .delivery-icon-wrap svg { width: 22px !important; height: 22px !important; max-width: 22px; max-height: 22px; flex-shrink: 0; }
+  .delivery-option-body { flex: 1; }
+  .delivery-option-title {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--dark-text);
+    margin-bottom: 2px;
+  }
+  .delivery-option-sub {
+    font-size: 12px;
+    color: var(--gray-text);
+  }
+  .delivery-option-price {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--dark-text);
+    flex-shrink: 0;
+  }
+  .delivery-option-price.free-label { color: #5a9a3a; }
 </style>
 </head>
 <body>
@@ -827,13 +949,10 @@
 <!-- ═══ NAVBAR ═══ -->
 <nav>
   <!-- Logo -->
-  <div class="nav-brand">
-    <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-      <circle cx="7" cy="7" r="7" fill="white"/>
-    </svg>
-    <!-- Jacut brand mark placeholder -->
-    <span style="color:white; font-size:20px; font-weight:800; letter-spacing:-1px;">jacat</span>
-  </div>
+  <a href="https://www.jaycar.com.au" style="display:flex; align-items:center; text-decoration:none; flex-shrink:0;">
+    <img src="https://www.jaycar.com.au/_next/static/media/jaycar-logo.a95c232b.svg" alt="Jaycar" style="height:32px; width:auto;" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'"/>
+    <span style="display:none; color:white; font-size:20px; font-weight:800; letter-spacing:-1px;">Jaycar</span>
+  </a>
 
   <!-- Search bar -->
   <div class="nav-search">
@@ -882,19 +1001,18 @@
 
 <!-- ═══ BREADCRUMB ═══ -->
 <div class="breadcrumb-bar">
-  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="color:var(--gray-text)">
-    <path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/>
-  </svg>
+  <a href="#">
+    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+      <path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/>
+      <polyline points="9 22 9 12 15 12 15 22"/>
+    </svg>
+  </a>
   <span class="breadcrumb-sep">›</span>
-  <a href="#">Tools &amp; Hardware</a>
+  <a href="#">Tools &amp; Test Equipment</a>
   <span class="breadcrumb-sep">›</span>
-  <a href="#">Power Tools</a>
+  <a href="#">Multimeters</a>
   <span class="breadcrumb-sep">›</span>
-  <a href="#">Drills &amp; Drivers</a>
-  <span class="breadcrumb-sep">›</span>
-  <a href="#">Cordless Drills</a>
-  <span class="breadcrumb-sep">›</span>
-  <span class="current">JACAT 20V Cordless Drill Driver Set</span>
+  <a href="#">Digital Multimeters</a>
 </div>
 
 <!-- ═══ MAIN PDP GRID ═══ -->
@@ -906,7 +1024,7 @@
       <div class="main-image-wrap" id="main-img-wrap">
 
         <!-- Main product image -->
-        <img id="main-product-img" src="[MAIN_PRODUCT_IMAGE_URL]" alt="JACAT 20V Cordless Drill" onerror="this.style.display='none'; document.getElementById('img-placeholder').style.display='flex'"/>
+        <img id="main-product-img" src="https://raw.githubusercontent.com/RiccoZorzo/jaycar-PDP/main/images/GH2300_Main.png" alt="Product" onerror="this.style.display='none'; document.getElementById('img-placeholder').style.display='flex'"/>
         <div id="img-placeholder" class="main-image-placeholder" style="display:none">
           <svg width="72" height="72" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="0.8" opacity="0.25">
             <rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/>
@@ -917,17 +1035,17 @@
         <!-- SPECIAL ORDER badge — top left -->
         <div class="badge-new">SPECIAL ORDER</div>
 
-        <!-- Brand logo — top right -->
-        <div class="gallery-brand-logo" id="gallery-brand">
-          <img src="[BRAND_LOGO_URL]" alt="Brand logo" onerror="this.style.display='none'; document.getElementById('brand-fallback').style.display='flex'"/>
+        <!-- Brand logo — top right, clickable -->
+        <a href="https://www.jaycar.com.au/brands/Slic3d" target="_blank" class="gallery-brand-logo" id="gallery-brand">
+          <img src="https://raw.githubusercontent.com/RiccoZorzo/jaycar-PDP-v2/main/images/brand%20logo.png" alt="Brand logo" onerror="this.style.display='none'; document.getElementById('brand-fallback').style.display='flex'"/>
           <div class="brand-text" id="brand-fallback" style="display:none">
             <svg viewBox="0 0 12 12" fill="none">
               <path d="M2 10L6 2l4 8" stroke="currentColor" stroke-width="1.5"/>
               <path d="M3.5 7h5" stroke="currentColor" stroke-width="1.5"/>
             </svg>
-            phrozen
+            Brand
           </div>
-        </div>
+        </a>
 
         <!-- Prev arrow — inset inside -->
         <button class="gallery-nav prev" onclick="changeThumb(-1)" aria-label="Previous image">
@@ -991,6 +1109,7 @@
           <button class="tab-btn active" onclick="switchTab('overview', this)">Overview</button>
           <button class="tab-btn" onclick="switchTab('specifications', this)">Specifications</button>
           <button class="tab-btn" onclick="switchTab('reviews', this)">Reviews (24)</button>
+          <button class="tab-btn" onclick="switchTab('downloads', this)">Downloads</button>
         </div>
 
         <!-- ── OVERVIEW ── -->
@@ -1095,6 +1214,30 @@
           </div>
 
         </div><!-- /tab-reviews -->
+
+        <!-- ── DOWNLOADS ── -->
+        <div class="tab-panel" id="tab-downloads">
+          <a href="#" class="download-link" onclick="return false;">
+            <span class="download-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M4 16v2a2 2 0 002 2h12a2 2 0 002-2v-2"/>
+                <polyline points="7 10 12 15 17 10"/>
+                <line x1="12" y1="3" x2="12" y2="15"/>
+              </svg>
+            </span>
+            Download Manual
+          </a>
+          <a href="#" class="download-link" onclick="return false;">
+            <span class="download-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M4 16v2a2 2 0 002 2h12a2 2 0 002-2v-2"/>
+                <polyline points="7 10 12 15 17 10"/>
+                <line x1="12" y1="3" x2="12" y2="15"/>
+              </svg>
+            </span>
+            Download Datasheet
+          </a>
+        </div><!-- /tab-downloads -->
       </div><!-- /pdp-tabs -->
     </div><!-- /gallery-section -->
 
@@ -1145,8 +1288,7 @@
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
               <rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/>
               <line x1="12" y1="12" x2="12" y2="16"/><line x1="10" y1="14" x2="14" y2="14"/>
-            </svg>
-            <strong>Bulk Pricing</strong>
+            </svg>            <strong>Bulk Pricing</strong>
             <span class="bulk-info-icon" title="Buy more, save more">ⓘ</span>
           </div>
           <span class="bulk-best-badge">Best Value</span>
@@ -1188,6 +1330,97 @@
         <span>Australian Stock</span>
         <span class="trust-sep">|</span>
         <span>Warranty Included</span>
+      </div>
+
+      <!-- Delivery options -->
+      <div class="delivery-options-card">
+
+        <div class="delivery-option">
+          <div class="delivery-icon-wrap standard">
+            <svg style="width:22px;height:22px;flex-shrink:0" viewBox="0 0 24 24" fill="none" stroke="#555" stroke-width="1.5">
+              <rect x="1" y="3" width="15" height="13" rx="1"/>
+              <path d="M16 8h4l3 3v5h-7V8z"/>
+              <circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/>
+            </svg>
+          </div>
+          <div class="delivery-option-body">
+            <div class="delivery-option-title">Standard Delivery</div>
+            <div class="delivery-option-sub">2–5 business days Australia-wide</div>
+          </div>
+          <div class="delivery-option-price">$9.95</div>
+        </div>
+
+        <div class="delivery-option">
+          <div class="delivery-icon-wrap free">
+            <svg style="width:22px;height:22px;flex-shrink:0" viewBox="0 0 24 24" fill="none" stroke="#555" stroke-width="1.5">
+              <rect x="1" y="3" width="15" height="13" rx="1"/>
+              <path d="M16 8h4l3 3v5h-7V8z"/>
+              <circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/>
+            </svg>
+          </div>
+          <div class="delivery-option-body">
+            <div class="delivery-option-title">Free Standard Delivery</div>
+            <div class="delivery-option-sub">On orders over $149</div>
+          </div>
+          <div class="delivery-option-price free-label">FREE</div>
+        </div>
+
+        <div class="delivery-option">
+          <div class="delivery-icon-wrap express">
+            <svg style="width:22px;height:22px;flex-shrink:0" viewBox="0 0 24 24" fill="none" stroke="#F18805" stroke-width="1.8">
+              <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>
+            </svg>
+          </div>
+          <div class="delivery-option-body">
+            <div class="delivery-option-title">3-Hour Express Delivery</div>
+            <div class="delivery-option-sub">Same day, select metro areas</div>
+          </div>
+          <div class="delivery-option-price">$14.95</div>
+        </div>
+
+        <div class="delivery-option">
+          <div class="delivery-icon-wrap collect">
+            <svg style="width:22px;height:22px;flex-shrink:0" viewBox="0 0 24 24" fill="none" stroke="#2ab7a1" stroke-width="1.5">
+              <path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/>
+              <polyline points="9 22 9 12 15 12 15 22"/>
+            </svg>
+          </div>
+          <div class="delivery-option-body">
+            <div class="delivery-option-title">Click &amp; Collect</div>
+            <div class="delivery-option-sub">Ready in 1 hour at your local store</div>
+          </div>
+          <div class="delivery-option-price free-label">FREE</div>
+        </div>
+
+      </div><!-- /delivery-options-card -->
+
+      <!-- Spare parts -->
+      <button class="spare-parts-btn">
+        <div class="spare-parts-icon">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
+            <path d="M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3-3a6 6 0 01-7.5 7.5l-6.8 6.8a2.12 2.12 0 01-3-3l6.8-6.8a6 6 0 017.5-7.5l-3 3z"/>
+          </svg>
+        </div>
+        <span class="spare-parts-label">Spare Parts Available <span>(82)</span></span>
+        <span class="spare-parts-chevron">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 4 10 8 6 12"/></svg>
+        </span>
+      </button>
+
+      <!-- Buy now pay later logos -->
+      <div class="bnpl-row">
+        <div class="bnpl-logo bnpl-paypal">
+          <span style="color:#003087;font-weight:800;font-size:15px;font-family:'DM Sans',sans-serif;">Pay</span><span style="color:#009cde;font-weight:800;font-size:15px;font-family:'DM Sans',sans-serif;">Pal</span>
+        </div>
+        <div class="bnpl-logo bnpl-afterpay">
+          <span style="background:#B2FCE4;padding:4px 10px;border-radius:20px;font-size:12px;font-weight:700;color:#000;white-space:nowrap;">afterpay ⇌</span>
+        </div>
+        <div class="bnpl-logo bnpl-zip">
+          <span style="font-size:18px;font-weight:900;color:#1a0050;font-family:'DM Sans',sans-serif;">zi</span><span style="font-size:18px;font-weight:900;color:#aa8fff;font-family:'DM Sans',sans-serif;">p</span>
+        </div>
+        <div class="bnpl-logo bnpl-latitude">
+          <span style="font-size:11px;font-weight:700;letter-spacing:1px;color:#555;border:1.5px dashed #aaa;padding:3px 7px;border-radius:3px;white-space:nowrap;font-family:'DM Sans',sans-serif;">LATITUDE</span>
+        </div>
       </div>
 
     </div><!-- / product-info -->
@@ -1335,6 +1568,8 @@
     }
   });
 </script>
+
+<!-- ═══ SPARE PARTS MODAL ═══ (disabled - coming soon) -->
 
 </body>
 </html>
