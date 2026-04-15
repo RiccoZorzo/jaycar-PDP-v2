@@ -1389,8 +1389,8 @@
     height: 56px;
     display: flex;
     align-items: center;
-    padding: 0 32px;
-    gap: 20px;
+    justify-content: center;
+    padding: 0;
     opacity: 0;
     pointer-events: none;
     transition: opacity 0.25s ease;
@@ -1398,6 +1398,14 @@
   .sticky-atc-bar.visible {
     opacity: 1;
     pointer-events: all;
+  }
+  .sticky-atc-inner {
+    width: 100%;
+    max-width: 1440px;
+    padding: 0 32px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
   }
   .sticky-atc-name {
     font-size: 15px;
@@ -1830,14 +1838,16 @@
 
 <!-- ═══ STICKY ATC BAR ═══ -->
 <div class="sticky-atc-bar" id="sticky-atc-bar">
-  <span class="sticky-atc-name">5W GME Handheld VHF Marine Transceiver Radio GX625 <span style="font-weight:400;color:var(--gray-text);font-size:13px;">· Cat. No: TL4700</span></span>
-  <div class="sticky-atc-controls">
+  <div class="sticky-atc-inner">
+    <span class="sticky-atc-name">5W GME Handheld VHF Marine Transceiver Radio GX625 <span style="font-weight:400;color:var(--gray-text);font-size:13px;">· Cat. No: TL4700</span></span>
+    <div class="sticky-atc-controls">
     <div class="sticky-qty-stepper">
       <button class="sticky-qty-btn" onclick="changeQty(-1)">−</button>
       <span class="sticky-qty-val" id="sticky-qty-display">1</span>
       <button class="sticky-qty-btn" onclick="changeQty(1)">+</button>
     </div>
     <button class="sticky-atc-btn" onclick="addToCart()">Add to Cart</button>
+  </div>
   </div>
 </div>
 
