@@ -492,6 +492,8 @@
     flex-shrink: 0;
   }
   .wishlist-btn:hover { border-color: var(--dark-text); }
+  .wishlist-btn:hover .bulk-tooltip { display: block; }
+  .wishlist-btn { position: relative; }
   .wishlist-btn svg { width: 18px; height: 18px; color: var(--dark-text); }
   .wishlist-btn.saved svg { fill: #e5007d; stroke: #e5007d; }
 
@@ -564,8 +566,11 @@
   }
   .bulk-tier {
     padding: 0 12px;
-    border-right: 1px solid #E6E8EC;
+    border-right: 1px solid #E0E0E0;
     text-align: left;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
   }
   .bulk-tier:first-child { padding-left: 0; }
   .bulk-tier:last-child { border-right: none; padding-right: 0; }
@@ -578,9 +583,11 @@
   .bulk-tier-price {
     font-size: 13px;
     color: var(--gray-text);
+    margin-top: 4px;
   }
   .bulk-tier-best .bulk-tier-qty { color: var(--dark-text); }
   .bulk-tier-best .bulk-tier-price { color: var(--dark-text); font-weight: 600; }
+  .bulk-tier-price { display: block; }
 
   /* Qty stepper + ATC row */
   .atc-row {
@@ -657,6 +664,9 @@
     background: white;
     padding: 14px 16px;
     margin-top: 4px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
   }
   .swatch-header { font-size: 14px; font-weight: 700; color: #0C254C; margin-bottom: 10px; }
   .swatch-header span { font-weight: 400; }
@@ -1108,7 +1118,7 @@
   .review-summary {
     display: flex;
     align-items: flex-start;
-    gap: 32px;
+    gap: 20px;
     margin-bottom: 24px;
   }
   .review-score-block {
@@ -1119,7 +1129,7 @@
     min-width: 80px;
   }
   .review-big-num {
-    font-size: 48px;
+    font-size: 36px;
     font-weight: 700;
     color: var(--dark-text);
     line-height: 1;
@@ -1137,11 +1147,78 @@
   }
   .bar-label { width: 28px; text-align: right; flex-shrink: 0; }
   .bar-track {
-    flex: 1; height: 8px; background: #e8e8e8; border-radius: 4px; overflow: hidden;
+    flex: 1; height: 6px; background: #e8e8e8; border-radius: 4px; overflow: hidden;
   }
   .bar-fill { height: 100%; background: #F59E0B; border-radius: 4px; }
   .bar-count { width: 20px; text-align: right; flex-shrink: 0; }
 
+  .review-controls {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 16px;
+    gap: 10px;
+  }
+  .write-review-btn {
+    background: var(--navy);
+    color: white;
+    border: none;
+    border-radius: 4px;
+    padding: 8px 16px;
+    font-family: var(--font);
+    font-size: 13px;
+    font-weight: 700;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: opacity 0.15s;
+  }
+  .write-review-btn:hover { opacity: 0.85; }
+  .sort-wrap { position: relative; }
+  .sort-select {
+    font-family: var(--font);
+    font-size: 13px;
+    color: var(--dark-text);
+    border: 1px solid var(--gray-border);
+    border-radius: 4px;
+    padding: 7px 32px 7px 10px;
+    background: white;
+    cursor: pointer;
+    appearance: none;
+    -webkit-appearance: none;
+    min-width: 160px;
+  }
+  .sort-wrap::after {
+    content: "";
+    position: absolute;
+    right: 10px; top: 50%;
+    transform: translateY(-50%);
+    border: 4px solid transparent;
+    border-top-color: var(--dark-text);
+    margin-top: 2px;
+    pointer-events: none;
+  }
+  .review-pagination {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    margin-top: 20px;
+  }
+  .page-btn {
+    width: 32px; height: 32px;
+    border: 1px solid var(--gray-border);
+    border-radius: 4px;
+    background: white;
+    font-family: var(--font);
+    font-size: 13px;
+    color: var(--dark-text);
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    transition: all 0.15s;
+  }
+  .page-btn:hover { border-color: var(--navy); color: var(--navy); }
+  .page-btn.active { background: var(--navy); color: white; border-color: var(--navy); }
+  .page-btn.nav { font-size: 16px; }
   .review-card {
     border: 1px solid var(--gray-border);
     border-radius: 6px;
@@ -1196,9 +1273,20 @@
   .bnpl-row {
     display: flex;
     align-items: center;
+    justify-content: center;
     gap: 20px;
     padding: 4px 0;
     flex-wrap: wrap;
+  }
+  .bnpl-braze-img {
+    width: 100%;
+    margin-top: 10px;
+  }
+  .bnpl-braze-img img {
+    width: 100%;
+    height: auto;
+    display: block;
+    border-radius: 6px;
   }
   .bnpl-logo { height: 24px; display: flex; align-items: center; }
   .bnpl-logo img { height: 100%; width: auto; object-fit: contain; }
@@ -1635,14 +1723,15 @@
     overflow: hidden;
   }
   .bundle-header {
-    padding: 14px 18px 10px;
+    padding: 14px 18px 12px;
     border-bottom: 1px solid var(--gray-bg);
-    text-align: center;
+    text-align: left;
   }
   .bundle-title {
-    font-size: 15px;
+    font-size: 24px;
     font-weight: 800;
     color: var(--dark-text);
+    text-align: left;
   }
   .bundle-track-wrap { overflow: hidden; position: relative; }
   .bundle-track {
@@ -1659,7 +1748,7 @@
     border: 1px solid var(--gray-border);
     border-radius: 4px;
     padding: 10px 12px;
-    min-width: calc(33.333% - 12px);
+    min-width: calc(33.333% - 8px);
     flex-shrink: 0;
   }
   .bundle-item-img {
@@ -1718,9 +1807,9 @@
   .bundle-atc-btn {
     background: #A8A8A8; color: white; border: none; border-radius: 4px;
     padding: 10px 28px; font-family: var(--font); font-size: 13px; font-weight: 700;
-    cursor: default; transition: background 0.2s;
+    cursor: not-allowed; transition: background 0.2s, opacity 0.15s;
   }
-  .bundle-atc-btn.has-selection { background: var(--navy); cursor: pointer; }
+  .bundle-atc-btn.has-selection { background: #0C254C !important; cursor: pointer; }
   .bundle-atc-btn.has-selection:hover { opacity: 0.88; }
 </style>
 </head>
@@ -1942,7 +2031,6 @@
       <div class="swatch-bar" style="margin-top:12px;">
         <div class="swatch-header">Colour: <span id="swatch-name">Black</span></div>
         <div class="swatch-row">
-        <div style="flex:1"></div>
         <div class="swatch active" style="background:#111;" title="Black" onclick="selectSwatch(this,'Black')"></div>
         <div class="swatch" style="background:#0066FF;" title="Blue" onclick="selectSwatch(this,'Blue')"></div>
         <div class="swatch" style="background:#D32F2F;" title="Red" onclick="selectSwatch(this,'Red')"></div>
@@ -2010,31 +2098,16 @@
               </div>
             </div>
 
-            <div class="bundle-item">
-              <div class="bundle-item-img">
-                <img src="https://media.jaycar.com.au/product/images/YN8255_cat6a-patch-cable-2m-red-disco_99298.jpg?format=webp&width=1000" alt=""/>
-              </div>
-              <div class="bundle-item-info">
-                <div class="bundle-item-name">Brass Monkey 20L Portable Fridge/Freezer</div>
-                <div class="bundle-item-catno">CAT.NO: <strong>GH2102</strong></div>
-                <div class="bundle-item-price">$399</div>
-              </div>
-              <div class="bundle-item-right">
-                <div class="bundle-checkbox" onclick="toggleBundle(this)"></div>
-                <select class="bundle-qty-select"><option>1 ∨</option><option>2 ∨</option><option>3 ∨</option></select>
-              </div>
-            </div>
-
           </div>
-          <button class="bundle-nav-btn prev" onclick="slideBundle(-1)" id="bundle-prev" style="display:none;">
+          <button class="bundle-nav-btn prev" onclick="slideBundle(-1)" id="bundle-prev" style="display:none;visibility:hidden;">
             <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><polyline points="10 4 6 8 10 12"/></svg>
           </button>
-          <button class="bundle-nav-btn next" onclick="slideBundle(1)" id="bundle-next">
+          <button class="bundle-nav-btn next" onclick="slideBundle(1)" id="bundle-next" style="display:none;visibility:hidden;">
             <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 4 10 8 6 12"/></svg>
           </button>
         </div>
         <div class="bundle-footer">
-          <button class="bundle-atc-btn" id="bundle-atc-btn" onclick="addBundleToCart()" style="background:#A8A8A8;cursor:default;">Add Selected to Cart</button>
+          <button class="bundle-atc-btn" id="bundle-atc-btn" onclick="addBundleToCart()">Add Selected to Cart</button>
         </div>
       </div>
 
@@ -2126,6 +2199,20 @@
             </div>
           </div>
 
+          <!-- Sort + Write Review controls -->
+          <div class="review-controls">
+            <div class="sort-wrap">
+              <select class="sort-select" onchange="sortReviews(this.value)">
+                <option value="relevant">Most Relevant</option>
+                <option value="helpful">Most Helpful</option>
+                <option value="high">Highest to Lowest Rating</option>
+                <option value="low">Lowest to Highest Rating</option>
+                <option value="recent">Most Recent</option>
+              </select>
+            </div>
+            <button class="write-review-btn" onclick="writeReview()">Write a Review</button>
+          </div>
+
           <!-- Review cards -->
           <div class="review-card">
             <div class="review-card-header">
@@ -2170,6 +2257,17 @@
               <svg viewBox="0 0 20 20" fill="#0C254C"><path d="M10 1l2.4 6.6H19l-5.4 4 2.1 6.6L10 14.4l-5.7 3.8 2.1-6.6L1 7.6h6.6z"/></svg>
             </div>
             <p class="review-text">Used this across 3 weeks in the Simpson Desert. 45°C outside and it kept beer ice cold. Could not ask for more.</p>
+          </div>
+
+          <!-- Pagination -->
+          <div class="review-pagination">
+            <button class="page-btn nav" title="Previous">&#8249;</button>
+            <button class="page-btn active">1</button>
+            <button class="page-btn">2</button>
+            <button class="page-btn">3</button>
+            <span style="color:var(--gray-text);font-size:13px;padding:0 4px;">…</span>
+            <button class="page-btn">8</button>
+            <button class="page-btn nav" title="Next">&#8250;</button>
           </div>
 
         </div><!-- /tab-reviews -->
@@ -2232,10 +2330,6 @@
         <span class="price-main">$3,499</span>
         <span class="price-orig">$4,199</span>
         <span class="price-save">Save $700</span>
-        <!-- Wishlist heart -->
-        <button class="wishlist-btn" onclick="toggleWishlist(this)" aria-label="Save to wishlist">
-          <img src="https://cdn.jsdelivr.net/gh/RiccoZorzo/jaycar-PDP-v2@main/images/blue_list_icon.png" style="width:20px;height:20px;object-fit:contain;" onerror="this.style.display='none'"/>
-        </button>
       </div>
 
       <!-- Bulk pricing card -->
@@ -2244,9 +2338,8 @@
         <div class="bulk-card-header">
           <div class="bulk-title">
 <img src="https://cdn.jsdelivr.net/gh/RiccoZorzo/jaycar-PDP-v2@main/images/spare%20parts%20icon.png" style="width:18px;height:18px;object-fit:contain;" onerror="this.style.display='none'"/> <strong>Bulk Pricing</strong>
-            <span class="bulk-info-icon">ⓘ<span class="bulk-tooltip">Bulk pricing applied at checkout</span></span>
+            <span class="bulk-info-icon"><img src="https://cdn.jsdelivr.net/gh/RiccoZorzo/jaycar-PDP-v2@main/images/info-circle.png" style="width:14px;height:14px;object-fit:contain;vertical-align:middle;" onerror="this.textContent='ⓘ'"/><span class="bulk-tooltip">Bulk pricing applied at checkout</span></span>
           </div>
-          <span class="bulk-best-badge">Best Value</span>
         </div>
         <div class="bulk-tiers">
           <div class="bulk-tier">
@@ -2258,6 +2351,7 @@
             <div class="bulk-tier-price">$2,499 / unit</div>
           </div>
           <div class="bulk-tier bulk-tier-best">
+            <div style="margin-bottom:4px;"><span class="bulk-best-badge">Best Value</span></div>
             <div class="bulk-tier-qty">Qty 10+</div>
             <div class="bulk-tier-price">$1,499 / unit</div>
           </div>
@@ -2276,6 +2370,10 @@
           </button>
         </div>
         <button class="add-to-cart-btn" onclick="addToCart()">Add to Cart</button>
+        <button class="wishlist-btn" onclick="toggleWishlist(this)" aria-label="Save to wishlist" style="position:relative;">
+          <img src="https://cdn.jsdelivr.net/gh/RiccoZorzo/jaycar-PDP-v2@main/images/blue_list_icon.png" style="width:20px;height:20px;object-fit:contain;" onerror="this.style.display='none'"/>
+          <span class="bulk-tooltip" style="white-space:nowrap;bottom:calc(100% + 8px);left:50%;transform:translateX(-50%);">Add to wishlist</span>
+        </button>
       </div>
 
       <!-- Trust strip -->
@@ -2306,8 +2404,7 @@
             <img src="https://cdn.jsdelivr.net/gh/RiccoZorzo/jaycar-PDP-v2@main/images/express%20delivery%20icon.png" alt="Express Delivery" style="width:28px;height:28px;object-fit:contain;" onerror="this.style.display='none'"/>
           </div>
           <div class="delivery-option-body">
-            <div class="delivery-option-title">3-Hour Express Delivery</div>
-            <div style="margin:2px 0;"><span style="background:#56BFC9;color:white;font-size:11px;font-weight:800;padding:2px 8px;border-radius:4px;font-family:'Figtree',sans-serif;display:inline-block;">Fastest</span></div>
+            <div class="delivery-option-title" style="display:flex;align-items:center;gap:8px;">3-Hour Express Delivery <span style="background:#56BFC9;color:white;font-size:11px;font-weight:800;padding:2px 8px;border-radius:4px;font-family:'Figtree',sans-serif;white-space:nowrap;flex-shrink:0;">Fastest</span></div>
             <div class="delivery-option-sub">Order before 2pm, get it today</div>
           </div>
           <div class="delivery-option-price">$14.95</div>
@@ -2338,11 +2435,20 @@
       </button>
 
       <!-- Buy now pay later logos -->
+      <div>
+        <div class="bnpl-logo bnpl-paypal"><img src="https://cdn.jsdelivr.net/gh/RiccoZorzo/jaycar-PDP-v2@main/images/paypal_icon.png" alt="PayPal" style="height:24px;width:auto;object-fit:contain;" onerror="this.style.display='none'"/></div>
+        <div class="bnpl-logo bnpl-afterpay"><img src="https://cdn.jsdelivr.net/gh/RiccoZorzo/jaycar-PDP-v2@main/images/afterpay_icon.png" alt="Afterpay" style="height:24px;width:auto;object-fit:contain;" onerror="this.style.display='none'"/></div>
+        <div class="bnpl-logo bnpl-zip"><img src="https://cdn.jsdelivr.net/gh/RiccoZorzo/jaycar-PDP-v2@main/images/zip_icon.png" alt="Zip" style="height:24px;width:auto;object-fit:contain;" onerror="this.style.display='none'"/></div>
+        <div class="bnpl-logo bnpl-latitude"><img src="https://cdn.jsdelivr.net/gh/RiccoZorzo/jaycar-PDP-v2@main/images/latitude_icon.png" alt="Latitude" style="height:24px;width:auto;object-fit:contain;" onerror="this.style.display='none'"/></div>
       <div class="bnpl-row">
         <div class="bnpl-logo bnpl-paypal"><img src="https://cdn.jsdelivr.net/gh/RiccoZorzo/jaycar-PDP-v2@main/images/paypal_icon.png" alt="PayPal" style="height:24px;width:auto;object-fit:contain;" onerror="this.style.display='none'"/></div>
         <div class="bnpl-logo bnpl-afterpay"><img src="https://cdn.jsdelivr.net/gh/RiccoZorzo/jaycar-PDP-v2@main/images/afterpay_icon.png" alt="Afterpay" style="height:24px;width:auto;object-fit:contain;" onerror="this.style.display='none'"/></div>
         <div class="bnpl-logo bnpl-zip"><img src="https://cdn.jsdelivr.net/gh/RiccoZorzo/jaycar-PDP-v2@main/images/zip_icon.png" alt="Zip" style="height:24px;width:auto;object-fit:contain;" onerror="this.style.display='none'"/></div>
         <div class="bnpl-logo bnpl-latitude"><img src="https://cdn.jsdelivr.net/gh/RiccoZorzo/jaycar-PDP-v2@main/images/latitude_icon.png" alt="Latitude" style="height:24px;width:auto;object-fit:contain;" onerror="this.style.display='none'"/></div>
+      </div>
+      <div class="bnpl-braze-img">
+        <img src="https://braze-images.com/appboy/communication/assets/image_assets/images/69aa3d669efd190063a7011e/original.png?1772764517" alt="Buy Now Pay Later" onerror="this.style.display='none'"/>
+      </div>
       </div>
 
     </div><!-- / product-info -->
@@ -2562,16 +2668,39 @@
 </footer>
 
 <script>
+  // Reviews sort + write
+  function sortReviews(val) { /* placeholder — would re-fetch/re-sort */ }
+  function writeReview() {
+    alert('Review form would open here');
+  }
+  // Pagination
+  document.addEventListener('click', function(e) {
+    if (e.target.classList.contains('page-btn') && !e.target.classList.contains('nav')) {
+      document.querySelectorAll('.page-btn').forEach(b => b.classList.remove('active'));
+      e.target.classList.add('active');
+    }
+  });
+
   // Bundle widget
   let bundleOffset = 0;
-  // Init: 2 items start checked so button starts navy
-  window.addEventListener('DOMContentLoaded', () => {
+
+  function updateBundleBtn() {
+    const anyChecked = document.querySelectorAll('.bundle-checkbox.checked').length > 0;
     const btn = document.getElementById('bundle-atc-btn');
-    if (btn) { btn.classList.add('has-selection'); btn.style.cursor = 'pointer'; }
-  });
+    if (!btn) return;
+    if (anyChecked) {
+      btn.classList.add('has-selection');
+      btn.style.cursor = 'pointer';
+    } else {
+      btn.classList.remove('has-selection');
+      btn.style.cursor = 'not-allowed';
+    }
+  }
+
+  window.addEventListener('DOMContentLoaded', updateBundleBtn);
+
   function slideBundle(dir) {
     const track = document.getElementById('bundle-track');
-    const wrap = document.getElementById('bundle-wrap');
     const items = track.querySelectorAll('.bundle-item');
     const itemW = items[0].offsetWidth + 10;
     const maxOffset = Math.max(0, items.length - 3);
@@ -2583,23 +2712,16 @@
 
   function toggleBundle(el) {
     el.classList.toggle('checked');
-    const anyChecked = document.querySelectorAll('.bundle-checkbox.checked').length > 0;
-    const btn = document.getElementById('bundle-atc-btn');
-    if (anyChecked) {
-      btn.classList.add('has-selection');
-      btn.style.cursor = 'pointer';
-    } else {
-      btn.classList.remove('has-selection');
-      btn.style.cursor = 'default';
-    }
+    updateBundleBtn();
   }
 
   function addBundleToCart() {
-    const btn = document.querySelector('.bundle-atc-btn');
+    const btn = document.getElementById('bundle-atc-btn');
+    if (!btn.classList.contains('has-selection')) return;
     const orig = btn.innerHTML;
-    btn.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg> Added!';
+    btn.innerHTML = 'Added!';
     btn.style.background = '#2E7D32';
-    setTimeout(() => { btn.innerHTML = orig; btn.style.background = ''; }, 2000);
+    setTimeout(() => { btn.innerHTML = orig; btn.style.background = ''; updateBundleBtn(); }, 2000);
   }
 
   // Spec sub-tab switching
