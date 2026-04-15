@@ -446,9 +446,9 @@
     gap: 6px;
   }
   .stars { display: flex; gap: 2px; }
-  .star { width: 15px; height: 15px; }
+  .star { width: 15px; height: 15px; fill: #0C254C !important; }
   .rating-score { font-size: 13px; font-weight: 600; color: var(--dark-text); }
-  .rating-count { font-size: 13px; color: var(--gray-text); }
+  .rating-count { font-size: 13px; color: #757575; }
   .read-reviews-link {
     font-size: 11px;
     color: var(--dark-text);
@@ -461,7 +461,7 @@
   /* Price block */
   .price-block {
     display: flex;
-    align-items: center;
+    align-items: flex-end;
     gap: 10px;
     position: relative;
   }
@@ -506,7 +506,7 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    margin-bottom: 14px;
+    margin-bottom: 12px;
   }
   .bulk-title {
     display: flex;
@@ -518,7 +518,7 @@
   .bulk-title svg { color: var(--dark-text); flex-shrink: 0; }
   .bulk-info-icon {
     font-size: 14px;
-    color: var(--gray-text);
+    color: #56BFC9;
     cursor: help;
     position: relative;
   }
@@ -560,16 +560,15 @@
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
     gap: 0;
-    border-top: 1px solid #E6E8EC;
-    padding-top: 12px;
+    padding-top: 0;
   }
   .bulk-tier {
-    padding: 0 8px;
+    padding: 0 12px;
     border-right: 1px solid #E6E8EC;
-    text-align: center;
+    text-align: left;
   }
   .bulk-tier:first-child { padding-left: 0; }
-  .bulk-tier:last-child { border-right: none; }
+  .bulk-tier:last-child { border-right: none; padding-right: 0; }
   .bulk-tier-qty {
     font-size: 13px;
     font-weight: 600;
@@ -654,19 +653,19 @@
   /* ── COLOR SWATCH BAR ── */
   .swatch-bar {
     border: 1px solid var(--gray-border);
-    border-radius: 3.5px;
+    border-radius: 4px;
     background: white;
-    padding: 20px 24px;
+    padding: 14px 16px;
     margin-top: 4px;
-    display: flex;
-    align-items: center;
-    gap: 16px;
   }
-  .swatch { width: 19px; height: 19px; border-radius: 50%; cursor: pointer; flex-shrink: 0; transition: transform 0.15s; }
-  .swatch:hover { transform: scale(1.15); }
-  .swatch.active { outline: 2px solid var(--dark-text); outline-offset: 2px; }
-  .swatch-label { font-size: 12px; color: var(--gray-text); margin-right: 4px; }
-  .swatch-selected { font-size: 12px; font-weight: 600; }
+  .swatch-header { font-size: 14px; font-weight: 700; color: #0C254C; margin-bottom: 10px; }
+  .swatch-header span { font-weight: 400; }
+  .swatch-row { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+  .swatch { width: 22px; height: 22px; border-radius: 50%; cursor: pointer; flex-shrink: 0; transition: transform 0.15s; box-shadow: 0 0 0 2px #E0E0E0; }
+  .swatch:hover { transform: scale(1.12); }
+  .swatch.active { box-shadow: 0 0 0 2px var(--dark-text); }
+  .swatch-label { display: none; }
+  .swatch-selected { display: none; }
 
   /* ── PRODUCT DESCRIPTION SECTION ── */
   .desc-section {
@@ -1165,7 +1164,7 @@
     align-items: center;
     width: 100%;
     padding: 14px 16px;
-    border: 1.5px solid var(--navy);
+    border: 1.5px solid #E0E0E0;
     border-radius: 4px;
     background: white;
     cursor: pointer;
@@ -1252,10 +1251,10 @@
     flex-shrink: 0;
     overflow: hidden;
   }
-  .delivery-icon-wrap.standard { background: #f0f2f5; }
-  .delivery-icon-wrap.free { background: #f0f2f5; }
-  .delivery-icon-wrap.express { background: #fff7e6; }
-  .delivery-icon-wrap.collect { background: #e8f9f5; }
+  .delivery-icon-wrap.standard { background: transparent; }
+  .delivery-icon-wrap.free { background: transparent; }
+  .delivery-icon-wrap.express { background: transparent; }
+  .delivery-icon-wrap.collect { background: transparent; }
   .delivery-icon-wrap svg { width: 22px !important; height: 22px !important; max-width: 22px; max-height: 22px; flex-shrink: 0; }
   .delivery-option-body { flex: 1; }
   .delivery-option-title {
@@ -1678,6 +1677,7 @@
     font-size: 11px; font-weight: 600; color: var(--dark-text);
     line-height: 1.3; margin-bottom: 2px;
     display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
+    max-width: 120px;
   }
   .bundle-item-catno { font-size: 10px; color: var(--gray-text); margin-bottom: 3px; }
   .bundle-item-price { font-size: 12px; font-weight: 700; color: var(--dark-text); }
@@ -1694,8 +1694,10 @@
   .bundle-checkbox.checked::after { content: '✓'; color: white; font-size: 11px; font-weight: 700; }
   .bundle-qty-select {
     font-size: 11px; border: 1px solid var(--gray-border); border-radius: 4px;
-    padding: 2px 4px; background: white; color: var(--dark-text);
-    cursor: pointer; font-family: var(--font); width: 44px;
+    padding: 2px 6px; background: white; color: var(--dark-text);
+    cursor: pointer; font-family: var(--font); width: 36px;
+    -webkit-appearance: none; -moz-appearance: none; appearance: none;
+    text-align: center;
   }
   .bundle-nav-btn {
     position: absolute; top: 50%; transform: translateY(-50%);
@@ -1714,13 +1716,12 @@
     display: flex; align-items: center; justify-content: center;
   }
   .bundle-atc-btn {
-    display: flex; align-items: center; gap: 8px;
-    background: var(--navy); color: white; border: none; border-radius: 4px;
+    background: #A8A8A8; color: white; border: none; border-radius: 4px;
     padding: 10px 28px; font-family: var(--font); font-size: 13px; font-weight: 700;
-    cursor: pointer; transition: opacity 0.15s;
+    cursor: default; transition: background 0.2s;
   }
-  .bundle-atc-btn:hover { opacity: 0.88; }
-  .bundle-atc-btn svg { width: 15px; height: 15px; flex-shrink: 0; }
+  .bundle-atc-btn.has-selection { background: var(--navy); cursor: pointer; }
+  .bundle-atc-btn.has-selection:hover { opacity: 0.88; }
 </style>
 </head>
 <body>
@@ -1939,8 +1940,8 @@
 
       <!-- Colour swatch bar -->
       <div class="swatch-bar" style="margin-top:12px;">
-        <span class="swatch-label">Colour:</span>
-        <span class="swatch-selected" id="swatch-name">Black</span>
+        <div class="swatch-header">Colour: <span id="swatch-name">Black</span></div>
+        <div class="swatch-row">
         <div style="flex:1"></div>
         <div class="swatch active" style="background:#111;" title="Black" onclick="selectSwatch(this,'Black')"></div>
         <div class="swatch" style="background:#0066FF;" title="Blue" onclick="selectSwatch(this,'Blue')"></div>
@@ -1949,7 +1950,8 @@
         <div class="swatch" style="background:#FF00DD;" title="Magenta" onclick="selectSwatch(this,'Magenta')"></div>
         <div class="swatch" style="background:#2E7D32;" title="Dark Green" onclick="selectSwatch(this,'Dark Green')"></div>
         <div class="swatch" style="background:#895129;" title="Brown" onclick="selectSwatch(this,'Brown')"></div>
-        <div class="swatch" style="background:white; border:2px solid var(--gray-border);" title="White" onclick="selectSwatch(this,'White')"></div>
+        <div class="swatch" style="background:white;" title="White" onclick="selectSwatch(this,'White')"></div>
+        </div>
       </div>
 
       <!-- ═══ TABBED SECTION ═══ -->
@@ -1970,7 +1972,7 @@
               <div class="bundle-item-info">
                 <div class="bundle-item-name">30L Brass Monkey Portable Fridge/Freezer CFR30</div>
                 <div class="bundle-item-catno">CAT.NO: <strong>GH2300</strong></div>
-                <div class="bundle-item-price">$3,499.00</div>
+                <div class="bundle-item-price">$3,499</div>
               </div>
               <div class="bundle-item-right">
                 <div class="bundle-checkbox checked" onclick="toggleBundle(this)"></div>
@@ -1985,7 +1987,7 @@
               <div class="bundle-item-info">
                 <div class="bundle-item-name">22L Brass Monkey Portable Fridge/Freezer</div>
                 <div class="bundle-item-catno">CAT.NO: <strong>GH1624</strong></div>
-                <div class="bundle-item-price">$299.00</div>
+                <div class="bundle-item-price">$299</div>
               </div>
               <div class="bundle-item-right">
                 <div class="bundle-checkbox checked" onclick="toggleBundle(this)"></div>
@@ -2000,7 +2002,7 @@
               <div class="bundle-item-info">
                 <div class="bundle-item-name">40L Dual Zone Portable Fridge/Freezer CFR40</div>
                 <div class="bundle-item-catno">CAT.NO: <strong>GH2302</strong></div>
-                <div class="bundle-item-price">$549.00</div>
+                <div class="bundle-item-price">$549</div>
               </div>
               <div class="bundle-item-right">
                 <div class="bundle-checkbox" onclick="toggleBundle(this)"></div>
@@ -2015,7 +2017,7 @@
               <div class="bundle-item-info">
                 <div class="bundle-item-name">Brass Monkey 20L Portable Fridge/Freezer</div>
                 <div class="bundle-item-catno">CAT.NO: <strong>GH2102</strong></div>
-                <div class="bundle-item-price">$399.00</div>
+                <div class="bundle-item-price">$399</div>
               </div>
               <div class="bundle-item-right">
                 <div class="bundle-checkbox" onclick="toggleBundle(this)"></div>
@@ -2032,13 +2034,7 @@
           </button>
         </div>
         <div class="bundle-footer">
-          <button class="bundle-atc-btn" onclick="addBundleToCart()">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/>
-              <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/>
-            </svg>
-            Add to cart
-          </button>
+          <button class="bundle-atc-btn" id="bundle-atc-btn" onclick="addBundleToCart()" style="background:#A8A8A8;cursor:default;">Add Selected to Cart</button>
         </div>
       </div>
 
@@ -2113,11 +2109,11 @@
             <div class="review-score-block">
               <div class="review-big-num">4.5</div>
               <div class="review-stars">
-                <svg viewBox="0 0 20 20" fill="#F59E0B"><path d="M10 1l2.4 6.6H19l-5.4 4 2.1 6.6L10 14.4l-5.7 3.8 2.1-6.6L1 7.6h6.6z"/></svg>
-                <svg viewBox="0 0 20 20" fill="#F59E0B"><path d="M10 1l2.4 6.6H19l-5.4 4 2.1 6.6L10 14.4l-5.7 3.8 2.1-6.6L1 7.6h6.6z"/></svg>
-                <svg viewBox="0 0 20 20" fill="#F59E0B"><path d="M10 1l2.4 6.6H19l-5.4 4 2.1 6.6L10 14.4l-5.7 3.8 2.1-6.6L1 7.6h6.6z"/></svg>
-                <svg viewBox="0 0 20 20" fill="#F59E0B"><path d="M10 1l2.4 6.6H19l-5.4 4 2.1 6.6L10 14.4l-5.7 3.8 2.1-6.6L1 7.6h6.6z"/></svg>
-                <svg viewBox="0 0 20 20" fill="#F59E0B"><path d="M10 1l2.4 6.6H19l-5.4 4 2.1 6.6L10 14.4l-5.7 3.8 2.1-6.6L1 7.6h6.6z"/></svg>
+                <svg viewBox="0 0 20 20" fill="#0C254C"><path d="M10 1l2.4 6.6H19l-5.4 4 2.1 6.6L10 14.4l-5.7 3.8 2.1-6.6L1 7.6h6.6z"/></svg>
+                <svg viewBox="0 0 20 20" fill="#0C254C"><path d="M10 1l2.4 6.6H19l-5.4 4 2.1 6.6L10 14.4l-5.7 3.8 2.1-6.6L1 7.6h6.6z"/></svg>
+                <svg viewBox="0 0 20 20" fill="#0C254C"><path d="M10 1l2.4 6.6H19l-5.4 4 2.1 6.6L10 14.4l-5.7 3.8 2.1-6.6L1 7.6h6.6z"/></svg>
+                <svg viewBox="0 0 20 20" fill="#0C254C"><path d="M10 1l2.4 6.6H19l-5.4 4 2.1 6.6L10 14.4l-5.7 3.8 2.1-6.6L1 7.6h6.6z"/></svg>
+                <svg viewBox="0 0 20 20" fill="#0C254C"><path d="M10 1l2.4 6.6H19l-5.4 4 2.1 6.6L10 14.4l-5.7 3.8 2.1-6.6L1 7.6h6.6z"/></svg>
               </div>
               <div class="review-count">24 reviews</div>
             </div>
@@ -2137,11 +2133,11 @@
               <span class="review-date">March 2025</span>
             </div>
             <div class="review-card-stars">
-              <svg viewBox="0 0 20 20" fill="#F59E0B"><path d="M10 1l2.4 6.6H19l-5.4 4 2.1 6.6L10 14.4l-5.7 3.8 2.1-6.6L1 7.6h6.6z"/></svg>
-              <svg viewBox="0 0 20 20" fill="#F59E0B"><path d="M10 1l2.4 6.6H19l-5.4 4 2.1 6.6L10 14.4l-5.7 3.8 2.1-6.6L1 7.6h6.6z"/></svg>
-              <svg viewBox="0 0 20 20" fill="#F59E0B"><path d="M10 1l2.4 6.6H19l-5.4 4 2.1 6.6L10 14.4l-5.7 3.8 2.1-6.6L1 7.6h6.6z"/></svg>
-              <svg viewBox="0 0 20 20" fill="#F59E0B"><path d="M10 1l2.4 6.6H19l-5.4 4 2.1 6.6L10 14.4l-5.7 3.8 2.1-6.6L1 7.6h6.6z"/></svg>
-              <svg viewBox="0 0 20 20" fill="#F59E0B"><path d="M10 1l2.4 6.6H19l-5.4 4 2.1 6.6L10 14.4l-5.7 3.8 2.1-6.6L1 7.6h6.6z"/></svg>
+              <svg viewBox="0 0 20 20" fill="#0C254C"><path d="M10 1l2.4 6.6H19l-5.4 4 2.1 6.6L10 14.4l-5.7 3.8 2.1-6.6L1 7.6h6.6z"/></svg>
+              <svg viewBox="0 0 20 20" fill="#0C254C"><path d="M10 1l2.4 6.6H19l-5.4 4 2.1 6.6L10 14.4l-5.7 3.8 2.1-6.6L1 7.6h6.6z"/></svg>
+              <svg viewBox="0 0 20 20" fill="#0C254C"><path d="M10 1l2.4 6.6H19l-5.4 4 2.1 6.6L10 14.4l-5.7 3.8 2.1-6.6L1 7.6h6.6z"/></svg>
+              <svg viewBox="0 0 20 20" fill="#0C254C"><path d="M10 1l2.4 6.6H19l-5.4 4 2.1 6.6L10 14.4l-5.7 3.8 2.1-6.6L1 7.6h6.6z"/></svg>
+              <svg viewBox="0 0 20 20" fill="#0C254C"><path d="M10 1l2.4 6.6H19l-5.4 4 2.1 6.6L10 14.4l-5.7 3.8 2.1-6.6L1 7.6h6.6z"/></svg>
             </div>
             <p class="review-text">Excellent fridge — keeps everything perfectly cold on long outback road trips. Compressor is impressively quiet and it barely drains the battery overnight.</p>
           </div>
@@ -2152,10 +2148,10 @@
               <span class="review-date">January 2025</span>
             </div>
             <div class="review-card-stars">
-              <svg viewBox="0 0 20 20" fill="#F59E0B"><path d="M10 1l2.4 6.6H19l-5.4 4 2.1 6.6L10 14.4l-5.7 3.8 2.1-6.6L1 7.6h6.6z"/></svg>
-              <svg viewBox="0 0 20 20" fill="#F59E0B"><path d="M10 1l2.4 6.6H19l-5.4 4 2.1 6.6L10 14.4l-5.7 3.8 2.1-6.6L1 7.6h6.6z"/></svg>
-              <svg viewBox="0 0 20 20" fill="#F59E0B"><path d="M10 1l2.4 6.6H19l-5.4 4 2.1 6.6L10 14.4l-5.7 3.8 2.1-6.6L1 7.6h6.6z"/></svg>
-              <svg viewBox="0 0 20 20" fill="#F59E0B"><path d="M10 1l2.4 6.6H19l-5.4 4 2.1 6.6L10 14.4l-5.7 3.8 2.1-6.6L1 7.6h6.6z"/></svg>
+              <svg viewBox="0 0 20 20" fill="#0C254C"><path d="M10 1l2.4 6.6H19l-5.4 4 2.1 6.6L10 14.4l-5.7 3.8 2.1-6.6L1 7.6h6.6z"/></svg>
+              <svg viewBox="0 0 20 20" fill="#0C254C"><path d="M10 1l2.4 6.6H19l-5.4 4 2.1 6.6L10 14.4l-5.7 3.8 2.1-6.6L1 7.6h6.6z"/></svg>
+              <svg viewBox="0 0 20 20" fill="#0C254C"><path d="M10 1l2.4 6.6H19l-5.4 4 2.1 6.6L10 14.4l-5.7 3.8 2.1-6.6L1 7.6h6.6z"/></svg>
+              <svg viewBox="0 0 20 20" fill="#0C254C"><path d="M10 1l2.4 6.6H19l-5.4 4 2.1 6.6L10 14.4l-5.7 3.8 2.1-6.6L1 7.6h6.6z"/></svg>
               <svg viewBox="0 0 20 20" fill="#e0e0e0"><path d="M10 1l2.4 6.6H19l-5.4 4 2.1 6.6L10 14.4l-5.7 3.8 2.1-6.6L1 7.6h6.6z"/></svg>
             </div>
             <p class="review-text">Great product, freezes fast and the digital control is spot on. A bit heavy for solo carrying but the build quality is excellent for the price.</p>
@@ -2167,11 +2163,11 @@
               <span class="review-date">December 2024</span>
             </div>
             <div class="review-card-stars">
-              <svg viewBox="0 0 20 20" fill="#F59E0B"><path d="M10 1l2.4 6.6H19l-5.4 4 2.1 6.6L10 14.4l-5.7 3.8 2.1-6.6L1 7.6h6.6z"/></svg>
-              <svg viewBox="0 0 20 20" fill="#F59E0B"><path d="M10 1l2.4 6.6H19l-5.4 4 2.1 6.6L10 14.4l-5.7 3.8 2.1-6.6L1 7.6h6.6z"/></svg>
-              <svg viewBox="0 0 20 20" fill="#F59E0B"><path d="M10 1l2.4 6.6H19l-5.4 4 2.1 6.6L10 14.4l-5.7 3.8 2.1-6.6L1 7.6h6.6z"/></svg>
-              <svg viewBox="0 0 20 20" fill="#F59E0B"><path d="M10 1l2.4 6.6H19l-5.4 4 2.1 6.6L10 14.4l-5.7 3.8 2.1-6.6L1 7.6h6.6z"/></svg>
-              <svg viewBox="0 0 20 20" fill="#F59E0B"><path d="M10 1l2.4 6.6H19l-5.4 4 2.1 6.6L10 14.4l-5.7 3.8 2.1-6.6L1 7.6h6.6z"/></svg>
+              <svg viewBox="0 0 20 20" fill="#0C254C"><path d="M10 1l2.4 6.6H19l-5.4 4 2.1 6.6L10 14.4l-5.7 3.8 2.1-6.6L1 7.6h6.6z"/></svg>
+              <svg viewBox="0 0 20 20" fill="#0C254C"><path d="M10 1l2.4 6.6H19l-5.4 4 2.1 6.6L10 14.4l-5.7 3.8 2.1-6.6L1 7.6h6.6z"/></svg>
+              <svg viewBox="0 0 20 20" fill="#0C254C"><path d="M10 1l2.4 6.6H19l-5.4 4 2.1 6.6L10 14.4l-5.7 3.8 2.1-6.6L1 7.6h6.6z"/></svg>
+              <svg viewBox="0 0 20 20" fill="#0C254C"><path d="M10 1l2.4 6.6H19l-5.4 4 2.1 6.6L10 14.4l-5.7 3.8 2.1-6.6L1 7.6h6.6z"/></svg>
+              <svg viewBox="0 0 20 20" fill="#0C254C"><path d="M10 1l2.4 6.6H19l-5.4 4 2.1 6.6L10 14.4l-5.7 3.8 2.1-6.6L1 7.6h6.6z"/></svg>
             </div>
             <p class="review-text">Used this across 3 weeks in the Simpson Desert. 45°C outside and it kept beer ice cold. Could not ask for more.</p>
           </div>
@@ -2220,11 +2216,11 @@
       <!-- Stars + reviews link -->
       <div class="rating-row">
         <div class="stars">
-          <svg class="star" viewBox="0 0 20 20" fill="#F59E0B"><path d="M10 1l2.4 6.6H19l-5.4 4 2.1 6.6L10 14.4l-5.7 3.8 2.1-6.6L1 7.6h6.6z"/></svg>
-          <svg class="star" viewBox="0 0 20 20" fill="#F59E0B"><path d="M10 1l2.4 6.6H19l-5.4 4 2.1 6.6L10 14.4l-5.7 3.8 2.1-6.6L1 7.6h6.6z"/></svg>
-          <svg class="star" viewBox="0 0 20 20" fill="#F59E0B"><path d="M10 1l2.4 6.6H19l-5.4 4 2.1 6.6L10 14.4l-5.7 3.8 2.1-6.6L1 7.6h6.6z"/></svg>
-          <svg class="star" viewBox="0 0 20 20" fill="#F59E0B"><path d="M10 1l2.4 6.6H19l-5.4 4 2.1 6.6L10 14.4l-5.7 3.8 2.1-6.6L1 7.6h6.6z"/></svg>
-          <svg class="star" viewBox="0 0 20 20" fill="#F59E0B"><path d="M10 1l2.4 6.6H19l-5.4 4 2.1 6.6L10 14.4l-5.7 3.8 2.1-6.6L1 7.6h6.6z"/></svg>
+          <svg class="star" viewBox="0 0 20 20" fill="#0C254C"><path d="M10 1l2.4 6.6H19l-5.4 4 2.1 6.6L10 14.4l-5.7 3.8 2.1-6.6L1 7.6h6.6z"/></svg>
+          <svg class="star" viewBox="0 0 20 20" fill="#0C254C"><path d="M10 1l2.4 6.6H19l-5.4 4 2.1 6.6L10 14.4l-5.7 3.8 2.1-6.6L1 7.6h6.6z"/></svg>
+          <svg class="star" viewBox="0 0 20 20" fill="#0C254C"><path d="M10 1l2.4 6.6H19l-5.4 4 2.1 6.6L10 14.4l-5.7 3.8 2.1-6.6L1 7.6h6.6z"/></svg>
+          <svg class="star" viewBox="0 0 20 20" fill="#0C254C"><path d="M10 1l2.4 6.6H19l-5.4 4 2.1 6.6L10 14.4l-5.7 3.8 2.1-6.6L1 7.6h6.6z"/></svg>
+          <svg class="star" viewBox="0 0 20 20" fill="#0C254C"><path d="M10 1l2.4 6.6H19l-5.4 4 2.1 6.6L10 14.4l-5.7 3.8 2.1-6.6L1 7.6h6.6z"/></svg>
         </div>
         <span class="rating-score">5.0</span>
         <span class="rating-count">(12)</span>
@@ -2238,9 +2234,7 @@
         <span class="price-save">Save $700</span>
         <!-- Wishlist heart -->
         <button class="wishlist-btn" onclick="toggleWishlist(this)" aria-label="Save to wishlist">
-          <svg id="wishlist-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
-            <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
-          </svg>
+          <img src="https://cdn.jsdelivr.net/gh/RiccoZorzo/jaycar-PDP-v2@main/images/blue_list_icon.png" style="width:20px;height:20px;object-fit:contain;" onerror="this.style.display='none'"/>
         </button>
       </div>
 
@@ -2312,8 +2306,9 @@
             <img src="https://cdn.jsdelivr.net/gh/RiccoZorzo/jaycar-PDP-v2@main/images/express%20delivery%20icon.png" alt="Express Delivery" style="width:28px;height:28px;object-fit:contain;" onerror="this.style.display='none'"/>
           </div>
           <div class="delivery-option-body">
-            <div class="delivery-option-title">3-Hour Express Delivery <span style="background:#56BFC9;color:white;font-size:11px;font-weight:800;padding:2px 8px;border-radius:4px;margin-left:4px;font-family:'Figtree',sans-serif;vertical-align:middle;">Fastest</span></div>
-            <div class="delivery-option-sub">Same day, select metro areas</div>
+            <div class="delivery-option-title">3-Hour Express Delivery</div>
+            <div style="margin:2px 0;"><span style="background:#56BFC9;color:white;font-size:11px;font-weight:800;padding:2px 8px;border-radius:4px;font-family:'Figtree',sans-serif;display:inline-block;">Fastest</span></div>
+            <div class="delivery-option-sub">Order before 2pm, get it today</div>
           </div>
           <div class="delivery-option-price">$14.95</div>
         </div>
@@ -2344,18 +2339,10 @@
 
       <!-- Buy now pay later logos -->
       <div class="bnpl-row">
-        <div class="bnpl-logo bnpl-paypal">
-          <span style="color:#003087;font-weight:800;font-size:15px;font-family:'Figtree',sans-serif;">Pay</span><span style="color:#009cde;font-weight:800;font-size:15px;font-family:'Figtree',sans-serif;">Pal</span>
-        </div>
-        <div class="bnpl-logo bnpl-afterpay">
-          <span style="background:#B2FCE4;padding:4px 10px;border-radius:20px;font-size:12px;font-weight:700;color:#000;white-space:nowrap;">afterpay ⇌</span>
-        </div>
-        <div class="bnpl-logo bnpl-zip">
-          <span style="font-size:18px;font-weight:900;color:#1a0050;font-family:'Figtree',sans-serif;">zi</span><span style="font-size:18px;font-weight:900;color:#aa8fff;font-family:'Figtree',sans-serif;">p</span>
-        </div>
-        <div class="bnpl-logo bnpl-latitude">
-          <span style="font-size:11px;font-weight:700;letter-spacing:1px;color:#555;border:1.5px dashed #aaa;padding:3px 7px;border-radius:3px;white-space:nowrap;font-family:'Figtree',sans-serif;">LATITUDE</span>
-        </div>
+        <div class="bnpl-logo bnpl-paypal"><img src="https://cdn.jsdelivr.net/gh/RiccoZorzo/jaycar-PDP-v2@main/images/paypal_icon.png" alt="PayPal" style="height:24px;width:auto;object-fit:contain;" onerror="this.style.display='none'"/></div>
+        <div class="bnpl-logo bnpl-afterpay"><img src="https://cdn.jsdelivr.net/gh/RiccoZorzo/jaycar-PDP-v2@main/images/afterpay_icon.png" alt="Afterpay" style="height:24px;width:auto;object-fit:contain;" onerror="this.style.display='none'"/></div>
+        <div class="bnpl-logo bnpl-zip"><img src="https://cdn.jsdelivr.net/gh/RiccoZorzo/jaycar-PDP-v2@main/images/zip_icon.png" alt="Zip" style="height:24px;width:auto;object-fit:contain;" onerror="this.style.display='none'"/></div>
+        <div class="bnpl-logo bnpl-latitude"><img src="https://cdn.jsdelivr.net/gh/RiccoZorzo/jaycar-PDP-v2@main/images/latitude_icon.png" alt="Latitude" style="height:24px;width:auto;object-fit:contain;" onerror="this.style.display='none'"/></div>
       </div>
 
     </div><!-- / product-info -->
@@ -2374,7 +2361,7 @@
         <div class="similar-card-body">
           <div class="similar-card-brand">Brass Monkey</div>
           <div class="similar-card-name">22L Brass Monkey Portable Fridge/Freezer</div>
-          <div class="similar-card-price">$299.00</div>
+          <div class="similar-card-price">$299</div>
           <button class="similar-card-atc">Add to Cart</button>
         </div>
       </div>
@@ -2386,7 +2373,7 @@
         <div class="similar-card-body">
           <div class="similar-card-brand">Brass Monkey</div>
           <div class="similar-card-name">36L Dual Zone Fridge/Freezer with Zone Divider</div>
-          <div class="similar-card-price">$449.00</div>
+          <div class="similar-card-price">$449</div>
           <button class="similar-card-atc">Add to Cart</button>
         </div>
       </div>
@@ -2398,7 +2385,7 @@
         <div class="similar-card-body">
           <div class="similar-card-brand">Brass Monkey</div>
           <div class="similar-card-name">Brass Monkey 20L Portable Fridge/Freezer</div>
-          <div class="similar-card-price">$399.00</div>
+          <div class="similar-card-price">$399</div>
           <button class="similar-card-atc">Add to Cart</button>
         </div>
       </div>
@@ -2411,7 +2398,7 @@
         <div class="similar-card-body">
           <div class="similar-card-brand">Brass Monkey</div>
           <div class="similar-card-name">40L Dual Zone Portable Fridge/Freezer</div>
-          <div class="similar-card-price">$549.00</div>
+          <div class="similar-card-price">$549</div>
           <button class="similar-card-atc">Add to Cart</button>
         </div>
       </div>
@@ -2424,7 +2411,7 @@
         <div class="similar-card-body">
           <div class="similar-card-brand">Brass Monkey</div>
           <div class="similar-card-name">22L Brass Monkey Portable Fridge/Freezer</div>
-          <div class="similar-card-price">$299.00</div>
+          <div class="similar-card-price">$299</div>
           <button class="similar-card-atc">Add to Cart</button>
         </div>
       </div>
@@ -2436,7 +2423,7 @@
         <div class="similar-card-body">
           <div class="similar-card-brand">Brass Monkey</div>
           <div class="similar-card-name">36L Dual Zone Fridge/Freezer with Zone Divider</div>
-          <div class="similar-card-price">$449.00</div>
+          <div class="similar-card-price">$449</div>
           <button class="similar-card-atc">Add to Cart</button>
         </div>
       </div>
@@ -2448,7 +2435,7 @@
         <div class="similar-card-body">
           <div class="similar-card-brand">Brass Monkey</div>
           <div class="similar-card-name">Brass Monkey 20L Portable Fridge/Freezer</div>
-          <div class="similar-card-price">$399.00</div>
+          <div class="similar-card-price">$399</div>
           <button class="similar-card-atc">Add to Cart</button>
         </div>
       </div>
@@ -2461,7 +2448,7 @@
         <div class="similar-card-body">
           <div class="similar-card-brand">Brass Monkey</div>
           <div class="similar-card-name">40L Dual Zone Portable Fridge/Freezer</div>
-          <div class="similar-card-price">$549.00</div>
+          <div class="similar-card-price">$549</div>
           <button class="similar-card-atc">Add to Cart</button>
         </div>
       </div>
@@ -2473,7 +2460,7 @@
         <div class="similar-card-body">
           <div class="similar-card-brand">Brass Monkey</div>
           <div class="similar-card-name">36L Dual Zone Fridge/Freezer with Zone Divider</div>
-          <div class="similar-card-price">$449.00</div>
+          <div class="similar-card-price">$449</div>
           <button class="similar-card-atc">Add to Cart</button>
         </div>
       </div>
@@ -2485,7 +2472,7 @@
         <div class="similar-card-body">
           <div class="similar-card-brand">Brass Monkey</div>
           <div class="similar-card-name">Brass Monkey 20L Portable Fridge/Freezer</div>
-          <div class="similar-card-price">$399.00</div>
+          <div class="similar-card-price">$399</div>
           <button class="similar-card-atc">Add to Cart</button>
         </div>
       </div>
@@ -2577,6 +2564,11 @@
 <script>
   // Bundle widget
   let bundleOffset = 0;
+  // Init: 2 items start checked so button starts navy
+  window.addEventListener('DOMContentLoaded', () => {
+    const btn = document.getElementById('bundle-atc-btn');
+    if (btn) { btn.classList.add('has-selection'); btn.style.cursor = 'pointer'; }
+  });
   function slideBundle(dir) {
     const track = document.getElementById('bundle-track');
     const wrap = document.getElementById('bundle-wrap');
@@ -2591,6 +2583,15 @@
 
   function toggleBundle(el) {
     el.classList.toggle('checked');
+    const anyChecked = document.querySelectorAll('.bundle-checkbox.checked').length > 0;
+    const btn = document.getElementById('bundle-atc-btn');
+    if (anyChecked) {
+      btn.classList.add('has-selection');
+      btn.style.cursor = 'pointer';
+    } else {
+      btn.classList.remove('has-selection');
+      btn.style.cursor = 'default';
+    }
   }
 
   function addBundleToCart() {
