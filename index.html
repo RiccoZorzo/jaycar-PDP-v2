@@ -573,9 +573,8 @@
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
     gap: 0;
-    border-top: 1px solid #E0E0E0;
     padding-top: 14px;
-    margin-top: 12px;
+    margin-top: 4px;
   }
   .bulk-tier {
     padding: 0 12px;
@@ -1408,7 +1407,7 @@
     gap: 20px;
   }
   .sticky-atc-name {
-    font-size: 15px;
+    font-size: 18px;
     font-weight: 700;
     color: var(--dark-text);
     white-space: nowrap;
@@ -1466,7 +1465,7 @@
     border: none;
     border-radius: 4px;
     font-family: var(--font);
-    font-size: 14px;
+    font-size: 16px;
     font-weight: 800;
     cursor: pointer;
     white-space: nowrap;
@@ -1732,11 +1731,106 @@
     /* Nav search narrower */
     .nav-search { max-width: 340px; }
 
-    /* Zoom modal */
-    .zoom-modal { width: 95vw; }
-  }
+  } /* end @media (max-width: 1100px) */
 
-  /* ── BUNDLE & SAVE ── */
+  /* ── VARIANTS MODAL ── */
+  .variants-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.45);
+    z-index: 800;
+    align-items: flex-start;
+    justify-content: flex-end;
+  }
+  .variants-overlay.open { display: flex; }
+  .variants-modal {
+    width: 420px;
+    max-width: 95vw;
+    height: 100vh;
+    background: white;
+    display: flex;
+    flex-direction: column;
+    box-shadow: -4px 0 24px rgba(0,0,0,0.15);
+    animation: slideInRight 0.25s ease;
+  }
+  @keyframes slideInRight {
+    from { transform: translateX(100%); }
+    to   { transform: translateX(0); }
+  }
+  .variants-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 18px 20px;
+    border-bottom: 1px solid #E0E0E0;
+    flex-shrink: 0;
+  }
+  .variants-header-title {
+    font-size: 16px;
+    font-weight: 800;
+    color: var(--dark-text);
+  }
+  .variants-close-btn {
+    width: 32px; height: 32px;
+    border: none; background: none;
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    color: var(--dark-text);
+    border-radius: 4px;
+    transition: background 0.15s;
+  }
+  .variants-close-btn:hover { background: #f0f0f0; }
+  .variants-close-btn svg { width: 18px; height: 18px; }
+  .variants-list {
+    flex: 1;
+    overflow-y: auto;
+    padding: 12px 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .variant-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    border: 1px solid #E0E0E0;
+    border-radius: 8px;
+    padding: 10px 12px;
+    cursor: pointer;
+    transition: border-color 0.15s, background 0.15s;
+    background: white;
+  }
+  .variant-item:hover { border-color: var(--navy); background: #f8f9fb; }
+  .variant-item.selected { border: 2px solid var(--navy); background: #f0f4fa; }
+  .variant-img {
+    width: 64px; height: 64px;
+    border-radius: 6px;
+    background: #f8f8f8;
+    flex-shrink: 0;
+    overflow: hidden;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .variant-img img { width: 100%; height: 100%; object-fit: contain; }
+  .variant-info { flex: 1; min-width: 0; }
+  .variant-name {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--dark-text);
+    margin-bottom: 3px;
+    line-height: 1.3;
+  }
+  .variant-meta {
+    font-size: 11px;
+    color: var(--gray-text);
+    line-height: 1.5;
+  }
+  .variant-price {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--dark-text);
+    margin-top: 5px;
+  }
   .bundle-section {
     border: 1px solid var(--gray-border);
     border-radius: 4px;
@@ -2132,7 +2226,7 @@
         <div class="bundle-footer">
           <button class="bundle-atc-btn" id="bundle-atc-btn" onclick="addBundleToCart()">Add Selected to Cart</button>
         </div>
-      </div>
+      </div><!-- /bundle-section -->
 
       <div class="pdp-tabs" id="pdp-tabs" style="margin-top:20px;">
 
@@ -2447,7 +2541,7 @@
       </div><!-- /delivery-options-card -->
 
       <!-- Spare parts -->
-      <button class="spare-parts-btn">
+      <button class="spare-parts-btn" onclick="openVariantsModal()">
         <div class="spare-parts-icon">
           <img src="https://cdn.jsdelivr.net/gh/RiccoZorzo/jaycar-PDP-v2@main/images/spare%20parts%20icon.png" alt="Spare Parts" style="width:18px;height:18px;object-fit:contain;" onerror="this.style.display='none'"/>
         </div>
@@ -2685,6 +2779,23 @@
 </footer>
 
 <script>
+  // Variants modal
+  function openVariantsModal() {
+    document.getElementById('variants-overlay').classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeVariantsModal() {
+    document.getElementById('variants-overlay').classList.remove('open');
+    document.body.style.overflow = '';
+  }
+  function handleVariantsOverlay(e) {
+    if (e.target === document.getElementById('variants-overlay')) closeVariantsModal();
+  }
+  function selectVariant(el) {
+    document.querySelectorAll('.variant-item').forEach(v => v.classList.remove('selected'));
+    el.classList.add('selected');
+  }
+
   // Reviews sort + write
   function sortReviews(val) { /* placeholder — would re-fetch/re-sort */ }
   function writeReview() {
@@ -3058,7 +3169,147 @@
   }
 </script>
 
-<!-- ═══ ZOOM MODAL ═══ -->
+<!-- ═══ VARIANTS MODAL ═══ -->
+<div class="variants-overlay" id="variants-overlay" onclick="handleVariantsOverlay(event)">
+  <div class="variants-modal" onclick="event.stopPropagation()">
+    <div class="variants-header">
+      <span class="variants-header-title">Available variants (14)</span>
+      <button class="variants-close-btn" onclick="closeVariantsModal()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+    </div>
+    <div class="variants-list">
+
+      <div class="variant-item selected" onclick="selectVariant(this)">
+        <div class="variant-img"><img src="https://media.jaycar.com.au/product/images/YN8255_cat6a-patch-cable-2m-red-disco_99298.jpg?format=webp&width=700" alt=""/></div>
+        <div class="variant-info">
+          <div class="variant-name">Cat6a Patch Cable - 1m Red O</div>
+          <div class="variant-meta">Colour: Red<br>Cable Standard: Cat6a<br>Cable Length: 1m</div>
+          <div class="variant-price">$7.50</div>
+        </div>
+      </div>
+
+      <div class="variant-item" onclick="selectVariant(this)">
+        <div class="variant-img"><img src="https://media.jaycar.com.au/product/images/YN8255_cat6a-patch-cable-2m-red-disco_99298.jpg?format=webp&width=700" alt=""/></div>
+        <div class="variant-info">
+          <div class="variant-name">Cat6a Patch Cable - 2m Red O</div>
+          <div class="variant-meta">Colour: Red<br>Cable Standard: Cat6a<br>Cable Length: 2m</div>
+          <div class="variant-price">$11.95</div>
+        </div>
+      </div>
+
+      <div class="variant-item" onclick="selectVariant(this)">
+        <div class="variant-img"><img src="https://media.jaycar.com.au/product/images/YN8255_cat6a-patch-cable-2m-red-disco_99298.jpg?format=webp&width=700" alt=""/></div>
+        <div class="variant-info">
+          <div class="variant-name">Cat6a Patch Cable - 5m Red O</div>
+          <div class="variant-meta">Colour: Red<br>Cable Standard: Cat6a<br>Cable Length: 5m</div>
+          <div class="variant-price">$19.95</div>
+        </div>
+      </div>
+
+      <div class="variant-item" onclick="selectVariant(this)">
+        <div class="variant-img"><img src="https://media.jaycar.com.au/product/images/YN8255_cat6a-patch-cable-2m-red-disco_99298.jpg?format=webp&width=700" alt=""/></div>
+        <div class="variant-info">
+          <div class="variant-name">Cat6a Patch Cable - 1m Yellow O</div>
+          <div class="variant-meta">Colour: Yellow<br>Cable Standard: Cat6a<br>Cable Length: 1m</div>
+          <div class="variant-price">$7.50</div>
+        </div>
+      </div>
+
+      <div class="variant-item" onclick="selectVariant(this)">
+        <div class="variant-img"><img src="https://media.jaycar.com.au/product/images/YN8255_cat6a-patch-cable-2m-red-disco_99298.jpg?format=webp&width=700" alt=""/></div>
+        <div class="variant-info">
+          <div class="variant-name">Cat6a Patch Cable - 2m Yellow O</div>
+          <div class="variant-meta">Colour: Yellow<br>Cable Standard: Cat6a<br>Cable Length: 2m</div>
+          <div class="variant-price">$11.95</div>
+        </div>
+      </div>
+
+      <div class="variant-item" onclick="selectVariant(this)">
+        <div class="variant-img"><img src="https://media.jaycar.com.au/product/images/YN8255_cat6a-patch-cable-2m-red-disco_99298.jpg?format=webp&width=700" alt=""/></div>
+        <div class="variant-info">
+          <div class="variant-name">Cat6a Patch Cable - 5m Yellow O</div>
+          <div class="variant-meta">Colour: Yellow<br>Cable Standard: Cat6a<br>Cable Length: 5m</div>
+          <div class="variant-price">$19.95</div>
+        </div>
+      </div>
+
+      <div class="variant-item" onclick="selectVariant(this)">
+        <div class="variant-img"><img src="https://media.jaycar.com.au/product/images/YN8255_cat6a-patch-cable-2m-red-disco_99298.jpg?format=webp&width=700" alt=""/></div>
+        <div class="variant-info">
+          <div class="variant-name">Cat6a Patch Cable - 1m Green O</div>
+          <div class="variant-meta">Colour: Green<br>Cable Standard: Cat6a<br>Cable Length: 1m</div>
+          <div class="variant-price">$7.50</div>
+        </div>
+      </div>
+
+      <div class="variant-item" onclick="selectVariant(this)">
+        <div class="variant-img"><img src="https://media.jaycar.com.au/product/images/YN8255_cat6a-patch-cable-2m-red-disco_99298.jpg?format=webp&width=700" alt=""/></div>
+        <div class="variant-info">
+          <div class="variant-name">Cat6a Patch Cable - 2m Green O</div>
+          <div class="variant-meta">Colour: Green<br>Cable Standard: Cat6a<br>Cable Length: 2m</div>
+          <div class="variant-price">$11.95</div>
+        </div>
+      </div>
+
+      <div class="variant-item" onclick="selectVariant(this)">
+        <div class="variant-img"><img src="https://media.jaycar.com.au/product/images/YN8255_cat6a-patch-cable-2m-red-disco_99298.jpg?format=webp&width=700" alt=""/></div>
+        <div class="variant-info">
+          <div class="variant-name">Cat6a Patch Cable - 5m Green O</div>
+          <div class="variant-meta">Colour: Green<br>Cable Standard: Cat6a<br>Cable Length: 5m</div>
+          <div class="variant-price">$19.95</div>
+        </div>
+      </div>
+
+      <div class="variant-item" onclick="selectVariant(this)">
+        <div class="variant-img"><img src="https://media.jaycar.com.au/product/images/YN8255_cat6a-patch-cable-2m-red-disco_99298.jpg?format=webp&width=700" alt=""/></div>
+        <div class="variant-info">
+          <div class="variant-name">Cat6a Patch Cable - 1m Blue O</div>
+          <div class="variant-meta">Colour: Blue<br>Cable Standard: Cat6a<br>Cable Length: 1m</div>
+          <div class="variant-price">$7.50</div>
+        </div>
+      </div>
+
+      <div class="variant-item" onclick="selectVariant(this)">
+        <div class="variant-img"><img src="https://media.jaycar.com.au/product/images/YN8255_cat6a-patch-cable-2m-red-disco_99298.jpg?format=webp&width=700" alt=""/></div>
+        <div class="variant-info">
+          <div class="variant-name">Cat6a Patch Cable - 2m Blue O</div>
+          <div class="variant-meta">Colour: Blue<br>Cable Standard: Cat6a<br>Cable Length: 2m</div>
+          <div class="variant-price">$11.95</div>
+        </div>
+      </div>
+
+      <div class="variant-item" onclick="selectVariant(this)">
+        <div class="variant-img"><img src="https://media.jaycar.com.au/product/images/YN8255_cat6a-patch-cable-2m-red-disco_99298.jpg?format=webp&width=700" alt=""/></div>
+        <div class="variant-info">
+          <div class="variant-name">Cat6a Patch Cable - 5m Blue O</div>
+          <div class="variant-meta">Colour: Blue<br>Cable Standard: Cat6a<br>Cable Length: 5m</div>
+          <div class="variant-price">$19.95</div>
+        </div>
+      </div>
+
+      <div class="variant-item" onclick="selectVariant(this)">
+        <div class="variant-img"><img src="https://media.jaycar.com.au/product/images/YN8255_cat6a-patch-cable-2m-red-disco_99298.jpg?format=webp&width=700" alt=""/></div>
+        <div class="variant-info">
+          <div class="variant-name">Cat6a Patch Cable - 1m Grey O</div>
+          <div class="variant-meta">Colour: Grey<br>Cable Standard: Cat6a<br>Cable Length: 1m</div>
+          <div class="variant-price">$7.50</div>
+        </div>
+      </div>
+
+      <div class="variant-item" onclick="selectVariant(this)">
+        <div class="variant-img"><img src="https://media.jaycar.com.au/product/images/YN8255_cat6a-patch-cable-2m-red-disco_99298.jpg?format=webp&width=700" alt=""/></div>
+        <div class="variant-info">
+          <div class="variant-name">Cat6a Patch Cable - 2m Grey O</div>
+          <div class="variant-meta">Colour: Grey<br>Cable Standard: Cat6a<br>Cable Length: 2m</div>
+          <div class="variant-price">$11.95</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
 <div class="zoom-modal-overlay" id="zoom-modal-overlay" onclick="handleZoomOverlayClick(event)">
   <div class="zoom-modal" id="zoom-modal" onclick="event.stopPropagation()">
 
