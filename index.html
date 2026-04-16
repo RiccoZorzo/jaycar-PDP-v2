@@ -538,15 +538,16 @@
   .review-modal-success { text-align: center; padding: 1rem 0; font-size: 15px; color: var(--dark-text); }
   .review-modal-success strong { display: block; font-size: 18px; margin-bottom: 8px; }
 
-  /* ── REVIEWS SECTION (inside page-wrapper, aligned with overview) ── */
+  /* ── REVIEWS SECTION (left column of pdp-grid, aligned with overview box) ── */
   .reviews-section {
     border-top: 1px solid var(--gray-border);
-    padding: 36px 0 48px;
+    padding: 36px 0 0;
     container-type: inline-size;
     container-name: rv-section;
+    min-width: 0;
   }
   .reviews-section-inner {
-    /* no max-width or padding needed — inherits from page-wrapper */
+    /* no-op — kept for compatibility, content is direct child */
   }
   .reviews-section-header {
     display: flex;
@@ -1184,40 +1185,43 @@
     </div><!-- /product-info -->
   </div><!-- /pdp-grid -->
 
-  <!-- ═══ CUSTOMER REVIEWS — inside page-wrapper, aligned with overview ═══ -->
-  <div class="reviews-section" id="reviews-section">
+  <!-- ═══ CUSTOMER REVIEWS — aligned to left column (overview box width) ═══ -->
+  <div class="pdp-grid" style="padding-top:0;padding-bottom:48px;">
+    <div class="reviews-section" id="reviews-section">
 
-    <div class="reviews-section-header">
-      <div class="reviews-section-title">
-        Customer Reviews
-        <img class="bv-tm" src="https://apps.bazaarvoice.com/common/images/trustmark_icons/trustmark_en.png" alt="Powered by Bazaarvoice" onerror="this.style.display='none'"/>
-      </div>
-      <button class="write-review-btn" onclick="writeReview()">Write a Review</button>
-    </div>
-
-    <div class="reviews-top-row" id="rv-summary-row">
-      <div class="reviews-score-col">
-        <div class="reviews-score-big" id="rv-score-big">—</div>
-        <div class="reviews-score-stars" id="rv-score-stars"></div>
-        <div class="reviews-score-count" id="rv-score-count"></div>
-      </div>
-      <div class="reviews-bars-col" id="rv-bars"></div>
-      <div class="reviews-controls-col">
-        <div class="sort-wrap">
-          <select class="sort-select" onchange="rvSort(this.value)">
-            <option value="relevant">Most Relevant</option>
-            <option value="recent">Most Recent</option>
-            <option value="high">Highest Rating</option>
-            <option value="low">Lowest Rating</option>
-          </select>
+      <div class="reviews-section-header">
+        <div class="reviews-section-title">
+          Customer Reviews
+          <img class="bv-tm" src="https://apps.bazaarvoice.com/common/images/trustmark_icons/trustmark_en.png" alt="Powered by Bazaarvoice" onerror="this.style.display='none'"/>
         </div>
-        <span class="bv-trustmark-label" style="text-align:right;">Verified purchases only.<br>Powered by Bazaarvoice.</span>
+        <button class="write-review-btn" onclick="writeReview()">Write a Review</button>
       </div>
+
+      <div class="reviews-top-row" id="rv-summary-row">
+        <div class="reviews-score-col">
+          <div class="reviews-score-big" id="rv-score-big">—</div>
+          <div class="reviews-score-stars" id="rv-score-stars"></div>
+          <div class="reviews-score-count" id="rv-score-count"></div>
+        </div>
+        <div class="reviews-bars-col" id="rv-bars"></div>
+        <div class="reviews-controls-col">
+          <div class="sort-wrap">
+            <select class="sort-select" onchange="rvSort(this.value)">
+              <option value="relevant">Most Relevant</option>
+              <option value="recent">Most Recent</option>
+              <option value="high">Highest Rating</option>
+              <option value="low">Lowest Rating</option>
+            </select>
+          </div>
+          <span class="bv-trustmark-label" style="text-align:right;">Verified purchases only.<br>Powered by Bazaarvoice.</span>
+        </div>
+      </div>
+
+      <div id="rv-cards"></div>
+      <div class="reviews-pagination" id="rv-pagination"></div>
+
     </div>
-
-    <div id="rv-cards"></div>
-    <div class="reviews-pagination" id="rv-pagination"></div>
-
+    <div></div><!-- empty right column spacer -->
   </div>
 
   <!-- ═══ SIMILAR PRODUCTS ═══ -->
