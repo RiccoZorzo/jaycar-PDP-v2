@@ -993,7 +993,6 @@
         <div class="tab-bar">
           <button class="tab-btn active" onclick="switchTab('overview', this)">Overview</button>
           <button class="tab-btn" onclick="switchTab('specifications', this)">Specifications</button>
-          <button class="tab-btn" id="reviews-tab-btn" onclick="switchTab('reviews', this)">Reviews</button>
           <button class="tab-btn" onclick="switchTab('downloads', this)">Downloads</button>
         </div>
         <div class="tab-panel active" id="tab-overview">
@@ -1031,11 +1030,6 @@
             </div>
           </div>
         </div>
-        <div class="tab-panel" id="tab-reviews">
-          <p style="font-size:14px;color:var(--gray-text);padding:4px 0;">
-            <a href="#reviews-section" onclick="document.getElementById('reviews-section').scrollIntoView({behavior:'smooth'});return false;" style="color:var(--navy);font-weight:600;text-decoration:underline;">↓ Jump to customer reviews below</a>
-          </p>
-        </div>
         <div class="tab-panel" id="tab-downloads">
           <a href="#" class="download-link" onclick="return false;"><span class="download-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 16v2a2 2 0 002 2h12a2 2 0 002-2v-2"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="3" x2="12" y2="15"/></svg></span>Download Manual</a>
           <a href="#" class="download-link" onclick="return false;"><span class="download-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 16v2a2 2 0 002 2h12a2 2 0 002-2v-2"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="3" x2="12" y2="15"/></svg></span>Download Datasheet</a>
@@ -1061,7 +1055,7 @@
         </div>
         <span class="rating-score" id="rating-score-display">—</span>
         <span class="rating-count" id="rating-count-display"></span>
-        <a href="#pdp-tabs" class="read-reviews-link" onclick="openReviewsTab(event)">Read all reviews</a>
+        <a href="#reviews-section" class="read-reviews-link" onclick="document.getElementById('reviews-section').scrollIntoView({behavior:'smooth'});return false;">Read all reviews</a>
       </div>
       <div class="price-block">
         <span class="price-main">$3,499</span>
@@ -1430,7 +1424,6 @@
 
   // ── TABS ──
   function switchTab(id, btn) { document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active')); document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active')); btn.classList.add('active'); document.getElementById('tab-' + id).classList.add('active'); }
-  function openReviewsTab(e) { e.preventDefault(); const reviewsBtn = document.getElementById('reviews-tab-btn'); switchTab('reviews', reviewsBtn); const tabs = document.getElementById('pdp-tabs'); if (tabs) setTimeout(() => tabs.scrollIntoView({ behavior: 'smooth', block: 'start' }), 50); }
 
   // ── THUMBNAIL SWITCHING ──
   let currentThumb = 0;
@@ -1543,9 +1536,6 @@
     const countEl = document.getElementById('rating-count-display');
     if (scoreEl) scoreEl.textContent = avg.toFixed(1);
     if (countEl) countEl.textContent = `(${reviews.length})`;
-
-    const tabBtn = document.getElementById('reviews-tab-btn');
-    if (tabBtn) tabBtn.textContent = `Reviews (${reviews.length})`;
 
     document.getElementById('rv-bars').innerHTML = [5,4,3,2,1].map(n => `
       <div class="review-bar-row">
