@@ -614,15 +614,15 @@
   }
   #rv-cards .rv-card:nth-child(odd) {
     border-right: 1px solid var(--gray-border);
-    padding-right: 32px;
+    padding-right: 28px;
   }
   #rv-cards .rv-card:nth-child(even) {
-    padding-left: 32px;
+    padding-left: 28px;
   }
   .rv-card {
-    display: grid;
-    grid-template-columns: 190px 1fr;
-    gap: 0 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
     padding: 24px 0;
     border-bottom: 1px solid var(--gray-border);
   }
@@ -631,22 +631,19 @@
     border-bottom: none;
   }
 
-  @container rv-section (max-width: 900px) {
+  @container rv-section (max-width: 640px) {
     #rv-cards { grid-template-columns: 1fr; }
     #rv-cards .rv-card:nth-child(odd) { border-right: none; padding-right: 0; }
     #rv-cards .rv-card:nth-child(even) { padding-left: 0; }
     #rv-cards .rv-card:nth-last-child(2) { border-bottom: 1px solid var(--gray-border); }
     #rv-cards .rv-card:nth-last-child(1) { border-bottom: none; }
-    .rv-card { grid-template-columns: 160px 1fr; gap: 0 16px; }
   }
-  .rv-left { display: flex; flex-direction: column; gap: 4px; }
-  .rv-author { font-size: 14px; font-weight: 700; color: var(--dark-text); }
-  .rv-location { font-size: 13px; color: var(--gray-text); }
-  .rv-member { font-size: 12px; color: var(--gray-text); margin-top: 8px; line-height: 1.5; }
-  .rv-member strong { color: var(--dark-text); }
-  .rv-right { display: flex; flex-direction: column; gap: 8px; }
+
   .rv-stars { display: flex; gap: 2px; }
   .rv-title { font-size: 14px; font-weight: 700; color: var(--dark-text); }
+  .rv-byline { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+  .rv-author { font-size: 13px; font-weight: 600; color: var(--dark-text); }
+  .rv-byline-sep { color: var(--gray-border); font-size: 13px; }
   .rv-age { font-size: 12px; color: var(--gray-text); }
   .rv-body { font-size: 14px; color: #333; line-height: 1.65; }
   .rv-recommend {
@@ -1603,28 +1600,25 @@
       const photos = r.photos && r.photos.length ? r.photos : (i === 0 ? SAMPLE_PHOTOS : []);
       return `
       <div class="rv-card">
-        <div class="rv-left">
-          <div class="rv-author">${r.nickname || r.name}</div>
-          ${r.location ? `<div class="rv-location">${r.location}</div>` : ''}
-          <div class="rv-member" style="margin-top:10px;">Are you a Jaycar Electronics Group Team Member?<br><strong>${r.team_member ? 'Yes' : 'No'}</strong></div>
+        <div class="rv-stars">${starsSVG(r.rating, 16)}</div>
+        <div class="rv-title">${r.title}</div>
+        <div class="rv-byline">
+          <span class="rv-author">${r.nickname || r.name}</span>
+          <span class="rv-byline-sep">·</span>
+          <span class="rv-age">${formatDate(r.created_at)}</span>
         </div>
-        <div class="rv-right">
-          <div class="rv-stars">${starsSVG(r.rating, 16)}</div>
-          <div class="rv-title">${r.title}</div>
-          <div class="rv-age">${formatDate(r.created_at)}</div>
-          <div class="rv-body">${r.body}</div>
-          ${r.recommended !== false ? `<div class="rv-recommend"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><circle cx="12" cy="12" r="10"/><polyline points="9 12 11 14 15 10"/></svg>Yes, I recommend this product.</div>` : ''}
-          ${rvPhotoStrip(photos)}
-          <div class="rv-footer">
-            <span class="rv-helpful">Helpful?
-              <button class="rv-helpful-btn" onclick="rvVote(this,'yes')">👍 <span class="rv-vote-count">(${r.helpful_yes||0})</span></button>
-              <button class="rv-helpful-btn" onclick="rvVote(this,'no')">👎 <span class="rv-vote-count">(${r.helpful_no||0})</span></button>
-            </span>
-            <button class="report-btn" onclick="reportReview(this,'${r.id||''}')">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/><line x1="4" y1="22" x2="4" y2="15"/></svg>
-              Report
-            </button>
-          </div>
+        <div class="rv-body">${r.body}</div>
+        ${r.recommended !== false ? `<div class="rv-recommend"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><circle cx="12" cy="12" r="10"/><polyline points="9 12 11 14 15 10"/></svg>Yes, I recommend this product.</div>` : ''}
+        ${rvPhotoStrip(photos)}
+        <div class="rv-footer">
+          <span class="rv-helpful">Helpful?
+            <button class="rv-helpful-btn" onclick="rvVote(this,'yes')">👍 <span class="rv-vote-count">(${r.helpful_yes||0})</span></button>
+            <button class="rv-helpful-btn" onclick="rvVote(this,'no')">👎 <span class="rv-vote-count">(${r.helpful_no||0})</span></button>
+          </span>
+          <button class="report-btn" onclick="reportReview(this,'${r.id||''}')">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/><line x1="4" y1="22" x2="4" y2="15"/></svg>
+            Report
+          </button>
         </div>
       </div>`;
     }).join('');
