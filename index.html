@@ -601,15 +601,48 @@
     flex-shrink: 0;
   }
 
-  /* ── REVIEW CARD (full-width layout matching screenshot) ── */
+  /* ── REVIEW CARDS GRID ── */
+  #rv-cards {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0;
+    column-gap: 0;
+  }
+  /* vertical divider between columns */
+  #rv-cards .rv-card:nth-child(odd) {
+    border-right: 1px solid var(--gray-border);
+    padding-right: 32px;
+  }
+  #rv-cards .rv-card:nth-child(even) {
+    padding-left: 32px;
+  }
   .rv-card {
     display: grid;
-    grid-template-columns: 220px 1fr;
-    gap: 0 32px;
+    grid-template-columns: 190px 1fr;
+    gap: 0 20px;
     padding: 24px 0;
     border-bottom: 1px solid var(--gray-border);
   }
-  .rv-card:last-child { border-bottom: none; }
+  /* remove bottom border from last two cards (final row in 2-col) */
+  #rv-cards .rv-card:nth-last-child(1),
+  #rv-cards .rv-card:nth-last-child(2) {
+    border-bottom: none;
+  }
+
+  @media (max-width: 1380px) {
+    #rv-cards .rv-card:nth-child(odd) { padding-right: 24px; }
+    #rv-cards .rv-card:nth-child(even) { padding-left: 24px; }
+    .rv-card { grid-template-columns: 160px 1fr; gap: 0 16px; }
+  }
+  @media (max-width: 1100px) {
+    #rv-cards { grid-template-columns: 1fr; }
+    #rv-cards .rv-card:nth-child(odd) { border-right: none; padding-right: 0; }
+    #rv-cards .rv-card:nth-child(even) { padding-left: 0; }
+    /* restore bottom borders when stacked — only last card has none */
+    #rv-cards .rv-card:nth-last-child(2) { border-bottom: 1px solid var(--gray-border); }
+    #rv-cards .rv-card:nth-last-child(1) { border-bottom: none; }
+    .rv-card { grid-template-columns: 180px 1fr; gap: 0 20px; }
+  }
   .rv-left { display: flex; flex-direction: column; gap: 4px; }
   .rv-author { font-size: 14px; font-weight: 700; color: var(--dark-text); }
   .rv-location { font-size: 13px; color: var(--gray-text); }
@@ -814,8 +847,8 @@
   /* ── RESPONSIVE BREAKPOINTS ── */
   @media (min-width: 1600px) { .page-wrapper { max-width: 1600px; } .pdp-grid { grid-template-columns: 900px minmax(0, 1fr); } .main-image-wrap { width: 900px; height: 900px; } }
   @media (max-width: 1440px) { .similar-card-img { height: 160px; } .similar-card-body { padding: 8px 9px 10px; } .similar-card-name { font-size: 10px; } .similar-card-price { font-size: 12px; margin-bottom: 7px; } .similar-card-atc { height: 28px; font-size: 11px; } }
-  @media (max-width: 1380px) { body { min-width: 1024px; } .nav-top, .nav-bottom, .breadcrumb-bar, .sticky-atc-bar { padding-left: 16px; padding-right: 16px; } .page-wrapper { padding-left: 16px; padding-right: 16px; } .site-footer .footer-top { padding-left: 16px; padding-right: 16px; } .site-footer .footer-bottom { padding-left: 16px; padding-right: 16px; } .pdp-grid { grid-template-columns: minmax(0, 60%) minmax(0, 40%); gap: 0 28px; } .main-image-wrap { width: 100%; height: auto; aspect-ratio: 1; } .footer-top { grid-template-columns: 160px 1fr 1fr 1fr 1fr; } .footer-img-col { display: none; } .nav-search { max-width: 520px; } .similar-card-body { padding: 6px 7px 8px; } .similar-card-brand { font-size: 8px; margin-bottom: 2px; } .similar-card-name { font-size: 9px; margin-bottom: 3px; } .similar-card-price { font-size: 11px; margin-bottom: 5px; } .similar-card-atc { height: 24px; font-size: 9px; } }
-  @media (max-width: 1100px) { body { min-width: 1024px; } .nav-top, .nav-bottom, .breadcrumb-bar, .sticky-atc-bar { padding-left: 16px; padding-right: 16px; } .page-wrapper { padding-left: 16px; padding-right: 16px; } .site-footer .footer-top { padding-left: 16px; padding-right: 16px; } .site-footer .footer-bottom { padding-left: 16px; padding-right: 16px; } .pdp-grid { grid-template-columns: minmax(0, 55%) minmax(0, 45%); gap: 0 20px; } .main-image-wrap { width: 100%; height: auto; aspect-ratio: 1; } .similar-grid { gap: 6px; } .similar-card-body { padding: 5px 6px 7px; } .similar-card-brand { font-size: 7px; } .similar-card-name { font-size: 8px; } .similar-card-price { font-size: 10px; } .similar-card-atc { height: 22px; font-size: 9px; } .nav-menu-item:not(.menu-bold) { padding: 0 10px; font-size: 12px; } .nav-store-info .store-val { font-size: 11px; } .footer-top { grid-template-columns: 140px 1fr 1fr 1fr 1fr; padding: 20px 24px; align-items: start; } .footer-img-col { display: none; } .footer-logo-col { padding-right: 16px; } .footer-col { padding: 0 12px; } .footer-col-title { font-size: 9px; margin-bottom: 6px; } .footer-link { font-size: 11px; padding: 2px 0; } .footer-tagline { font-size: 10px; } .footer-bottom { padding: 10px 24px; font-size: 11px; } .nav-search { max-width: 340px; } }
+  @media (max-width: 1380px) { body { min-width: 1024px; } .nav-top, .nav-bottom, .breadcrumb-bar, .sticky-atc-bar { padding-left: 16px; padding-right: 16px; } .page-wrapper { padding-left: 16px; padding-right: 16px; } .site-footer .footer-top { padding-left: 16px; padding-right: 16px; } .site-footer .footer-bottom { padding-left: 16px; padding-right: 16px; } .reviews-section-inner { padding-left: 16px; padding-right: 16px; } .pdp-grid { grid-template-columns: minmax(0, 60%) minmax(0, 40%); gap: 0 28px; } .main-image-wrap { width: 100%; height: auto; aspect-ratio: 1; } .footer-top { grid-template-columns: 160px 1fr 1fr 1fr 1fr; } .footer-img-col { display: none; } .nav-search { max-width: 520px; } .similar-card-body { padding: 6px 7px 8px; } .similar-card-brand { font-size: 8px; margin-bottom: 2px; } .similar-card-name { font-size: 9px; margin-bottom: 3px; } .similar-card-price { font-size: 11px; margin-bottom: 5px; } .similar-card-atc { height: 24px; font-size: 9px; } }
+  @media (max-width: 1100px) { body { min-width: 1024px; } .nav-top, .nav-bottom, .breadcrumb-bar, .sticky-atc-bar { padding-left: 16px; padding-right: 16px; } .page-wrapper { padding-left: 16px; padding-right: 16px; } .site-footer .footer-top { padding-left: 16px; padding-right: 16px; } .site-footer .footer-bottom { padding-left: 16px; padding-right: 16px; } .reviews-section-inner { padding-left: 16px; padding-right: 16px; } .pdp-grid { grid-template-columns: minmax(0, 55%) minmax(0, 45%); gap: 0 20px; } .main-image-wrap { width: 100%; height: auto; aspect-ratio: 1; } .similar-grid { gap: 6px; } .similar-card-body { padding: 5px 6px 7px; } .similar-card-brand { font-size: 7px; } .similar-card-name { font-size: 8px; } .similar-card-price { font-size: 10px; } .similar-card-atc { height: 22px; font-size: 9px; } .nav-menu-item:not(.menu-bold) { padding: 0 10px; font-size: 12px; } .nav-store-info .store-val { font-size: 11px; } .footer-top { grid-template-columns: 140px 1fr 1fr 1fr 1fr; padding: 20px 24px; align-items: start; } .footer-img-col { display: none; } .footer-logo-col { padding-right: 16px; } .footer-col { padding: 0 12px; } .footer-col-title { font-size: 9px; margin-bottom: 6px; } .footer-link { font-size: 11px; padding: 2px 0; } .footer-tagline { font-size: 10px; } .footer-bottom { padding: 10px 24px; font-size: 11px; } .nav-search { max-width: 340px; } }
 </style>
 </head>
 <body>
