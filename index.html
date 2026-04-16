@@ -72,6 +72,10 @@
 ║        dropdown selector. Figtree font, #0C254C headers,        ║
 ║        #E0E0E0 borders, 4px radii, part no 14px, img centred.  ║
 ║        Variants modal kept for non-spare-parts use.             ║
+║  v5.2  Reviews: BazaarVoice trustmark logo + Report button on   ║
+║        each card. Spare parts: field label removed, trigger     ║
+║        title → "Spare Parts Available". Add to Cart button on   ║
+║        each spare part row (non-propagating click).             ║
 ╚══════════════════════════════════════════════════════════════════╝
 -->
 <html lang="en">
@@ -527,6 +531,21 @@
   .review-modal-success { text-align: center; padding: 1rem 0; font-size: 15px; color: var(--dark-text); }
   .review-modal-success strong { display: block; font-size: 18px; margin-bottom: 8px; }
 
+  /* ── BV TRUSTMARK ── */
+  .bv-trustmark-row { display: flex; align-items: center; gap: 10px; margin-bottom: 20px; padding-bottom: 16px; border-bottom: 1px solid var(--gray-border); }
+  .bv-trustmark-row img { height: 32px; width: auto; display: block; }
+  .bv-trustmark-label { font-size: 11px; color: var(--gray-text); line-height: 1.4; }
+
+  /* ── REPORT BUTTON ── */
+  .report-btn { background: none; border: none; cursor: pointer; font-family: var(--font); font-size: 11px; color: var(--gray-text); display: flex; align-items: center; gap: 4px; padding: 0; margin-top: 10px; transition: color 0.15s; }
+  .report-btn:hover { color: #c0392b; }
+  .report-btn svg { width: 12px; height: 12px; flex-shrink: 0; }
+
+  /* ── SP ADD TO CART BUTTON ── */
+  .sp-item-atc { display: inline-flex; align-items: center; gap: 6px; margin-top: 8px; padding: 5px 12px; background: var(--orange); color: white; border: none; border-radius: 4px; font-family: 'Figtree', sans-serif; font-size: 12px; font-weight: 700; cursor: pointer; transition: opacity 0.15s; white-space: nowrap; }
+  .sp-item-atc:hover { opacity: 0.88; }
+  .sp-item-atc svg { width: 12px; height: 12px; flex-shrink: 0; }
+
   /* ── RESPONSIVE BREAKPOINTS ── */
   @media (min-width: 1600px) { .page-wrapper { max-width: 1600px; } .pdp-grid { grid-template-columns: 900px minmax(0, 1fr); } .main-image-wrap { width: 900px; height: 900px; } }
   @media (max-width: 1440px) { .similar-card-img { height: 160px; } .similar-card-body { padding: 8px 9px 10px; } .similar-card-name { font-size: 10px; } .similar-card-price { font-size: 12px; margin-bottom: 7px; } .similar-card-atc { height: 28px; font-size: 11px; } }
@@ -566,7 +585,8 @@
           <span style="color:#8692A6;">v3.7</span><span>mix-blend-mode: multiply on all images</span>
           <span style="color:#8692A6;">v4.5</span><span>Always 5×2, cards scale down at each breakpoint</span>
           <span style="color:#8692A6;">v5.0</span><span>Live reviews integration</span>
-          <span style="color:#8692A6;font-weight:700;">v5.1</span><span style="font-weight:700;">Spare parts: inline dropdown selector ← current</span>
+          <span style="color:#8692A6;">v5.1</span><span>Spare parts inline dropdown selector</span>
+          <span style="color:#8692A6;font-weight:700;">v5.2</span><span style="font-weight:700;">BV trustmark, report btn, SP UX updates ← current</span>
         </div>
       </div>
     </div>
@@ -746,6 +766,10 @@
           </div>
         </div>
         <div class="tab-panel" id="tab-reviews">
+          <div class="bv-trustmark-row">
+            <img src="https://apps.bazaarvoice.com/common/images/trustmark_icons/trustmark_en.png" alt="Powered by Bazaarvoice" onerror="this.parentElement.style.display='none'"/>
+            <span class="bv-trustmark-label">Reviews powered by Bazaarvoice.<br>Verified purchases only.</span>
+          </div>
           <div class="review-summary" id="review-summary-block"></div>
           <div class="review-controls">
             <div class="sort-wrap"><select class="sort-select" onchange="sortReviews(this.value)"><option value="relevant">Most Relevant</option><option value="recent">Most Recent</option><option value="high">Highest to Lowest Rating</option><option value="low">Lowest to Highest Rating</option></select></div>
@@ -833,18 +857,14 @@
         </div>
       </div>
 
-      <!-- ═══ SPARE PARTS INLINE DROPDOWN (v5.1) ═══ -->
+      <!-- ═══ SPARE PARTS INLINE DROPDOWN (v5.2) ═══ -->
       <div class="sp-wrap">
-        <div class="sp-field-label">
-          <span>Component type: Metal Film Resistors</span>
-          <span id="sp-family-count" style="font-weight:400;text-transform:none;letter-spacing:0;color:#888;"></span>
-        </div>
         <div class="sp-trigger" id="sp-trigger" onclick="spToggle()">
           <div class="sp-trigger-left">
             <div class="sp-thumb-box"><img id="sp-trigger-img" src="" alt=""></div>
             <div>
-              <div class="sp-trigger-name" id="sp-trigger-name">Please select a spare part</div>
-              <div class="sp-trigger-sub" id="sp-trigger-sub"></div>
+              <div class="sp-trigger-name" id="sp-trigger-name">Spare Parts Available</div>
+              <div class="sp-trigger-sub" id="sp-trigger-sub"><span id="sp-family-count"></span></div>
             </div>
           </div>
           <svg class="sp-chevron" id="sp-chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
@@ -1000,7 +1020,7 @@
   let spSelectedId = null, spIsOpen = false, spFiltered = [...spParts];
 
   window.addEventListener('DOMContentLoaded', function() {
-    document.getElementById('sp-family-count').textContent = spParts.length + ' variants';
+    document.getElementById('sp-family-count').textContent = spParts.length + ' variants available';
     document.getElementById('sp-trigger-img').src = SP_IMG;
     spRenderList();
   });
@@ -1024,11 +1044,26 @@
             <span class="sp-feat-pill">Tol. ${p.tolerance}</span>
             <span class="sp-feat-pill">${p.type}</span>
           </div>
-          <p class="sp-item-price">$${p.price.toFixed(2)}</p>
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-top:6px;">
+            <p class="sp-item-price" style="margin:0;">$${p.price.toFixed(2)}</p>
+            <button class="sp-item-atc" onclick="spAddToCart(event,${p.id})">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+              Add to Cart
+            </button>
+          </div>
         </div>
         <svg class="sp-item-arrow" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
       </div>
     `).join('');
+  }
+
+  function spAddToCart(e, id) {
+    e.stopPropagation();
+    const btn = e.currentTarget;
+    const orig = btn.innerHTML;
+    btn.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="width:12px;height:12px"><polyline points="20 6 9 17 4 12"/></svg> Added!';
+    btn.style.background = '#2E7D32';
+    setTimeout(() => { btn.innerHTML = orig; btn.style.background = ''; }, 2000);
   }
 
   function spToggle() {
@@ -1053,7 +1088,7 @@
     spSelectedId = id;
     const p = spParts.find(x => x.id === id);
     document.getElementById('sp-trigger-name').textContent = p.name;
-    document.getElementById('sp-trigger-sub').textContent = 'Part no. ' + p.partNo + '  ·  $' + p.price.toFixed(2);
+    document.getElementById('sp-family-count').textContent = 'Part no. ' + p.partNo + '  ·  $' + p.price.toFixed(2);
     const bar = document.getElementById('sp-selected-bar');
     bar.classList.add('show');
     document.getElementById('sp-bar-name').textContent = p.name;
@@ -1178,12 +1213,18 @@
         if (countEl) countEl.textContent = '';
       }
       if (reviews.length === 0) { container.innerHTML = '<p style="color:var(--gray-text);font-size:14px;padding:8px 0;">No approved reviews yet.</p>'; return; }
-      container.innerHTML = reviews.map(r => `<div class="review-card"><div class="review-card-header"><span class="reviewer-name">${r.nickname || r.name}</span><span class="review-date">${formatDate(r.created_at)}</span></div><div class="review-card-stars">${starsSVG(r.rating, 14)}</div><p class="review-text"><strong>${r.title}</strong> — ${r.body}</p>${r.featured ? '<span style="font-size:11px;background:#0C254C;color:white;border-radius:4px;padding:2px 8px;display:inline-block;margin-top:6px;">Featured</span>' : ''}</div>`).join('');
+      container.innerHTML = reviews.map(r => `<div class="review-card"><div class="review-card-header"><span class="reviewer-name">${r.nickname || r.name}</span><span class="review-date">${formatDate(r.created_at)}</span></div><div class="review-card-stars">${starsSVG(r.rating, 14)}</div><p class="review-text"><strong>${r.title}</strong> — ${r.body}</p>${r.featured ? '<span style="font-size:11px;background:#0C254C;color:white;border-radius:4px;padding:2px 8px;display:inline-block;margin-top:6px;">Featured</span>' : ''}<button class="report-btn" onclick="reportReview(this,'${r.id||''}')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/><line x1="4" y1="22" x2="4" y2="15"/></svg>Report this review</button></div>`).join('');
     } catch (err) { if (container) container.innerHTML = '<p style="color:var(--gray-text);">Could not load reviews.</p>'; }
   }
 
   // ── REVIEW MODAL ──
   function sortReviews(val) {}
+
+  function reportReview(btn, id) {
+    btn.textContent = '✓ Reported';
+    btn.style.color = '#c0392b';
+    btn.disabled = true;
+  }
   function writeReview() { document.getElementById('review-modal-overlay').classList.add('open'); document.body.style.overflow = 'hidden'; }
   function closeReviewModal() { document.getElementById('review-modal-overlay').classList.remove('open'); document.body.style.overflow = ''; document.getElementById('review-modal-inner').innerHTML = `<h2>Write a review</h2><input type="text" id="rm-name" placeholder="Name *" /><input type="email" id="rm-email" placeholder="Email *" /><input type="text" id="rm-nickname" placeholder="Nickname (optional)" /><select id="rm-rating"><option value="5">5 stars</option><option value="4">4 stars</option><option value="3">3 stars</option><option value="2">2 stars</option><option value="1">1 star</option></select><input type="text" id="rm-title" placeholder="Review title *" /><textarea id="rm-body" rows="4" placeholder="Your review *"></textarea><p id="rm-error" style="color:red;font-size:13px;display:none;">Please fill in all required fields.</p><div class="review-modal-btns"><button class="review-modal-submit" onclick="submitReview()">Submit review</button><button class="review-modal-cancel" onclick="closeReviewModal()">Cancel</button></div>`; }
   function handleReviewOverlay(e) { if (e.target === document.getElementById('review-modal-overlay')) closeReviewModal(); }
