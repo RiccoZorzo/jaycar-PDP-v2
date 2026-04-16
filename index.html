@@ -80,6 +80,9 @@
 ║        section below pdp-grid. 8-per-page pagination. Review   ║
 ║        photo strip (max 3): hover zoom, click-to-enlarge        ║
 ║        lightbox. Reviews tab replaced with anchor link.         ║
+║  v5.4  Reviews section moved inside page-wrapper — now aligns  ║
+║        flush with overview box. reviews-section-inner removed.  ║
+║        CSS container query drives 2→1 col stacking.            ║
 ╚══════════════════════════════════════════════════════════════════╝
 -->
 <html lang="en">
@@ -535,15 +538,15 @@
   .review-modal-success { text-align: center; padding: 1rem 0; font-size: 15px; color: var(--dark-text); }
   .review-modal-success strong { display: block; font-size: 18px; margin-bottom: 8px; }
 
-  /* ── REVIEWS SECTION (always-open, full-width below grid) ── */
+  /* ── REVIEWS SECTION (inside page-wrapper, aligned with overview) ── */
   .reviews-section {
     border-top: 1px solid var(--gray-border);
     padding: 36px 0 48px;
+    container-type: inline-size;
+    container-name: rv-section;
   }
   .reviews-section-inner {
-    max-width: 1440px;
-    margin: 0 auto;
-    padding: 0 32px;
+    /* no max-width or padding needed — inherits from page-wrapper */
   }
   .reviews-section-header {
     display: flex;
@@ -608,7 +611,6 @@
     gap: 0;
     column-gap: 0;
   }
-  /* vertical divider between columns */
   #rv-cards .rv-card:nth-child(odd) {
     border-right: 1px solid var(--gray-border);
     padding-right: 32px;
@@ -623,25 +625,18 @@
     padding: 24px 0;
     border-bottom: 1px solid var(--gray-border);
   }
-  /* remove bottom border from last two cards (final row in 2-col) */
   #rv-cards .rv-card:nth-last-child(1),
   #rv-cards .rv-card:nth-last-child(2) {
     border-bottom: none;
   }
 
-  @media (max-width: 1380px) {
-    #rv-cards .rv-card:nth-child(odd) { padding-right: 24px; }
-    #rv-cards .rv-card:nth-child(even) { padding-left: 24px; }
-    .rv-card { grid-template-columns: 160px 1fr; gap: 0 16px; }
-  }
-  @media (max-width: 1100px) {
+  @container rv-section (max-width: 900px) {
     #rv-cards { grid-template-columns: 1fr; }
     #rv-cards .rv-card:nth-child(odd) { border-right: none; padding-right: 0; }
     #rv-cards .rv-card:nth-child(even) { padding-left: 0; }
-    /* restore bottom borders when stacked — only last card has none */
     #rv-cards .rv-card:nth-last-child(2) { border-bottom: 1px solid var(--gray-border); }
     #rv-cards .rv-card:nth-last-child(1) { border-bottom: none; }
-    .rv-card { grid-template-columns: 180px 1fr; gap: 0 20px; }
+    .rv-card { grid-template-columns: 160px 1fr; gap: 0 16px; }
   }
   .rv-left { display: flex; flex-direction: column; gap: 4px; }
   .rv-author { font-size: 14px; font-weight: 700; color: var(--dark-text); }
@@ -847,8 +842,8 @@
   /* ── RESPONSIVE BREAKPOINTS ── */
   @media (min-width: 1600px) { .page-wrapper { max-width: 1600px; } .pdp-grid { grid-template-columns: 900px minmax(0, 1fr); } .main-image-wrap { width: 900px; height: 900px; } }
   @media (max-width: 1440px) { .similar-card-img { height: 160px; } .similar-card-body { padding: 8px 9px 10px; } .similar-card-name { font-size: 10px; } .similar-card-price { font-size: 12px; margin-bottom: 7px; } .similar-card-atc { height: 28px; font-size: 11px; } }
-  @media (max-width: 1380px) { body { min-width: 1024px; } .nav-top, .nav-bottom, .breadcrumb-bar, .sticky-atc-bar { padding-left: 16px; padding-right: 16px; } .page-wrapper { padding-left: 16px; padding-right: 16px; } .site-footer .footer-top { padding-left: 16px; padding-right: 16px; } .site-footer .footer-bottom { padding-left: 16px; padding-right: 16px; } .reviews-section-inner { padding-left: 16px; padding-right: 16px; } .pdp-grid { grid-template-columns: minmax(0, 60%) minmax(0, 40%); gap: 0 28px; } .main-image-wrap { width: 100%; height: auto; aspect-ratio: 1; } .footer-top { grid-template-columns: 160px 1fr 1fr 1fr 1fr; } .footer-img-col { display: none; } .nav-search { max-width: 520px; } .similar-card-body { padding: 6px 7px 8px; } .similar-card-brand { font-size: 8px; margin-bottom: 2px; } .similar-card-name { font-size: 9px; margin-bottom: 3px; } .similar-card-price { font-size: 11px; margin-bottom: 5px; } .similar-card-atc { height: 24px; font-size: 9px; } }
-  @media (max-width: 1100px) { body { min-width: 1024px; } .nav-top, .nav-bottom, .breadcrumb-bar, .sticky-atc-bar { padding-left: 16px; padding-right: 16px; } .page-wrapper { padding-left: 16px; padding-right: 16px; } .site-footer .footer-top { padding-left: 16px; padding-right: 16px; } .site-footer .footer-bottom { padding-left: 16px; padding-right: 16px; } .reviews-section-inner { padding-left: 16px; padding-right: 16px; } .pdp-grid { grid-template-columns: minmax(0, 55%) minmax(0, 45%); gap: 0 20px; } .main-image-wrap { width: 100%; height: auto; aspect-ratio: 1; } .similar-grid { gap: 6px; } .similar-card-body { padding: 5px 6px 7px; } .similar-card-brand { font-size: 7px; } .similar-card-name { font-size: 8px; } .similar-card-price { font-size: 10px; } .similar-card-atc { height: 22px; font-size: 9px; } .nav-menu-item:not(.menu-bold) { padding: 0 10px; font-size: 12px; } .nav-store-info .store-val { font-size: 11px; } .footer-top { grid-template-columns: 140px 1fr 1fr 1fr 1fr; padding: 20px 24px; align-items: start; } .footer-img-col { display: none; } .footer-logo-col { padding-right: 16px; } .footer-col { padding: 0 12px; } .footer-col-title { font-size: 9px; margin-bottom: 6px; } .footer-link { font-size: 11px; padding: 2px 0; } .footer-tagline { font-size: 10px; } .footer-bottom { padding: 10px 24px; font-size: 11px; } .nav-search { max-width: 340px; } }
+  @media (max-width: 1380px) { body { min-width: 1024px; } .nav-top, .nav-bottom, .breadcrumb-bar, .sticky-atc-bar { padding-left: 16px; padding-right: 16px; } .page-wrapper { padding-left: 16px; padding-right: 16px; } .site-footer .footer-top { padding-left: 16px; padding-right: 16px; } .site-footer .footer-bottom { padding-left: 16px; padding-right: 16px; } .pdp-grid { grid-template-columns: minmax(0, 60%) minmax(0, 40%); gap: 0 28px; } .main-image-wrap { width: 100%; height: auto; aspect-ratio: 1; } .footer-top { grid-template-columns: 160px 1fr 1fr 1fr 1fr; } .footer-img-col { display: none; } .nav-search { max-width: 520px; } .similar-card-body { padding: 6px 7px 8px; } .similar-card-brand { font-size: 8px; margin-bottom: 2px; } .similar-card-name { font-size: 9px; margin-bottom: 3px; } .similar-card-price { font-size: 11px; margin-bottom: 5px; } .similar-card-atc { height: 24px; font-size: 9px; } }
+  @media (max-width: 1100px) { body { min-width: 1024px; } .nav-top, .nav-bottom, .breadcrumb-bar, .sticky-atc-bar { padding-left: 16px; padding-right: 16px; } .page-wrapper { padding-left: 16px; padding-right: 16px; } .site-footer .footer-top { padding-left: 16px; padding-right: 16px; } .site-footer .footer-bottom { padding-left: 16px; padding-right: 16px; } .pdp-grid { grid-template-columns: minmax(0, 55%) minmax(0, 45%); gap: 0 20px; } .main-image-wrap { width: 100%; height: auto; aspect-ratio: 1; } .similar-grid { gap: 6px; } .similar-card-body { padding: 5px 6px 7px; } .similar-card-brand { font-size: 7px; } .similar-card-name { font-size: 8px; } .similar-card-price { font-size: 10px; } .similar-card-atc { height: 22px; font-size: 9px; } .nav-menu-item:not(.menu-bold) { padding: 0 10px; font-size: 12px; } .nav-store-info .store-val { font-size: 11px; } .footer-top { grid-template-columns: 140px 1fr 1fr 1fr 1fr; padding: 20px 24px; align-items: start; } .footer-img-col { display: none; } .footer-logo-col { padding-right: 16px; } .footer-col { padding: 0 12px; } .footer-col-title { font-size: 9px; margin-bottom: 6px; } .footer-link { font-size: 11px; padding: 2px 0; } .footer-tagline { font-size: 10px; } .footer-bottom { padding: 10px 24px; font-size: 11px; } .nav-search { max-width: 340px; } }
 </style>
 </head>
 <body>
@@ -885,7 +880,8 @@
           <span style="color:#8692A6;">v5.0</span><span>Live reviews integration</span>
           <span style="color:#8692A6;">v5.1</span><span>Spare parts inline dropdown selector</span>
           <span style="color:#8692A6;">v5.2</span><span>BV trustmark, report btn, SP UX updates</span>
-          <span style="color:#8692A6;font-weight:700;">v5.3</span><span style="font-weight:700;">Reviews: always-open section, pagination, photo strip ← current</span>
+          <span style="color:#8692A6;">v5.3</span><span>Reviews: always-open section, pagination, photo strip</span>
+          <span style="color:#8692A6;font-weight:700;">v5.4</span><span style="font-weight:700;">Reviews inside page-wrapper, aligned with overview ← current</span>
         </div>
       </div>
     </div>
@@ -1188,42 +1184,40 @@
     </div><!-- /product-info -->
   </div><!-- /pdp-grid -->
 
-  <!-- ═══ CUSTOMER REVIEWS — always open, full width ═══ -->
+  <!-- ═══ CUSTOMER REVIEWS — inside page-wrapper, aligned with overview ═══ -->
   <div class="reviews-section" id="reviews-section">
-    <div class="reviews-section-inner">
 
-      <div class="reviews-section-header">
-        <div class="reviews-section-title">
-          Customer Reviews
-          <img class="bv-tm" src="https://apps.bazaarvoice.com/common/images/trustmark_icons/trustmark_en.png" alt="Powered by Bazaarvoice" onerror="this.style.display='none'"/>
-        </div>
-        <button class="write-review-btn" onclick="writeReview()">Write a Review</button>
+    <div class="reviews-section-header">
+      <div class="reviews-section-title">
+        Customer Reviews
+        <img class="bv-tm" src="https://apps.bazaarvoice.com/common/images/trustmark_icons/trustmark_en.png" alt="Powered by Bazaarvoice" onerror="this.style.display='none'"/>
       </div>
-
-      <div class="reviews-top-row" id="rv-summary-row">
-        <div class="reviews-score-col">
-          <div class="reviews-score-big" id="rv-score-big">—</div>
-          <div class="reviews-score-stars" id="rv-score-stars"></div>
-          <div class="reviews-score-count" id="rv-score-count"></div>
-        </div>
-        <div class="reviews-bars-col" id="rv-bars"></div>
-        <div class="reviews-controls-col">
-          <div class="sort-wrap">
-            <select class="sort-select" onchange="rvSort(this.value)">
-              <option value="relevant">Most Relevant</option>
-              <option value="recent">Most Recent</option>
-              <option value="high">Highest Rating</option>
-              <option value="low">Lowest Rating</option>
-            </select>
-          </div>
-          <span class="bv-trustmark-label" style="text-align:right;">Verified purchases only.<br>Powered by Bazaarvoice.</span>
-        </div>
-      </div>
-
-      <div id="rv-cards"></div>
-      <div class="reviews-pagination" id="rv-pagination"></div>
-
+      <button class="write-review-btn" onclick="writeReview()">Write a Review</button>
     </div>
+
+    <div class="reviews-top-row" id="rv-summary-row">
+      <div class="reviews-score-col">
+        <div class="reviews-score-big" id="rv-score-big">—</div>
+        <div class="reviews-score-stars" id="rv-score-stars"></div>
+        <div class="reviews-score-count" id="rv-score-count"></div>
+      </div>
+      <div class="reviews-bars-col" id="rv-bars"></div>
+      <div class="reviews-controls-col">
+        <div class="sort-wrap">
+          <select class="sort-select" onchange="rvSort(this.value)">
+            <option value="relevant">Most Relevant</option>
+            <option value="recent">Most Recent</option>
+            <option value="high">Highest Rating</option>
+            <option value="low">Lowest Rating</option>
+          </select>
+        </div>
+        <span class="bv-trustmark-label" style="text-align:right;">Verified purchases only.<br>Powered by Bazaarvoice.</span>
+      </div>
+    </div>
+
+    <div id="rv-cards"></div>
+    <div class="reviews-pagination" id="rv-pagination"></div>
+
   </div>
 
   <!-- ═══ SIMILAR PRODUCTS ═══ -->
