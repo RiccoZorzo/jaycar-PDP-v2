@@ -83,6 +83,12 @@
 ║  v5.4  Reviews section moved inside page-wrapper — now aligns  ║
 ║        flush with overview box. reviews-section-inner removed.  ║
 ║        CSS container query drives 2→1 col stacking.            ║
+║  v5.5  SP: search bar removed, count inline with header,        ║
+║        selected/nav hint removed. BNPL braze banner removed.   ║
+║        Delivery sub text inline with title. Spec — → :.        ║
+║        Reviews: BV label 13px centred, sort below label.       ║
+║        Sticky ATC: observes ATC button directly for instant    ║
+║        trigger when button exits viewport.                      ║
 ╚══════════════════════════════════════════════════════════════════╝
 -->
 <html lang="en">
@@ -372,8 +378,10 @@
   .delivery-icon-wrap.standard, .delivery-icon-wrap.free, .delivery-icon-wrap.express, .delivery-icon-wrap.collect { background: transparent; }
   .delivery-icon-wrap svg { width: 22px !important; height: 22px !important; max-width: 22px; max-height: 22px; flex-shrink: 0; }
   .delivery-option-body { flex: 1; }
-  .delivery-option-title { font-size: 13px; font-weight: 600; color: var(--dark-text); margin-bottom: 2px; }
-  .delivery-option-sub { font-size: 12px; color: var(--gray-text); }
+  .delivery-option-title { font-size: 13px; font-weight: 600; color: var(--dark-text); margin-bottom: 0; }
+  .delivery-option-sep { font-weight: 400; color: var(--gray-text); }
+  .delivery-option-inline-sub { font-size: 12px; font-weight: 400; color: var(--gray-text); }
+  .delivery-option-sub { display: none; }
   .delivery-option-price { font-size: 14px; font-weight: 600; color: var(--dark-text); flex-shrink: 0; }
   .delivery-option-price.free-label { color: #5a9a3a; }
 
@@ -398,7 +406,7 @@
   .zoom-modal-overlay.open { display: flex; }
   @keyframes zoomFadeIn { from { opacity: 0; } to { opacity: 1; } }
   body.zoom-open .page-wrapper, body.zoom-open .breadcrumb-bar, body.zoom-open .similar-section, body.zoom-open footer { filter: blur(4px); transition: filter 0.2s; }
-  .zoom-modal { position: relative; background: #f8f8f8; border-radius: 12px; width: 90vw; max-width: 1200px; aspect-ratio: 1; display: flex; flex-direction: column; overflow: hidden; box-shadow: 0 24px 80px rgba(0,0,0,0.4); }
+  .zoom-modal { position: relative; background: #f8f8f8; border-radius: 12px; width: 90vw; max-width: 900px; aspect-ratio: 1; display: flex; flex-direction: column; overflow: hidden; box-shadow: 0 24px 80px rgba(0,0,0,0.4); }
   .zoom-close { position: absolute; top: 14px; right: 14px; width: 36px; height: 36px; background: white; border: 1px solid var(--gray-border); border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; z-index: 10; font-size: 18px; color: var(--dark-text); box-shadow: 0 2px 8px rgba(0,0,0,0.12); transition: box-shadow 0.15s; }
   .zoom-close:hover { box-shadow: 0 4px 14px rgba(0,0,0,0.2); }
   .zoom-img-container { flex: 1; overflow: hidden; display: flex; align-items: center; justify-content: center; cursor: zoom-in; position: relative; background: #f8f8f8; }
@@ -600,7 +608,7 @@
   .reviews-controls-col {
     display: flex;
     flex-direction: column;
-    align-items: flex-end;
+    align-items: center;
     gap: 10px;
     flex-shrink: 0;
   }
@@ -825,7 +833,7 @@
   .rv-lightbox-nav svg { width: 16px; height: 16px; }
   .bv-trustmark-row { display: flex; align-items: center; gap: 10px; margin-bottom: 20px; padding-bottom: 16px; border-bottom: 1px solid var(--gray-border); }
   .bv-trustmark-row img { height: 32px; width: auto; display: block; }
-  .bv-trustmark-label { font-size: 11px; color: var(--gray-text); line-height: 1.4; }
+  .bv-trustmark-label { font-size: 13px; color: var(--gray-text); line-height: 1.5; text-align: center; }
 
   /* ── REPORT BUTTON ── */
   .report-btn { background: none; border: none; cursor: pointer; font-family: var(--font); font-size: 11px; color: var(--gray-text); display: flex; align-items: center; gap: 4px; padding: 0; margin-top: 10px; transition: color 0.15s; }
@@ -879,7 +887,8 @@
           <span style="color:#8692A6;">v5.1</span><span>Spare parts inline dropdown selector</span>
           <span style="color:#8692A6;">v5.2</span><span>BV trustmark, report btn, SP UX updates</span>
           <span style="color:#8692A6;">v5.3</span><span>Reviews: always-open section, pagination, photo strip</span>
-          <span style="color:#8692A6;font-weight:700;">v5.4</span><span style="font-weight:700;">Reviews inside page-wrapper, aligned with overview ← current</span>
+          <span style="color:#8692A6;">v5.4</span><span>Reviews inside page-wrapper, aligned with overview</span>
+          <span style="color:#8692A6;font-weight:700;">v5.5</span><span style="font-weight:700;">SP/delivery/spec/reviews/sticky ATC polish ← current</span>
         </div>
       </div>
     </div>
@@ -1032,28 +1041,28 @@
           </div>
           <div class="spec-subpanel active" id="spec-refrigerator">
             <div class="spec-grid">
-              <div class="spec-chip"><span class="spec-check">✓</span><span><strong>Capacity</strong> — 30L</span></div>
-              <div class="spec-chip"><span class="spec-check">✓</span><span><strong>Temperature Range</strong> — -20.0°C to -10.0°C</span></div>
-              <div class="spec-chip"><span class="spec-check">✓</span><span><strong>Device Type</strong> — Portable</span></div>
-              <div class="spec-chip"><span class="spec-check">✓</span><span><strong>External Construction</strong> — Plastic</span></div>
-              <div class="spec-chip"><span class="spec-check">✓</span><span><strong>Noise Level Rating</strong> — 45.0 dB</span></div>
-              <div class="spec-chip"><span class="spec-check">✓</span><span><strong>Can Capacity (375ml)</strong> — 30 pc</span></div>
-              <div class="spec-chip"><span class="spec-check">✓</span><span><strong>Internal Dimensions</strong> — 452 × 278 × 271 mm</span></div>
-              <div class="spec-chip"><span class="spec-check">✓</span><span><strong>Handle Type</strong> — Built-in</span></div>
-              <div class="spec-chip"><span class="spec-check">✓</span><span><strong>Has Wheels</strong> — No</span></div>
-              <div class="spec-chip"><span class="spec-check">✓</span><span><strong>Internal LED Light</strong> — Yes</span></div>
-              <div class="spec-chip"><span class="spec-check">✓</span><span><strong>Vehicle Connection</strong> — Cigarette Plug</span></div>
+              <div class="spec-chip"><span class="spec-check">✓</span><span><strong>Capacity</strong>: 30L</span></div>
+              <div class="spec-chip"><span class="spec-check">✓</span><span><strong>Temperature Range</strong>: -20.0°C to -10.0°C</span></div>
+              <div class="spec-chip"><span class="spec-check">✓</span><span><strong>Device Type</strong>: Portable</span></div>
+              <div class="spec-chip"><span class="spec-check">✓</span><span><strong>External Construction</strong>: Plastic</span></div>
+              <div class="spec-chip"><span class="spec-check">✓</span><span><strong>Noise Level Rating</strong>: 45.0 dB</span></div>
+              <div class="spec-chip"><span class="spec-check">✓</span><span><strong>Can Capacity (375ml)</strong>: 30 pc</span></div>
+              <div class="spec-chip"><span class="spec-check">✓</span><span><strong>Internal Dimensions</strong>: 452 × 278 × 271 mm</span></div>
+              <div class="spec-chip"><span class="spec-check">✓</span><span><strong>Handle Type</strong>: Built-in</span></div>
+              <div class="spec-chip"><span class="spec-check">✓</span><span><strong>Has Wheels</strong>: No</span></div>
+              <div class="spec-chip"><span class="spec-check">✓</span><span><strong>Internal LED Light</strong>: Yes</span></div>
+              <div class="spec-chip"><span class="spec-check">✓</span><span><strong>Vehicle Connection</strong>: Cigarette Plug</span></div>
             </div>
           </div>
           <div class="spec-subpanel" id="spec-electrical">
             <div class="spec-grid">
-              <div class="spec-chip"><span class="spec-check">✓</span><span><strong>Input Voltage</strong> — 12/24V</span></div>
-              <div class="spec-chip"><span class="spec-check">✓</span><span><strong>Current Draw</strong> — 5/2.5A</span></div>
-              <div class="spec-chip"><span class="spec-check">✓</span><span><strong>Includes DC Cable</strong> — Yes</span></div>
-              <div class="spec-chip"><span class="spec-check">✓</span><span><strong>Includes Mains Adaptor</strong> — Yes</span></div>
-              <div class="spec-chip"><span class="spec-check">✓</span><span><strong>Bluetooth Control</strong> — Yes</span></div>
-              <div class="spec-chip"><span class="spec-check">✓</span><span><strong>Noise Level Rating</strong> — 45.0 dB</span></div>
-              <div class="spec-chip"><span class="spec-check">✓</span><span><strong>Vehicle Connection</strong> — Cigarette Plug</span></div>
+              <div class="spec-chip"><span class="spec-check">✓</span><span><strong>Input Voltage</strong>: 12/24V</span></div>
+              <div class="spec-chip"><span class="spec-check">✓</span><span><strong>Current Draw</strong>: 5/2.5A</span></div>
+              <div class="spec-chip"><span class="spec-check">✓</span><span><strong>Includes DC Cable</strong>: Yes</span></div>
+              <div class="spec-chip"><span class="spec-check">✓</span><span><strong>Includes Mains Adaptor</strong>: Yes</span></div>
+              <div class="spec-chip"><span class="spec-check">✓</span><span><strong>Bluetooth Control</strong>: Yes</span></div>
+              <div class="spec-chip"><span class="spec-check">✓</span><span><strong>Noise Level Rating</strong>: 45.0 dB</span></div>
+              <div class="spec-chip"><span class="spec-check">✓</span><span><strong>Vehicle Connection</strong>: Cigarette Plug</span></div>
             </div>
           </div>
         </div>
@@ -1108,7 +1117,7 @@
           <span class="qty-val" id="qty-display">1</span>
           <button class="qty-btn" onclick="changeQty(1)" aria-label="Increase quantity"><svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2"><line x1="7" y1="2" x2="7" y2="12"/><line x1="2" y1="7" x2="12" y2="7"/></svg></button>
         </div>
-        <button class="add-to-cart-btn" onclick="addToCart()">Add to Cart</button>
+        <button class="add-to-cart-btn" id="atc-btn-sentinel" onclick="addToCart()">Add to Cart</button>
         <button class="wishlist-btn" onclick="toggleWishlist(this)" aria-label="Save to wishlist">
           <img src="https://cdn.jsdelivr.net/gh/RiccoZorzo/jaycar-PDP-v2@main/images/blue_list_icon.png" style="width:20px;height:20px;object-fit:contain;" onerror="this.style.display='none'"/>
           <span class="bulk-tooltip">Add to wishlist</span>
@@ -1122,17 +1131,17 @@
       <div class="delivery-options-card">
         <div class="delivery-option">
           <div class="delivery-icon-wrap standard"><img src="https://cdn.jsdelivr.net/gh/RiccoZorzo/jaycar-PDP-v2@main/images/delivery%20icon.png" alt="Standard Delivery" style="width:28px;height:28px;object-fit:contain;" onerror="this.style.display='none'"/></div>
-          <div class="delivery-option-body"><div class="delivery-option-title">Standard Delivery</div><div class="delivery-option-sub">2–5 business days Australia-wide</div></div>
+          <div class="delivery-option-body"><div class="delivery-option-title">Standard Delivery <span class="delivery-option-sep">-</span> <span class="delivery-option-inline-sub">2–5 business days Australia-wide</span></div></div>
           <div class="delivery-option-price">$9.95</div>
         </div>
         <div class="delivery-option">
           <div class="delivery-icon-wrap express"><img src="https://cdn.jsdelivr.net/gh/RiccoZorzo/jaycar-PDP-v2@main/images/express%20delivery%20icon.png" alt="Express Delivery" style="width:28px;height:28px;object-fit:contain;" onerror="this.style.display='none'"/></div>
-          <div class="delivery-option-body"><div class="delivery-option-title" style="display:flex;align-items:center;gap:8px;">3-Hour Express Delivery <span style="background:#56BFC9;color:white;font-size:11px;font-weight:800;padding:2px 8px;border-radius:4px;font-family:'Figtree',sans-serif;white-space:nowrap;flex-shrink:0;">Fastest</span></div><div class="delivery-option-sub">Order before 2pm, get it today</div></div>
+          <div class="delivery-option-body"><div class="delivery-option-title" style="display:flex;align-items:center;gap:8px;">3-Hour Express Delivery <span style="background:#56BFC9;color:white;font-size:11px;font-weight:800;padding:2px 8px;border-radius:4px;font-family:'Figtree',sans-serif;white-space:nowrap;flex-shrink:0;">Fastest</span> <span class="delivery-option-sep">-</span> <span class="delivery-option-inline-sub">Order before 2pm, get it today</span></div></div>
           <div class="delivery-option-price">$14.95</div>
         </div>
         <div class="delivery-option">
           <div class="delivery-icon-wrap collect"><img src="https://cdn.jsdelivr.net/gh/RiccoZorzo/jaycar-PDP-v2@main/images/click%20and%20collect%20icon.png" alt="Click and Collect" style="width:28px;height:28px;object-fit:contain;" onerror="this.style.display='none'"/></div>
-          <div class="delivery-option-body"><div class="delivery-option-title">Click &amp; Collect</div><div class="delivery-option-sub">Ready in 1 hour at your local store</div></div>
+          <div class="delivery-option-body"><div class="delivery-option-title">Click &amp; Collect <span class="delivery-option-sep">-</span> <span class="delivery-option-inline-sub">Ready in 1 hour at your local store</span></div></div>
           <div class="delivery-option-price free-label">FREE</div>
         </div>
       </div>
@@ -1143,29 +1152,15 @@
           <div class="sp-trigger-left">
             <div class="sp-thumb-box"><img id="sp-trigger-img" src="" alt=""></div>
             <div>
-              <div class="sp-trigger-name" id="sp-trigger-name">Spare Parts Available</div>
-              <div class="sp-trigger-sub" id="sp-trigger-sub"><span id="sp-family-count"></span></div>
+              <div class="sp-trigger-name" id="sp-trigger-name">Spare Parts Available <span id="sp-family-count" style="font-weight:400;font-size:14px;color:#666;"></span></div>
+              <div class="sp-trigger-sub" id="sp-trigger-sub"></div>
             </div>
           </div>
           <svg class="sp-chevron" id="sp-chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
         </div>
         <div class="sp-dropdown" id="sp-dropdown">
-          <div class="sp-search-wrap">
-            <svg class="sp-search-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#aaa" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-            <input class="sp-search" id="sp-search" type="text" placeholder="Search by value, resistance, part no…" oninput="spFilter()">
-          </div>
           <div class="sp-count" id="sp-count"></div>
           <div class="sp-list" id="sp-list"></div>
-        </div>
-        <div class="sp-selected-bar" id="sp-selected-bar">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#0C254C" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
-          <span class="sp-bar-label">Viewing:</span>
-          <span class="sp-bar-name" id="sp-bar-name"></span>
-          <span class="sp-bar-part" id="sp-bar-part"></span>
-          <span class="sp-bar-price" id="sp-bar-price"></span>
-        </div>
-        <div class="sp-nav-hint" id="sp-nav-hint">
-          PDP will update to <strong id="sp-nav-link" onclick="spNavigate()"></strong>
         </div>
       </div>
       <!-- ═══ END SPARE PARTS DROPDOWN ═══ -->
@@ -1175,9 +1170,6 @@
         <div class="bnpl-logo"><img src="https://cdn.jsdelivr.net/gh/RiccoZorzo/jaycar-PDP-v2@main/images/afterpay_icon.png" alt="Afterpay" style="height:24px;width:auto;object-fit:contain;" onerror="this.style.display='none'"/></div>
         <div class="bnpl-logo"><img src="https://cdn.jsdelivr.net/gh/RiccoZorzo/jaycar-PDP-v2@main/images/zip_icon.png" alt="Zip" style="height:24px;width:auto;object-fit:contain;" onerror="this.style.display='none'"/></div>
         <div class="bnpl-logo"><img src="https://cdn.jsdelivr.net/gh/RiccoZorzo/jaycar-PDP-v2@main/images/latitude_icon.png" alt="Latitude" style="height:24px;width:auto;object-fit:contain;" onerror="this.style.display='none'"/></div>
-      </div>
-      <div class="bnpl-braze-img">
-        <img src="https://braze-images.com/appboy/communication/assets/image_assets/images/69aa3d669efd190063a7011e/original.png?1772764517" alt="Buy Now Pay Later" onerror="this.style.display='none'"/>
       </div>
     </div><!-- /product-info -->
   </div><!-- /pdp-grid -->
@@ -1202,6 +1194,7 @@
         </div>
         <div class="reviews-bars-col" id="rv-bars"></div>
         <div class="reviews-controls-col">
+          <span class="bv-trustmark-label">Verified purchases only.<br>Powered by Bazaarvoice.</span>
           <div class="sort-wrap">
             <select class="sort-select" onchange="rvSort(this.value)">
               <option value="relevant">Most Relevant</option>
@@ -1210,7 +1203,6 @@
               <option value="low">Lowest Rating</option>
             </select>
           </div>
-          <span class="bv-trustmark-label" style="text-align:right;">Verified purchases only.<br>Powered by Bazaarvoice.</span>
         </div>
       </div>
 
@@ -1353,7 +1345,7 @@
   let spSelectedId = null, spIsOpen = false, spFiltered = [...spParts];
 
   window.addEventListener('DOMContentLoaded', function() {
-    document.getElementById('sp-family-count').textContent = spParts.length + ' variants available';
+    document.getElementById('sp-family-count').textContent = ' - ' + spParts.length + ' variants';
     document.getElementById('sp-trigger-img').src = SP_IMG;
     spRenderList();
   });
@@ -1421,15 +1413,7 @@
     spSelectedId = id;
     const p = spParts.find(x => x.id === id);
     document.getElementById('sp-trigger-name').textContent = p.name;
-    document.getElementById('sp-family-count').textContent = 'Part no. ' + p.partNo + '  ·  $' + p.price.toFixed(2);
-    const bar = document.getElementById('sp-selected-bar');
-    bar.classList.add('show');
-    document.getElementById('sp-bar-name').textContent = p.name;
-    document.getElementById('sp-bar-part').textContent = p.partNo;
-    document.getElementById('sp-bar-price').textContent = '$' + p.price.toFixed(2);
-    const hint = document.getElementById('sp-nav-hint');
-    hint.classList.add('show');
-    document.getElementById('sp-nav-link').textContent = p.name;
+    document.getElementById('sp-trigger-sub').textContent = 'Part no. ' + p.partNo + '  ·  $' + p.price.toFixed(2);
     spIsOpen = false;
     document.getElementById('sp-dropdown').classList.remove('open');
     document.getElementById('sp-trigger').classList.remove('open');
@@ -1476,7 +1460,9 @@
   // ── STICKY ATC ──
   const sentinel = document.getElementById('atc-sentinel');
   const stickyBar = document.getElementById('sticky-atc-bar');
-  if (sentinel && stickyBar) { const observer = new IntersectionObserver(([entry]) => { stickyBar.classList.toggle('visible', !entry.isIntersecting); }, { threshold: 0 }); observer.observe(sentinel); }
+  const atcBtnSentinel = document.getElementById('atc-btn-sentinel');
+  const observeTarget = atcBtnSentinel || sentinel;
+  if (observeTarget && stickyBar) { const observer = new IntersectionObserver(([entry]) => { stickyBar.classList.toggle('visible', !entry.isIntersecting); }, { threshold: 0 }); observer.observe(observeTarget); }
 
   // ── WISHLIST ──
   function toggleWishlist(btn) { btn.classList.toggle('saved'); }
