@@ -158,6 +158,26 @@
   .nav-search input { border: none; outline: none; font-family: var(--font); font-size: 13px; color: var(--gray-text); flex: 1; background: transparent; }
   .nav-search input::placeholder { color: var(--gray-text); }
   .nav-actions { display: flex; align-items: center; gap: 24px; margin-left: auto; }
+  .nav-download-btn {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    background: rgba(255,255,255,0.12);
+    border: 1px solid rgba(255,255,255,0.3);
+    border-radius: 4px;
+    color: white;
+    font-family: var(--font);
+    font-size: 12px;
+    font-weight: 700;
+    padding: 6px 14px;
+    cursor: pointer;
+    text-decoration: none;
+    white-space: nowrap;
+    transition: background 0.15s;
+    flex-shrink: 0;
+  }
+  .nav-download-btn:hover { background: rgba(255,255,255,0.22); }
+  .nav-download-btn svg { flex-shrink: 0; }
   .nav-icon-btn { display: flex; flex-direction: column; align-items: center; gap: 4px; color: white; text-decoration: none; font-size: 10px; cursor: pointer; }
   .nav-icon-btn svg { width: 22px; height: 22px; }
   .nav-divider { width: 1px; height: 40px; background: rgba(255,255,255,0.2); }
@@ -1068,6 +1088,10 @@
       <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="6.5" cy="6.5" r="5.5"/><path d="M10.5 10.5L14 14"/></svg>
       <input type="text" placeholder="Search for products, brands, and more…" id="search-input"/>
     </div>
+    <a class="nav-download-btn" href="Jaycar_PDP_Technical_Spec_v5.7.docx" download="Jaycar_PDP_Technical_Spec_v5.7.docx" title="Download Technical Specification v5.7">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 16v2a2 2 0 002 2h12a2 2 0 002-2v-2"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+      Tech Spec v5.7
+    </a>
     <div class="nav-actions">
       <a class="nav-icon-btn" href="#">
         <img src="https://cdn.jsdelivr.net/gh/RiccoZorzo/jaycar-PDP-v2@main/images/user.png" alt="Account" style="width:22px;height:22px;object-fit:contain;filter:brightness(0) invert(1);" onerror="this.style.display='none'"/>
