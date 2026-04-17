@@ -378,7 +378,7 @@
   .download-icon svg { width: 15px; height: 15px; color: #5a9a3a; }
 
   /* ── DELIVERY OPTIONS CARD ── */
-  .delivery-options-card { border: 1px solid var(--gray-border); border-radius: 4px; background: white; overflow: hidden; margin-top: 4px; }
+  .delivery-options-card { border: 1px solid var(--gray-border); border-radius: 4px; background: white; margin-top: 4px; }
   .delivery-option { display: flex; align-items: center; gap: 14px; padding: 14px 16px; border-bottom: 1px solid var(--gray-border); }
   .delivery-option:last-child { border-bottom: none; }
   .delivery-icon-wrap { width: 40px; height: 40px; min-width: 40px; border-radius: 8px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; overflow: hidden; }
@@ -414,8 +414,12 @@
     color: var(--dark-text);
     cursor: pointer;
     font-style: normal;
+    position: relative;
+    display: inline-block;
   }
   .store-link:hover { color: var(--navy); }
+  .store-link .bulk-tooltip { display: none; white-space: nowrap; }
+  .store-link:hover .bulk-tooltip { display: block; }
 
   /* ── NEARBY STORES EXPAND ── */
   .nearby-stores-row {
@@ -440,20 +444,22 @@
   .nearby-toggle svg { transition: transform 0.2s; flex-shrink: 0; }
   .nearby-toggle.open svg { transform: rotate(180deg); }
   .nearby-store-item {
-    display: flex;
+    display: grid;
+    grid-template-columns: 1fr auto auto;
     align-items: center;
     gap: 10px;
-    padding: 10px 0;
+    padding: 9px 0;
     border-bottom: 1px solid var(--gray-border);
     font-size: 13px;
+    position: relative;
   }
   .nearby-store-item:last-child { border-bottom: none; }
   .nearby-store-name {
-    flex: 1;
     font-weight: 600;
     color: var(--navy);
     text-decoration: underline;
     cursor: pointer;
+    min-width: 0;
   }
   .nearby-store-name:hover { color: var(--dark-text); }
   .nearby-select-btn {
@@ -462,7 +468,7 @@
     font-weight: 700;
     padding: 4px 12px;
     border: 1.5px solid var(--navy);
-    border-radius: 20px;
+    border-radius: 4px;
     background: white;
     color: var(--navy);
     cursor: pointer;
@@ -474,12 +480,80 @@
   .nearby-select-btn:hover { background: var(--navy); color: white; }
   .nearby-stock-label {
     font-size: 12px;
+    font-weight: 600;
+    white-space: nowrap;
+    color: var(--navy);
     display: flex;
     align-items: center;
     gap: 5px;
-    white-space: nowrap;
-    flex-shrink: 0;
+    min-width: 100px;
+    justify-content: flex-end;
   }
+  /* ── STORE INFO POPOVER ── */
+  .store-info-popover {
+    display: none;
+    position: absolute;
+    top: calc(100% + 4px);
+    left: 0;
+    background: white;
+    border: 1px solid var(--gray-border);
+    border-radius: 4px;
+    padding: 10px 14px;
+    font-size: 12px;
+    line-height: 1.6;
+    color: var(--dark-text);
+    z-index: 100;
+    box-shadow: 0 4px 14px rgba(0,0,0,0.1);
+    min-width: 240px;
+    pointer-events: none;
+  }
+  .store-info-popover.up {
+    top: auto;
+    bottom: calc(100% + 4px);
+  }
+  .store-info-popover .store-info-name { font-weight: 700; font-size: 13px; margin-bottom: 2px; }
+  .store-info-popover .store-info-dist { color: var(--gray-text); margin-top: 2px; font-size: 11px; }
+  .nearby-store-name:hover + .store-info-popover,
+  .nearby-store-name:focus + .store-info-popover { display: block; }
+  .nearby-more-link {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 10px 0 2px;
+    font-size: 12px;
+    color: var(--navy);
+    font-weight: 600;
+    cursor: pointer;
+    text-decoration: underline;
+    width: fit-content;
+    position: relative;
+  }
+  .nearby-more-link:hover { color: var(--dark-text); }
+  .nearby-more-link .dev-tooltip {
+    display: none;
+    position: absolute;
+    bottom: calc(100% + 4px);
+    left: 0;
+    background: #333;
+    color: #fff;
+    font-size: 10px;
+    font-weight: 400;
+    padding: 4px 8px;
+    border-radius: 4px;
+    white-space: nowrap;
+    pointer-events: none;
+    z-index: 50;
+    font-style: italic;
+    opacity: 0.9;
+  }
+  .nearby-more-link .dev-tooltip::after {
+    content: '';
+    position: absolute;
+    top: 100%; left: 10px;
+    border: 4px solid transparent;
+    border-top-color: #333;
+  }
+  .nearby-more-link:hover .dev-tooltip { display: block; }
 
   /* ── STICKY ATC BAR ── */
   .sticky-atc-bar { position: fixed; top: 106px; left: 0; right: 0; z-index: 499; background: #f4f5f7; border-top: 1px solid var(--gray-border); border-bottom: 1px solid var(--gray-border); height: 56px; display: flex; align-items: center; justify-content: center; padding: 0; opacity: 0; pointer-events: none; transition: opacity 0.25s ease; }
@@ -1244,35 +1318,56 @@
           <div class="delivery-icon-wrap collect"><img src="https://cdn.jsdelivr.net/gh/RiccoZorzo/jaycar-PDP-v2@main/images/click%20and%20collect%20icon.png" alt="Click and Collect" style="width:28px;height:28px;object-fit:contain;" onerror="this.style.display='none'"/></div>
           <span class="stock-dot green" title="In Stock" style="margin-top:4px;flex-shrink:0;"></span>
           <div class="delivery-option-body" style="flex:1;min-width:0;">
-            <div class="delivery-option-title">Click &amp; Collect <span class="delivery-option-sep">-</span> <span class="delivery-option-inline-sub">Ready in 1 hour at <span class="store-link" onclick="changeStore()" title="Click to change store">Lidcombe</span></span></div>
+            <div class="delivery-option-title">Click &amp; Collect <span class="delivery-option-sep">-</span> <span class="delivery-option-inline-sub">Ready in 1 hour at <span class="store-link" onclick="changeStore()">Lidcombe<span class="bulk-tooltip">Click to change store</span></span></span></div>
             <div onclick="toggleNearby()" id="nearby-toggle" style="display:flex;align-items:center;gap:6px;margin-top:6px;cursor:pointer;font-size:13px;font-weight:700;color:var(--navy);user-select:none;width:fit-content;">
               <span id="nearby-toggle-label">Show Nearby Stores</span>
               <svg id="nearby-chevron" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="transition:transform 0.2s;flex-shrink:0;"><polyline points="6 9 12 15 18 9"/></svg>
             </div>
             <div class="nearby-stores-row" id="nearby-stores" style="margin-top:8px;">
               <div class="nearby-store-item">
-                <span class="stock-dot green"></span>
-                <span class="nearby-store-name">Castle Hill</span>
+                <span class="nearby-store-name" tabindex="0">Castle Hill</span>
+                <div class="store-info-popover">
+                  <div class="store-info-name">Castle Hill</div>
+                  <div>125 Bronte Road, Bondi Junction, NSW 2022, Australia</div>
+                  <div class="store-info-dist">0.00km away</div>
+                </div>
                 <button class="nearby-select-btn" onclick="selectStore('Castle Hill')">Select Store</button>
                 <span class="nearby-stock-label"><span class="stock-dot green"></span> In Stock</span>
               </div>
               <div class="nearby-store-item">
-                <span class="stock-dot amber"></span>
-                <span class="nearby-store-name">Mascot</span>
+                <span class="nearby-store-name" tabindex="0">Mascot</span>
+                <div class="store-info-popover">
+                  <div class="store-info-name">Mascot</div>
+                  <div>125 Bronte Road, Bondi Junction, NSW 2022, Australia</div>
+                  <div class="store-info-dist">0.00km away</div>
+                </div>
                 <button class="nearby-select-btn" onclick="selectStore('Mascot')">Select Store</button>
                 <span class="nearby-stock-label"><span class="stock-dot amber"></span> Low Stock</span>
               </div>
               <div class="nearby-store-item">
-                <span class="stock-dot green"></span>
-                <span class="nearby-store-name">Chipping Norton</span>
+                <span class="nearby-store-name" tabindex="0">Chipping Norton</span>
+                <div class="store-info-popover up">
+                  <div class="store-info-name">Chipping Norton</div>
+                  <div>125 Bronte Road, Bondi Junction, NSW 2022, Australia</div>
+                  <div class="store-info-dist">0.00km away</div>
+                </div>
                 <button class="nearby-select-btn" onclick="selectStore('Chipping Norton')">Select Store</button>
                 <span class="nearby-stock-label"><span class="stock-dot green"></span> In Stock</span>
               </div>
               <div class="nearby-store-item">
-                <span class="stock-dot red"></span>
-                <span class="nearby-store-name">St Marys</span>
+                <span class="nearby-store-name" tabindex="0">St Marys</span>
+                <div class="store-info-popover up">
+                  <div class="store-info-name">St Marys</div>
+                  <div>125 Bronte Road, Bondi Junction, NSW 2022, Australia</div>
+                  <div class="store-info-dist">0.00km away</div>
+                </div>
                 <button class="nearby-select-btn" onclick="selectStore('St Marys')">Select Store</button>
                 <span class="nearby-stock-label"><span class="stock-dot red"></span> Out of Stock</span>
+              </div>
+              <div class="nearby-more-link" onclick="openCollectModal()">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
+                Click for more nearby stores
+                <span class="dev-tooltip">DEV NOTE: opens current C&amp;C modal</span>
               </div>
             </div>
           </div>
@@ -1631,6 +1726,11 @@
     if (chevron) chevron.style.transform = 'rotate(180deg)';
     if (label) label.textContent = 'Hide Nearby Stores';
     document.getElementById('delivery-card').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  }
+
+  function openCollectModal() {
+    /* DEV NOTE: opens current C&C modal */
+    alert('Opens C&C store finder modal');
   }
 
   function toggleWishlist(btn) { btn.classList.toggle('saved'); }
