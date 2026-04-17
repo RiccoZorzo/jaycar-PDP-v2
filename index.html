@@ -89,6 +89,13 @@
 ║        Reviews: BV label 13px centred, sort below label.       ║
 ║        Sticky ATC: observes ATC button directly for instant    ║
 ║        trigger when button exits viewport.                      ║
+║  v5.6  SP: feature pills hidden, count bar hidden. Delivery     ║
+║        sub text stacks at ≤480px. Sticky ATC rootMargin -106px ║
+║        fires the moment ATC button clears the fixed nav.       ║
+║  v5.7  Traffic light stock dots on delivery options. Click &   ║
+║        Collect shows set store name (bold/underline, clickable) ║
+║        Nearby stores expand panel with 4 stores + stock state. ║
+║        Bulk pricing: tighter spacing, icon before text.        ║
 ╚══════════════════════════════════════════════════════════════════╝
 -->
 <html lang="en">
@@ -214,8 +221,8 @@
   .wishlist-btn img { display: block; width: 20px; height: 20px; object-fit: contain; }
   .wishlist-btn .bulk-tooltip { left: auto !important; right: 0 !important; transform: none !important; white-space: nowrap; }
   .wishlist-btn .bulk-tooltip::after { left: auto !important; right: 14px !important; transform: none !important; }
-  .bulk-card { border: 1px solid var(--gray-border); border-radius: 8px; background: white; padding: 16px 18px; }
-  .bulk-card-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; }
+  .bulk-card { border: 1px solid var(--gray-border); border-radius: 8px; background: white; padding: 10px 14px; }
+  .bulk-card-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px; }
   .bulk-title { display: flex; align-items: center; gap: 7px; font-size: 14px; color: var(--dark-text); }
   .bulk-title svg { color: var(--dark-text); flex-shrink: 0; }
   .bulk-info-icon { font-size: 14px; color: #56BFC9; cursor: help; position: relative; }
@@ -223,7 +230,7 @@
   .bulk-tooltip::after { content: ""; position: absolute; top: 100%; left: 50%; transform: translateX(-50%); border: 5px solid transparent; border-top-color: var(--dark-text); }
   .bulk-info-icon:hover .bulk-tooltip { display: block; }
   .bulk-best-badge { background: var(--teal); color: white; font-size: 11px; font-weight: 600; padding: 4px 10px; border-radius: 4px; letter-spacing: 0.2px; }
-  .bulk-tiers { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 0; padding-top: 14px; margin-top: 4px; }
+  .bulk-tiers { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 0; padding-top: 8px; margin-top: 0; }
   .bulk-tier { padding: 0 12px; border-right: 1px solid #E0E0E0; text-align: center; display: flex; flex-direction: column; align-items: center; justify-content: flex-start; }
   .bulk-tier:first-child { padding-left: 0; }
   .bulk-tier:last-child { border-right: none; padding-right: 0; }
@@ -328,7 +335,7 @@
   .sp-search::placeholder { color: #aaa; }
   .sp-search:focus { border-color: #0C254C; }
   .sp-search-icon { position: absolute; left: 22px; top: 50%; transform: translateY(-50%); pointer-events: none; }
-  .sp-count { font-size: 11px; color: #888; padding: 5px 14px 4px; border-bottom: 1px solid #E0E0E0; background: #fafafa; font-family: 'Figtree', sans-serif; }
+  .sp-count { display: none; }
   .sp-list { max-height: 360px; overflow-y: auto; background: #ffffff; }
   .sp-list::-webkit-scrollbar { width: 4px; }
   .sp-list::-webkit-scrollbar-thumb { background: #E0E0E0; border-radius: 4px; }
@@ -341,7 +348,7 @@
   .sp-item-body { flex: 1; min-width: 0; }
   .sp-item-name { font-size: 16px; font-weight: 600; color: #0C254C; margin: 0 0 3px; line-height: 1.3; font-family: 'Figtree', sans-serif; }
   .sp-item-partno { font-size: 14px; color: #555; margin: 0 0 6px; font-family: 'Figtree', sans-serif; }
-  .sp-item-feats { display: flex; flex-wrap: wrap; gap: 4px; margin-bottom: 6px; }
+  .sp-item-feats { display: none; }
   .sp-feat-pill { font-size: 11px; padding: 2px 8px; border-radius: 4px; background: #eef4fb; color: #0C254C; font-weight: 500; white-space: nowrap; border: 1px solid #c5d8ee; font-family: 'Figtree', sans-serif; }
   .sp-item-price { font-size: 15px; font-weight: 600; color: #0C254C; margin: 0; font-family: 'Figtree', sans-serif; }
   .sp-item-arrow { flex-shrink: 0; align-self: center; color: #0C254C; opacity: 0; transition: opacity 0.15s; }
@@ -377,13 +384,102 @@
   .delivery-icon-wrap { width: 40px; height: 40px; min-width: 40px; border-radius: 8px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; overflow: hidden; }
   .delivery-icon-wrap.standard, .delivery-icon-wrap.free, .delivery-icon-wrap.express, .delivery-icon-wrap.collect { background: transparent; }
   .delivery-icon-wrap svg { width: 22px !important; height: 22px !important; max-width: 22px; max-height: 22px; flex-shrink: 0; }
-  .delivery-option-body { flex: 1; }
-  .delivery-option-title { font-size: 13px; font-weight: 600; color: var(--dark-text); margin-bottom: 0; }
+  .delivery-option-body { flex: 1; min-width: 0; }
+  .delivery-option-title { font-size: 13px; font-weight: 600; color: var(--dark-text); margin-bottom: 0; display: flex; flex-wrap: wrap; align-items: center; gap: 4px; }
   .delivery-option-sep { font-weight: 400; color: var(--gray-text); }
   .delivery-option-inline-sub { font-size: 12px; font-weight: 400; color: var(--gray-text); }
+  @media (max-width: 480px) {
+    .delivery-option-sep { display: none; }
+    .delivery-option-inline-sub { flex-basis: 100%; }
+  }
   .delivery-option-sub { display: none; }
   .delivery-option-price { font-size: 14px; font-weight: 600; color: var(--dark-text); flex-shrink: 0; }
   .delivery-option-price.free-label { color: #5a9a3a; }
+
+  /* ── TRAFFIC LIGHT DOT ── */
+  .stock-dot {
+    width: 10px; height: 10px;
+    border-radius: 50%;
+    flex-shrink: 0;
+    display: inline-block;
+  }
+  .stock-dot.green { background: #7A9E19; }
+  .stock-dot.red   { background: #f75555; }
+  .stock-dot.amber { background: #F59E0B; }
+
+  /* ── STORE LINK ── */
+  .store-link {
+    font-weight: 700;
+    text-decoration: underline;
+    color: var(--dark-text);
+    cursor: pointer;
+    font-style: normal;
+  }
+  .store-link:hover { color: var(--navy); }
+
+  /* ── NEARBY STORES EXPAND ── */
+  .nearby-stores-row {
+    display: none;
+    flex-direction: column;
+    gap: 0;
+  }
+  .nearby-stores-row.open { display: flex; }
+  .nearby-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 16px;
+    cursor: pointer;
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--navy);
+    user-select: none;
+    transition: background 0.12s;
+  }
+  .nearby-toggle:hover { background: #f5f8fc; }
+  .nearby-toggle svg { transition: transform 0.2s; flex-shrink: 0; }
+  .nearby-toggle.open svg { transform: rotate(180deg); }
+  .nearby-store-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 0;
+    border-bottom: 1px solid var(--gray-border);
+    font-size: 13px;
+  }
+  .nearby-store-item:last-child { border-bottom: none; }
+  .nearby-store-name {
+    flex: 1;
+    font-weight: 600;
+    color: var(--navy);
+    text-decoration: underline;
+    cursor: pointer;
+  }
+  .nearby-store-name:hover { color: var(--dark-text); }
+  .nearby-select-btn {
+    font-family: var(--font);
+    font-size: 11px;
+    font-weight: 700;
+    padding: 4px 12px;
+    border: 1.5px solid var(--navy);
+    border-radius: 20px;
+    background: white;
+    color: var(--navy);
+    cursor: pointer;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    transition: background 0.15s, color 0.15s;
+    white-space: nowrap;
+  }
+  .nearby-select-btn:hover { background: var(--navy); color: white; }
+  .nearby-stock-label {
+    font-size: 12px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
 
   /* ── STICKY ATC BAR ── */
   .sticky-atc-bar { position: fixed; top: 106px; left: 0; right: 0; z-index: 499; background: #f4f5f7; border-top: 1px solid var(--gray-border); border-bottom: 1px solid var(--gray-border); height: 56px; display: flex; align-items: center; justify-content: center; padding: 0; opacity: 0; pointer-events: none; transition: opacity 0.25s ease; }
@@ -888,7 +984,9 @@
           <span style="color:#8692A6;">v5.2</span><span>BV trustmark, report btn, SP UX updates</span>
           <span style="color:#8692A6;">v5.3</span><span>Reviews: always-open section, pagination, photo strip</span>
           <span style="color:#8692A6;">v5.4</span><span>Reviews inside page-wrapper, aligned with overview</span>
-          <span style="color:#8692A6;font-weight:700;">v5.5</span><span style="font-weight:700;">SP/delivery/spec/reviews/sticky ATC polish ← current</span>
+          <span style="color:#8692A6;">v5.5</span><span>SP/delivery/spec/reviews/sticky ATC polish</span>
+          <span style="color:#8692A6;">v5.6</span><span>SP pills/count hidden, delivery stack, ATC rootMargin</span>
+          <span style="color:#8692A6;font-weight:700;">v5.7</span><span style="font-weight:700;">Traffic lights, nearby stores, store link, bulk polish ← current</span>
         </div>
       </div>
     </div>
@@ -1101,7 +1199,8 @@
       <div class="bulk-card">
         <div class="bulk-card-header">
           <div class="bulk-title">
-            <img src="https://cdn.jsdelivr.net/gh/RiccoZorzo/jaycar-PDP-v2@main/images/spare%20parts%20icon.png" style="width:18px;height:18px;object-fit:contain;" onerror="this.style.display='none'"/> <strong>Bulk Pricing</strong>
+            <img src="https://cdn.jsdelivr.net/gh/RiccoZorzo/jaycar-PDP-v2@main/images/spare%20parts%20icon.png" style="width:16px;height:16px;object-fit:contain;" onerror="this.style.display='none'"/>
+            <strong>Bulk Pricing</strong>
             <span class="bulk-info-icon"><img src="https://cdn.jsdelivr.net/gh/RiccoZorzo/jaycar-PDP-v2@main/images/info-circle.png" style="width:14px;height:14px;object-fit:contain;vertical-align:middle;" onerror="this.textContent='ⓘ'"/><span class="bulk-tooltip">Bulk pricing applied at checkout</span></span>
           </div>
         </div>
@@ -1128,23 +1227,58 @@
         <span>Australian Stock</span><span class="trust-sep">|</span>
         <span>Warranty Included</span>
       </div>
-      <div class="delivery-options-card">
+      <div class="delivery-options-card" id="delivery-card">
         <div class="delivery-option">
           <div class="delivery-icon-wrap standard"><img src="https://cdn.jsdelivr.net/gh/RiccoZorzo/jaycar-PDP-v2@main/images/delivery%20icon.png" alt="Standard Delivery" style="width:28px;height:28px;object-fit:contain;" onerror="this.style.display='none'"/></div>
+          <span class="stock-dot green" title="In Stock"></span>
           <div class="delivery-option-body"><div class="delivery-option-title">Standard Delivery <span class="delivery-option-sep">-</span> <span class="delivery-option-inline-sub">2–5 business days Australia-wide</span></div></div>
           <div class="delivery-option-price">$9.95</div>
         </div>
         <div class="delivery-option">
           <div class="delivery-icon-wrap express"><img src="https://cdn.jsdelivr.net/gh/RiccoZorzo/jaycar-PDP-v2@main/images/express%20delivery%20icon.png" alt="Express Delivery" style="width:28px;height:28px;object-fit:contain;" onerror="this.style.display='none'"/></div>
-          <div class="delivery-option-body"><div class="delivery-option-title" style="display:flex;align-items:center;gap:8px;">3-Hour Express Delivery <span style="background:#56BFC9;color:white;font-size:11px;font-weight:800;padding:2px 8px;border-radius:4px;font-family:'Figtree',sans-serif;white-space:nowrap;flex-shrink:0;">Fastest</span> <span class="delivery-option-sep">-</span> <span class="delivery-option-inline-sub">Order before 2pm, get it today</span></div></div>
+          <span class="stock-dot green" title="In Stock"></span>
+          <div class="delivery-option-body"><div class="delivery-option-title" style="display:flex;align-items:center;flex-wrap:wrap;gap:4px;">3-Hour Express Delivery <span style="background:#56BFC9;color:white;font-size:11px;font-weight:800;padding:2px 8px;border-radius:4px;font-family:'Figtree',sans-serif;white-space:nowrap;flex-shrink:0;">Fastest</span> <span class="delivery-option-sep">-</span> <span class="delivery-option-inline-sub">Order before 2pm, get it today</span></div></div>
           <div class="delivery-option-price">$14.95</div>
         </div>
-        <div class="delivery-option">
+        <div class="delivery-option" style="align-items:flex-start;flex-wrap:nowrap;">
           <div class="delivery-icon-wrap collect"><img src="https://cdn.jsdelivr.net/gh/RiccoZorzo/jaycar-PDP-v2@main/images/click%20and%20collect%20icon.png" alt="Click and Collect" style="width:28px;height:28px;object-fit:contain;" onerror="this.style.display='none'"/></div>
-          <div class="delivery-option-body"><div class="delivery-option-title">Click &amp; Collect <span class="delivery-option-sep">-</span> <span class="delivery-option-inline-sub">Ready in 1 hour at your local store</span></div></div>
-          <div class="delivery-option-price free-label">FREE</div>
+          <span class="stock-dot green" title="In Stock" style="margin-top:4px;flex-shrink:0;"></span>
+          <div class="delivery-option-body" style="flex:1;min-width:0;">
+            <div class="delivery-option-title">Click &amp; Collect <span class="delivery-option-sep">-</span> <span class="delivery-option-inline-sub">Ready in 1 hour at <span class="store-link" onclick="changeStore()" title="Click to change store">Lidcombe</span></span></div>
+            <div onclick="toggleNearby()" id="nearby-toggle" style="display:flex;align-items:center;gap:6px;margin-top:6px;cursor:pointer;font-size:13px;font-weight:700;color:var(--navy);user-select:none;width:fit-content;">
+              <span id="nearby-toggle-label">Show Nearby Stores</span>
+              <svg id="nearby-chevron" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="transition:transform 0.2s;flex-shrink:0;"><polyline points="6 9 12 15 18 9"/></svg>
+            </div>
+            <div class="nearby-stores-row" id="nearby-stores" style="margin-top:8px;">
+              <div class="nearby-store-item">
+                <span class="stock-dot green"></span>
+                <span class="nearby-store-name">Castle Hill</span>
+                <button class="nearby-select-btn" onclick="selectStore('Castle Hill')">Select Store</button>
+                <span class="nearby-stock-label"><span class="stock-dot green"></span> In Stock</span>
+              </div>
+              <div class="nearby-store-item">
+                <span class="stock-dot amber"></span>
+                <span class="nearby-store-name">Mascot</span>
+                <button class="nearby-select-btn" onclick="selectStore('Mascot')">Select Store</button>
+                <span class="nearby-stock-label"><span class="stock-dot amber"></span> Low Stock</span>
+              </div>
+              <div class="nearby-store-item">
+                <span class="stock-dot green"></span>
+                <span class="nearby-store-name">Chipping Norton</span>
+                <button class="nearby-select-btn" onclick="selectStore('Chipping Norton')">Select Store</button>
+                <span class="nearby-stock-label"><span class="stock-dot green"></span> In Stock</span>
+              </div>
+              <div class="nearby-store-item">
+                <span class="stock-dot red"></span>
+                <span class="nearby-store-name">St Marys</span>
+                <button class="nearby-select-btn" onclick="selectStore('St Marys')">Select Store</button>
+                <span class="nearby-stock-label"><span class="stock-dot red"></span> Out of Stock</span>
+              </div>
+            </div>
+          </div>
+          <div class="delivery-option-price free-label" style="flex-shrink:0;">FREE</div>
         </div>
-      </div>
+      </div><!-- /delivery-options-card -->
 
       <!-- ═══ SPARE PARTS INLINE DROPDOWN (v5.2) ═══ -->
       <div class="sp-wrap">
@@ -1462,9 +1596,43 @@
   const stickyBar = document.getElementById('sticky-atc-bar');
   const atcBtnSentinel = document.getElementById('atc-btn-sentinel');
   const observeTarget = atcBtnSentinel || sentinel;
-  if (observeTarget && stickyBar) { const observer = new IntersectionObserver(([entry]) => { stickyBar.classList.toggle('visible', !entry.isIntersecting); }, { threshold: 0 }); observer.observe(observeTarget); }
+  if (observeTarget && stickyBar) { const observer = new IntersectionObserver(([entry]) => { stickyBar.classList.toggle('visible', !entry.isIntersecting); }, { threshold: 0, rootMargin: '-106px 0px 0px 0px' }); observer.observe(observeTarget); }
 
   // ── WISHLIST ──
+  // ── NEARBY STORES ──
+  let currentStore = 'Lidcombe';
+
+  function toggleNearby() {
+    const panel = document.getElementById('nearby-stores');
+    const chevron = document.getElementById('nearby-chevron');
+    const label = document.getElementById('nearby-toggle-label');
+    const isOpen = panel.classList.contains('open');
+    panel.classList.toggle('open', !isOpen);
+    if (chevron) chevron.style.transform = isOpen ? '' : 'rotate(180deg)';
+    if (label) label.textContent = isOpen ? 'Show Nearby Stores' : 'Hide Nearby Stores';
+  }
+
+  function selectStore(name) {
+    currentStore = name;
+    document.querySelectorAll('.store-link').forEach(el => el.textContent = name);
+    const panel = document.getElementById('nearby-stores');
+    const chevron = document.getElementById('nearby-chevron');
+    const label = document.getElementById('nearby-toggle-label');
+    panel.classList.remove('open');
+    if (chevron) chevron.style.transform = '';
+    if (label) label.textContent = 'Show Nearby Stores';
+  }
+
+  function changeStore() {
+    const panel = document.getElementById('nearby-stores');
+    const chevron = document.getElementById('nearby-chevron');
+    const label = document.getElementById('nearby-toggle-label');
+    panel.classList.add('open');
+    if (chevron) chevron.style.transform = 'rotate(180deg)';
+    if (label) label.textContent = 'Hide Nearby Stores';
+    document.getElementById('delivery-card').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  }
+
   function toggleWishlist(btn) { btn.classList.toggle('saved'); }
 
   // ── ADD TO CART ──
