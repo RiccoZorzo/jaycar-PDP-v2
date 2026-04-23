@@ -1,1 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Jaycar PDP</title>
 
+<style>
+/* (all your original CSS above remains unchanged) */
+
+/* ── COLOR SWATCH BAR ── */
+.swatch-bar {
+  border: 1px solid var(--gray-border);
+  border-radius: 4px;
+  background: white;
+  padding: 14px 16px;
+  margin-top: 4px;
+}
+
+.swatch-bar-pill {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.swatch-title {
+  font-size: 14px;
+  font-weight: 700;
+  color: #0C254C;
+  line-height: 1.2;
+}
+
+.swatch-pill-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.swatch-pill-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+}
+
+.swatch-pill {
+  min-width: 78px;
+  height: 44px;
+  padding: 0 16px;
+  border: 1px solid #D7D7D7;
+  border-radius: 10px;
+  background: #FFFFFF;
+  color: #222222;
+  font-family: var(--font);
+  font-size: 13px;
+  font-weight: 700;
+  line-height: 1;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.swatch-pill:hover:not(.active):not(.disabled) {
+  border-color: #0C254C;
+}
+
+.swatch-pill.active {
+  background: #0A0A0A;
+  border-color: #0A0A0A;
+  color: #FFFFFF;
+}
+
+.swatch-pill.disabled {
+  background: #F5F5F5;
+  border-color: #E3E3E3;
+  color: #B3B3B3;
+  cursor: not-allowed;
+}
+
+.swatch-stock-tag {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 76px;
+  height: 24px;
+  padding: 0 10px;
+  border: 1px solid #D7D7D7;
+  border-radius: 999px;
+  background: #F7F7F7;
+  color: #222222;
+  font-family: var(--font);
+  font-size: 11px;
+  font-weight: 700;
+}
+
+/* (rest of your CSS untouched) */
+</style>
+</head>
+
+<body>
+
+<!-- (everything above remains unchanged: nav, gallery, etc.) -->
+
+<!-- Colour swatch bar -->
+<div class="swatch-bar swatch-bar-pill" style="margin-top:12px;">
+  <div class="swatch-title">Other Values</div>
+
+  <div class="swatch-pill-row">
+    <button class="swatch-pill" type="button" onclick="selectValuePill(this,'22nF')">22nF</button>
+    <button class="swatch-pill" type="button" onclick="selectValuePill(this,'33nF')">33nF</button>
+    <button class="swatch-pill active" type="button" onclick="selectValuePill(this,'44nF')">44nF</button>
+    <button class="swatch-pill" type="button" onclick="selectValuePill(this,'330nF')">330nF</button>
+
+    <div class="swatch-pill-wrap">
+      <button class="swatch-pill disabled" type="button" disabled aria-disabled="true">1000nF</button>
+      <div class="swatch-stock-tag">Low stock</div>
+    </div>
+  </div>
+</div>
+
+<!-- (everything below remains unchanged: tabs, footer, etc.) -->
+
+<script>
+/* your existing JS stays exactly the same */
+
+/* existing */
+function selectSwatch(el, name) {
+  document.querySelectorAll('.swatch').forEach(s => s.classList.remove('active'));
+  el.classList.add('active');
+  document.getElementById('swatch-name').textContent = name;
+}
+
+/* NEW — added only */
+function selectValuePill(el, value) {
+  document.querySelectorAll('.swatch-pill-row .swatch-pill').forEach(btn => {
+    if (!btn.classList.contains('disabled')) {
+      btn.classList.remove('active');
+    }
+  });
+  el.classList.add('active');
+}
+</script>
+
+</body>
+</html>
