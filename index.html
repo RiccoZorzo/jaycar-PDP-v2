@@ -284,20 +284,33 @@
   .swatch-bar { border: 1px solid var(--gray-border); border-radius: 4px; background: white; padding: 14px 16px; margin-top: 4px; overflow: hidden; }
   .swatch-bar-pill { display: flex; flex-direction: column; gap: 12px; }
   .swatch-title { font-size: 14px; font-weight: 700; color: #0C254C; line-height: 1.2; }
-  .swatch-pill-row { display: flex; align-items: flex-start; gap: 8px; flex-wrap: nowrap; overflow-x: auto; overflow-y: hidden; -webkit-overflow-scrolling: touch; scrollbar-width: none; padding-bottom: 4px; cursor: grab; }
+  /* Scroll row wrapper — provides the fade-edge and more button positioning */
+  .swatch-pill-outer { position: relative; display: flex; align-items: flex-start; }
+  .swatch-pill-row { display: flex; align-items: flex-start; gap: 8px; flex-wrap: nowrap; overflow-x: auto; overflow-y: hidden; -webkit-overflow-scrolling: touch; scrollbar-width: none; padding-bottom: 4px; cursor: grab; flex: 1; min-width: 0; }
   .swatch-pill-row:active { cursor: grabbing; }
   .swatch-pill-row::-webkit-scrollbar { display: none; }
+  /* Right fade when content overflows */
+  .swatch-pill-outer::after { content: ''; position: absolute; right: 0; top: 0; bottom: 4px; width: 48px; background: linear-gradient(to right, transparent, white 80%); pointer-events: none; opacity: 0; transition: opacity 0.2s; }
+  .swatch-pill-outer.has-overflow::after { opacity: 1; }
+  /* Left fade when scrolled right */
+  .swatch-pill-outer::before { content: ''; position: absolute; left: 0; top: 0; bottom: 4px; width: 32px; background: linear-gradient(to left, transparent, white 80%); pointer-events: none; opacity: 0; transition: opacity 0.2s; z-index: 1; }
+  .swatch-pill-outer.has-left::before { opacity: 1; }
+  /* +N more button */
+  .swatch-more-btn { flex-shrink: 0; align-self: center; height: 44px; padding: 0 14px; border: 1.5px solid var(--navy); border-radius: 4px; background: white; color: var(--navy); font-family: var(--font); font-size: 12px; font-weight: 700; cursor: pointer; white-space: nowrap; transition: background 0.15s, color 0.15s; display: none; margin-left: 4px; }
+  .swatch-more-btn:hover { background: var(--navy); color: white; }
+  .swatch-pill-outer.has-overflow .swatch-more-btn { display: flex; align-items: center; }
   .swatch-pill-wrap { display: flex; flex-direction: column; align-items: center; gap: 6px; flex-shrink: 0; }
-  .swatch-pill { min-width: 78px; height: 44px; padding: 0 16px; border: 1px solid #D7D7D7; border-radius: 10px; background: #FFFFFF; color: #222222; font-family: var(--font); font-size: 13px; font-weight: 700; line-height: 1; cursor: pointer; transition: all 0.15s ease; flex-shrink: 0; white-space: nowrap; }
-  .swatch-pill:hover:not(.active):not(.disabled) { border-color: #0C254C; }
-  .swatch-pill.active { background: #0A0A0A; border-color: #0A0A0A; color: #FFFFFF; }
+  .swatch-pill { min-width: 78px; height: 44px; padding: 0 16px; border: 1px solid #D7D7D7; border-radius: 4px; background: #FFFFFF; color: #222222; font-family: var(--font); font-size: 13px; font-weight: 700; line-height: 1; cursor: pointer; transition: all 0.15s ease; flex-shrink: 0; white-space: nowrap; }
+  .swatch-pill:hover:not(.active):not(.disabled) { border-color: var(--navy); color: var(--navy); }
+  .swatch-pill.active { background: var(--navy); border-color: var(--navy); color: #FFFFFF; }
   .swatch-pill.disabled { background: #F5F5F5; border-color: #E3E3E3; color: #B3B3B3; cursor: not-allowed; }
   .swatch-stock-tag { display: inline-flex; align-items: center; justify-content: center; min-width: 76px; height: 24px; padding: 0 10px; border: 1px solid #D7D7D7; border-radius: 999px; background: #F7F7F7; color: #222222; font-family: var(--font); font-size: 11px; font-weight: 700; line-height: 1; white-space: nowrap; }
-  /* At tablet+ let pills wrap naturally */
-  @media (min-width: 768px) {
-    .swatch-pill-row { flex-wrap: wrap; overflow-x: visible; cursor: default; padding-bottom: 0; }
-    .swatch-pill-row:active { cursor: default; }
-  }
+  /* Swatch dev note tooltip */
+  .swatch-dev-note { position: relative; display: inline-flex; align-items: center; color: #8692A6; cursor: default; flex-shrink: 0; }
+  .swatch-dev-note svg { display: block; }
+  .swatch-dev-tooltip { display: none; position: absolute; bottom: calc(100% + 6px); left: 50%; transform: translateX(-50%); background: #333; color: #fff; font-size: 10px; font-weight: 400; padding: 4px 8px; border-radius: 4px; white-space: nowrap; pointer-events: none; z-index: 50; font-style: italic; opacity: 0.9; font-family: var(--font); }
+  .swatch-dev-tooltip::after { content: ''; position: absolute; top: 100%; left: 50%; transform: translateX(-50%); border: 4px solid transparent; border-top-color: #333; }
+  .swatch-dev-note:hover .swatch-dev-tooltip { display: block; }
 
   /* ── TABS ── */
   .pdp-tabs { border: 1px solid var(--gray-border); border-radius: 8px; overflow: hidden; background: white; }
@@ -1378,16 +1391,42 @@
 
       <!-- Colour swatch bar -->
       <div class="swatch-bar swatch-bar-pill" style="margin-top:12px;">
-        <div class="swatch-title">Other Values</div>
-        <div class="swatch-pill-row">
-          <button class="swatch-pill" type="button" onclick="selectValuePill(this,'22nF')">22nF</button>
-          <button class="swatch-pill" type="button" onclick="selectValuePill(this,'33nF')">33nF</button>
-          <button class="swatch-pill active" type="button" onclick="selectValuePill(this,'44nF')">44nF</button>
-          <button class="swatch-pill" type="button" onclick="selectValuePill(this,'330nF')">330nF</button>
-          <div class="swatch-pill-wrap">
-            <button class="swatch-pill disabled" type="button" disabled aria-disabled="true">1000nF</button>
-            <div class="swatch-stock-tag">Low stock</div>
+        <div style="display:flex;align-items:center;gap:8px;">
+          <div class="swatch-title">Product Variance</div>
+          <div class="swatch-dev-note">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+            <div class="swatch-dev-tooltip">DEV NOTE: selecting a product changes PDP</div>
           </div>
+        </div>
+        <div class="swatch-pill-outer" id="swatch-pill-outer">
+          <div class="swatch-pill-row" id="swatch-pill-row">
+            <button class="swatch-pill" type="button" onclick="selectValuePill(this,'1nF')">1nF</button>
+            <button class="swatch-pill" type="button" onclick="selectValuePill(this,'2.2nF')">2.2nF</button>
+            <button class="swatch-pill" type="button" onclick="selectValuePill(this,'4.7nF')">4.7nF</button>
+            <button class="swatch-pill" type="button" onclick="selectValuePill(this,'10nF')">10nF</button>
+            <button class="swatch-pill" type="button" onclick="selectValuePill(this,'22nF')">22nF</button>
+            <button class="swatch-pill" type="button" onclick="selectValuePill(this,'33nF')">33nF</button>
+            <button class="swatch-pill active" type="button" onclick="selectValuePill(this,'44nF')">44nF</button>
+            <button class="swatch-pill" type="button" onclick="selectValuePill(this,'100nF')">100nF</button>
+            <button class="swatch-pill" type="button" onclick="selectValuePill(this,'150nF')">150nF</button>
+            <button class="swatch-pill" type="button" onclick="selectValuePill(this,'220nF')">220nF</button>
+            <button class="swatch-pill" type="button" onclick="selectValuePill(this,'330nF')">330nF</button>
+            <button class="swatch-pill" type="button" onclick="selectValuePill(this,'470nF')">470nF</button>
+            <button class="swatch-pill" type="button" onclick="selectValuePill(this,'680nF')">680nF</button>
+            <div class="swatch-pill-wrap">
+              <button class="swatch-pill disabled" type="button" disabled aria-disabled="true">1000nF</button>
+              <div class="swatch-stock-tag">Low stock</div>
+            </div>
+            <div class="swatch-pill-wrap">
+              <button class="swatch-pill disabled" type="button" disabled aria-disabled="true">2200nF</button>
+              <div class="swatch-stock-tag">Out of stock</div>
+            </div>
+            <div class="swatch-pill-wrap">
+              <button class="swatch-pill disabled" type="button" disabled aria-disabled="true">4700nF</button>
+              <div class="swatch-stock-tag">Out of stock</div>
+            </div>
+          </div>
+          <button class="swatch-more-btn" id="swatch-more-btn" onclick="swatchScrollMore()"></button>
         </div>
       </div>
 
@@ -1905,10 +1944,40 @@
   function selectSwatch(el, name) { document.querySelectorAll('.swatch').forEach(s => s.classList.remove('active')); el.classList.add('active'); document.getElementById('swatch-name').textContent = name; }
   function selectValuePill(el, value) { document.querySelectorAll('.swatch-pill-row .swatch-pill').forEach(btn => { if (!btn.classList.contains('disabled')) btn.classList.remove('active'); }); el.classList.add('active'); }
 
-  // ── SWATCH PILL ROW: mouse-drag scroll ──
+  // ── SWATCH PILL ROW: overflow detection + more button + mouse-drag scroll ──
   (function() {
-    const row = document.querySelector('.swatch-pill-row');
-    if (!row) return;
+    const row = document.getElementById('swatch-pill-row');
+    const outer = document.getElementById('swatch-pill-outer');
+    const moreBtn = document.getElementById('swatch-more-btn');
+    if (!row || !outer || !moreBtn) return;
+
+    function updateOverflow() {
+      const overflowing = row.scrollWidth > row.clientWidth + 2;
+      const atEnd = row.scrollLeft + row.clientWidth >= row.scrollWidth - 4;
+      const hasLeft = row.scrollLeft > 4;
+      outer.classList.toggle('has-overflow', overflowing && !atEnd);
+      outer.classList.toggle('has-left', hasLeft);
+      if (overflowing && !atEnd) {
+        // Count how many pill items are fully out of view to the right
+        const pills = Array.from(row.querySelectorAll('.swatch-pill, .swatch-pill-wrap'));
+        const rowRight = row.getBoundingClientRect().right;
+        const hidden = pills.filter(p => p.getBoundingClientRect().left >= rowRight - 4).length;
+        moreBtn.textContent = hidden > 0 ? `+${hidden} more` : 'more →';
+      }
+    }
+
+    // Scroll by ~3 pills when more button is clicked
+    function swatchScrollMore() {
+      const pillW = (row.querySelector('.swatch-pill')?.offsetWidth || 90) + 8;
+      row.scrollBy({ left: pillW * 3, behavior: 'smooth' });
+    }
+    window.swatchScrollMore = swatchScrollMore;
+
+    row.addEventListener('scroll', updateOverflow);
+    window.addEventListener('resize', updateOverflow);
+    setTimeout(updateOverflow, 100);
+
+    // Mouse-drag scroll
     let isDown = false, startX = 0, scrollLeft = 0, moved = false;
     row.addEventListener('mousedown', e => {
       if (e.button !== 0) return;
@@ -1922,12 +1991,8 @@
       const walk = x - startX;
       if (Math.abs(walk) > 4) { moved = true; row.scrollLeft = scrollLeft - walk; }
     });
-    row.addEventListener('mouseup', e => {
-      if (moved) e.preventDefault();
-      isDown = false;
-    });
+    row.addEventListener('mouseup', e => { if (moved) e.preventDefault(); isDown = false; });
     row.addEventListener('mouseleave', () => { isDown = false; });
-    // Prevent click firing on pills after a drag
     row.addEventListener('click', e => { if (moved) { e.stopPropagation(); e.preventDefault(); moved = false; } }, true);
   })();
 
