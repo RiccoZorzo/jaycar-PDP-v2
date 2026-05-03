@@ -1458,17 +1458,27 @@
         <div class="bundle-footer"><button class="bundle-atc-btn" id="bundle-atc-btn" onclick="addBundleToCart()">Add Selected to Cart</button></div>
       </div>
 
-      <!-- ═══ TABBED SECTION ═══ -->
+      <!-- ═══ OVERVIEW + DOWNLOADS TABS ═══ -->
       <div class="pdp-tabs" id="pdp-tabs" style="margin-top:20px;">
         <div class="tab-bar">
           <button class="tab-btn active" onclick="switchTab('overview', this)">Overview</button>
-          <button class="tab-btn" onclick="switchTab('specifications', this)">Specifications</button>
           <button class="tab-btn" onclick="switchTab('downloads', this)">Downloads</button>
         </div>
         <div class="tab-panel active" id="tab-overview">
           <p class="tab-body-text">A great compact fridge with enough space to keep essential food and drinks cold for day trips and long weekends. Suitable for 12 or 24 volt systems, the unit features a three-stage low-battery cut-out to prevent a flat or damaged car battery. Other features include digital temperature controls, a reliable compressor, and low energy consumption. Thanks to the high density foam insulation, the fridge can provide temperatures down to −20°C. Finished in a sleek, durable plastic case, it's the perfect companion to any trip. The unit is supplied with a power lead that plugs into a vehicle cigarette lighter socket.</p>
         </div>
-        <div class="tab-panel" id="tab-specifications">
+        <div class="tab-panel" id="tab-downloads">
+          <a href="#" class="download-link" onclick="return false;"><span class="download-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 16v2a2 2 0 002 2h12a2 2 0 002-2v-2"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="3" x2="12" y2="15"/></svg></span>Download Manual</a>
+          <a href="#" class="download-link" onclick="return false;"><span class="download-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 16v2a2 2 0 002 2h12a2 2 0 002-2v-2"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="3" x2="12" y2="15"/></svg></span>Download Datasheet</a>
+        </div>
+      </div>
+
+      <!-- ═══ SPECIFICATIONS BOX ═══ -->
+      <div class="pdp-tabs" style="margin-top:12px;">
+        <div class="tab-bar">
+          <button class="tab-btn active" style="pointer-events:none;cursor:default;">Specifications</button>
+        </div>
+        <div class="tab-panel active" id="tab-specifications">
           <div class="spec-subtabs">
             <button class="spec-subtab-btn active" onclick="switchSpecTab('refrigerator', this)">Refrigerator or Cooler/Warmer</button>
             <button class="spec-subtab-btn" onclick="switchSpecTab('electrical', this)">Electrical &amp; Connectivity</button>
@@ -1499,10 +1509,6 @@
               <div class="spec-chip"><span class="spec-check">✓</span><span><strong>Vehicle Connection</strong>: Cigarette Plug</span></div>
             </div>
           </div>
-        </div>
-        <div class="tab-panel" id="tab-downloads">
-          <a href="#" class="download-link" onclick="return false;"><span class="download-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 16v2a2 2 0 002 2h12a2 2 0 002-2v-2"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="3" x2="12" y2="15"/></svg></span>Download Manual</a>
-          <a href="#" class="download-link" onclick="return false;"><span class="download-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 16v2a2 2 0 002 2h12a2 2 0 002-2v-2"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="3" x2="12" y2="15"/></svg></span>Download Datasheet</a>
         </div>
       </div>
     </div><!-- /gallery-section -->
@@ -1926,7 +1932,7 @@
   function switchSpecTab(id, btn) { document.querySelectorAll('.spec-subtab-btn').forEach(b => b.classList.remove('active')); document.querySelectorAll('.spec-subpanel').forEach(p => p.classList.remove('active')); btn.classList.add('active'); document.getElementById('spec-' + id).classList.add('active'); }
 
   // ── TABS ──
-  function switchTab(id, btn) { document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active')); document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active')); btn.classList.add('active'); document.getElementById('tab-' + id).classList.add('active'); }
+  function switchTab(id, btn) { const container = btn.closest('.pdp-tabs'); container.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active')); container.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active')); btn.classList.add('active'); document.getElementById('tab-' + id).classList.add('active'); }
 
   // ── THUMBNAIL SWITCHING ──
   let currentThumb = 0;
